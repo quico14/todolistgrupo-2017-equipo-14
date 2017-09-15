@@ -93,6 +93,21 @@ public class UsuarioTest {
     assertTrue(usuario.getFechaNacimiento().compareTo(sdf.parse("1997-02-20")) == 0);
   }
 
+   // Test 2: testAddUsuarioJPARepositoryInsertsUsuarioDatabase
+  @Test
+  public void testAddUsuarioJPARepositoryInsertsUsuarioDatabase() {
+     assertNotNull(jpaApi);
+     UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+     Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
+     usuario.setNombre("Juan");
+     usuario.setApellidos("Gutierrez");
+     usuario.setPassword("123456789");
+     usuario = repository.add(usuario);
+     Logger.info("Número de usuario: "  Long.toString(usuario.getId()));
+     assertNotNull(usuario.getId());
+     assertEquals("Juan", getNombreFromUsuarioDB(usuario.getId()));
+  }
+
   private String getNombreFromUsuarioDB(Long usuarioId) {
    String nombre = db.withConnection(connection -> {
       String selectStatement = "SELECT Nombre FROM Usuario WHERE id = ? ";
