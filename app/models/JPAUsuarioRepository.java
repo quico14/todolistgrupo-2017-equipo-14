@@ -24,4 +24,10 @@ package models;
           return usuario;
        });
     }
+
+    public Usuario findById(Long idUsuario) {
+       return jpaApi.withTransaction(entityManager -> {
+          return entityManager.find(Usuario.class, idUsuario);
+       });
+    }
  }
