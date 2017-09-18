@@ -24,7 +24,6 @@ public class UsuarioController extends Controller {
      return ok(saludo.render("El mensaje que he recibido es: " + mensaje));
   }
 
-
   public Result formularioRegistro() {
      return ok(formRegistro.render(formFactory.form(Registro.class),""));
   }
@@ -35,6 +34,9 @@ public class UsuarioController extends Controller {
         return badRequest(formRegistro.render(form, "Hay errores en el formulario"));
      }
      Registro datosRegistro = form.get();
+     if (!datosRegistro.password.equals(datosRegistro.confirmacion)) {
+        return badRequest(formRegistro.render(form, "No coinciden la contraseña y la confirmación"));
+     }
      Usuario usuario = usuarioService.creaUsuario(datosRegistro.login, datosRegistro.email, datosRegistro.password);
      return ok(saludo.render("Creado " + usuario.toString()));
   }
