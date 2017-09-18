@@ -28,6 +28,11 @@ public class UsuarioService {
      return repository.findByLogin(login);
   }
 
+  public Usuario findUsuarioPorId(Long id) {
+     return repository.findById(id);
+  }
+
+
   public Usuario login(String login, String password) {
      Usuario usuario = repository.findByLogin(login);
      if (usuario != null && usuario.getPassword().equals(password)) {
