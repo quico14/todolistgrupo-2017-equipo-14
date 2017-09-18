@@ -103,7 +103,7 @@ public class UsuarioTest {
      usuario.setApellidos("Gutierrez");
      usuario.setPassword("123456789");
      usuario = repository.add(usuario);
-     Logger.info("Número de usuario: "  Long.toString(usuario.getId()));
+     Logger.info("Número de usuario: " + Long.toString(usuario.getId()));
      assertNotNull(usuario.getId());
      assertEquals("Juan", getNombreFromUsuarioDB(usuario.getId()));
   }
