@@ -13,6 +13,17 @@ import org.junit.*;
  import services.UsuarioService;
  import services.UsuarioServiceException;
 
+ import play.Logger;
+
+ import java.sql.*;
+
+ import org.junit.*;
+ import org.dbunit.*;
+ import org.dbunit.dataset.*;
+ import org.dbunit.dataset.xml.*;
+ import org.dbunit.operation.*;
+ import java.io.FileInputStream;
+
 
  public class UsuarioServiceTest {
     static Database db;
