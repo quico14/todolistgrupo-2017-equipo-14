@@ -1,8 +1,13 @@
 package models;
+
 import java.util.Date;
 import javax.persistence.*;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 public class Usuario {
@@ -16,6 +21,10 @@ public class Usuario {
     private String apellidos;
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
+
+    // Relación uno-a-muchos entre usuario y tarea
+    @OneToMany(mappedBy="usuario")
+    public List<Tarea> tareas = new ArrayList<Tarea>();
 
     // Un constructor vacío necesario para JPA
     public Usuario() {}
@@ -84,7 +93,15 @@ public class Usuario {
        this.fechaNacimiento = fechaNacimiento;
     }
 
-       public String toString() {
+    public List<Tarea> getTareas() {
+       return tareas;
+    }
+
+    public void setTareas(List<Tarea> tareas) {
+       this.tareas = tareas;
+   }
+
+    public String toString() {
        String fechaStr = null;
        if (fechaNacimiento != null) {
           SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
@@ -94,4 +111,32 @@ public class Usuario {
                        "apellidos: %s e-mail: %s fechaNacimiento: %s",
                        id, login, password, nombre, apellidos, email, fechaNacimiento);
     }
+
+    @Override
+    public int hashCode() {
+      final int prime = 31;
+      int result = prime + ((login == null) ? 0 : login.hashCode());
+      result = prime * result + ((email == null) ? 0 : email.hashCode());
+      return result;
+   }
+
+   @Override
+   public boolean equals(Object obj) {
+      if (this == obj) return true;
+      if (getClass() != obj.getClass()) return false;
+      Usuario other = (Usuario) obj;
+      // Si tenemos los ID, comparamos por ID
+      if (id != null && other.id != null)
+      return (id == other.id);
+      // sino comparamos por campos obligatorios
+      else {
+         if (login == null) {
+            if (other.login != null) return false;
+         } else if (!login.equals(other.login)) return false;
+         if (email == null) {
+            if (other.email != null) return false;
+         } else if (!email.equals(other.email)) return false;
+      }
+      return true;
+   }
 }
