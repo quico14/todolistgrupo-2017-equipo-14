@@ -15,6 +15,8 @@ import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
 import java.io.FileInputStream;
 
+import java.util.List;
+
 import models.Usuario;
 import models.Tarea;
 
@@ -117,11 +119,20 @@ public class TareaTest {
   }
 
   // Test #17 testFindTareaById
-    @Test
-    public void testFindTareaPorId() {
-       TareaRepository repository = new JPATareaRepository(jpaApi);
-       Tarea tarea = repository.findById(1000L);
-       assertEquals("Renovar DNI", tarea.getTitulo());
-    }
+  @Test
+  public void testFindTareaPorId() {
+     TareaRepository repository = new JPATareaRepository(jpaApi);
+     Tarea tarea = repository.findById(1000L);
+     assertEquals("Renovar DNI", tarea.getTitulo());
+  }
+
+  // Test #18 testFindAllTareasUsuario
+  @Test
+  public void testFindAllTareasUsuario() {
+     TareaRepository repository = new JPATareaRepository(jpaApi);
+     Long idUsuario = 1000L;
+     List<Tarea> tareas = repository.findAllTareas(idUsuario);
+     assertEquals(2, tareas.size());
+  }
 
 }
