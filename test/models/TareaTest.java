@@ -9,6 +9,12 @@ import play.Logger;
 
 import java.sql.*;
 
+import org.dbunit.*;
+import org.dbunit.dataset.*;
+import org.dbunit.dataset.xml.*;
+import org.dbunit.operation.*;
+import java.io.FileInputStream;
+
 import models.Usuario;
 import models.Tarea;
 
@@ -37,6 +43,15 @@ public class TareaTest {
      // JPAApi
      jpaApi = JPA.createFor("memoryPersistenceUnit");
   }
+
+  @Before
+    public void initData() throws Exception {
+       JndiDatabaseTester databaseTester = new JndiDatabaseTester("DBTest");
+       IDataSet initialDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("test/resources/usuarios_dataset.xml"));
+       databaseTester.setDataSet(initialDataSet);
+       databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
+       databaseTester.onSetup();
+    }
 
   // Test #11: testCrearTarea
   @Test
@@ -100,5 +115,13 @@ public class TareaTest {
      });
      return titulo;
   }
+
+  // Test #17 testFindTareaById
+    @Test
+    public void testFindTareaPorId() {
+       TareaRepository repository = new JPATareaRepository(jpaApi);
+       Tarea tarea = repository.findById(1000L);
+       assertEquals("Renovar DNI", tarea.getTitulo());
+    }
 
 }
