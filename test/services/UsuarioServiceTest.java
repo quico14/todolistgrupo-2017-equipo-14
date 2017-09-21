@@ -1,28 +1,34 @@
 import org.junit.*;
- import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 
- import play.db.Database;
- import play.db.Databases;
+import play.db.Database;
+import play.db.Databases;
 
- import play.db.jpa.*;
+import play.db.jpa.*;
 
- import models.Usuario;
- import models.UsuarioRepository;
- import models.JPAUsuarioRepository;
+import org.dbunit.*;
+import org.dbunit.dataset.*;
+import org.dbunit.dataset.xml.*;
+import org.dbunit.operation.*;
+import java.io.FileInputStream;
 
- import services.UsuarioService;
- import services.UsuarioServiceException;
+import models.Usuario;
+import models.UsuarioRepository;
+import models.JPAUsuarioRepository;
 
- import play.Logger;
+import services.UsuarioService;
+import services.UsuarioServiceException;
 
- import java.sql.*;
+import play.Logger;
 
- import org.junit.*;
- import org.dbunit.*;
- import org.dbunit.dataset.*;
- import org.dbunit.dataset.xml.*;
- import org.dbunit.operation.*;
- import java.io.FileInputStream;
+import java.sql.*;
+
+import org.junit.*;
+import org.dbunit.*;
+import org.dbunit.dataset.*;
+import org.dbunit.dataset.xml.*;
+import org.dbunit.operation.*;
+import java.io.FileInputStream;
 
 
  public class UsuarioServiceTest {
