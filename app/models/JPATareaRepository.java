@@ -5,6 +5,8 @@ import play.db.jpa.JPAApi;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 public class JPATareaRepository implements TareaRepository {
   JPAApi jpaApi;
 
@@ -21,6 +23,22 @@ public class JPATareaRepository implements TareaRepository {
         return tarea;
      });
   }
+
+  public Tarea update(Tarea tarea) {
+     return jpaApi.withTransaction(entityManager -> {
+        Tarea tareaBD = entityManager.find(Tarea.class, tarea.getId());
+        tareaBD.setTitulo(tarea.getTitulo());
+        return tareaBD;
+     });
+   }
+
+     public void delete(Long idTarea) {
+        jpaApi.withTransaction(() -> {
+           EntityManager entityManager = jpaApi.em();
+           Tarea tareaBD = entityManager.getReference(Tarea.class, idTarea);
+           entityManager.remove(tareaBD);
+        });
+     }
 
   public Tarea findById(Long idTarea) {
      return jpaApi.withTransaction(entityManager -> {
