@@ -12,6 +12,7 @@ import models.Usuario;
 
 import play.Logger;
 
+import security.ActionAuthenticator;
 
 public class UsuarioController extends Controller {
 
@@ -68,35 +69,30 @@ public class UsuarioController extends Controller {
      }
   }
 
+  // Comprobamos si hay alguien logeado con @Security.Authenticated(ActionAuthenticator.class)
+  // https://alexgaribay.com/2014/06/15/authentication-in-play-framework-using-java/
+  @Security.Authenticated(ActionAuthenticator.class)
   public Result logout() {
     String connectedUserStr = session("connected");
-    if (connectedUserStr != null) {
-      session().remove("connected");
-      return ok(saludo.render("Adios usuario " + connectedUserStr));
-    } else {
-      return ok(saludo.render("No hay ningún usuario conectado"));
-    }
+    session().remove("connected");
+    return ok(saludo.render("Adios usuario " + connectedUserStr));
   }
 
+  @Security.Authenticated(ActionAuthenticator.class)
   public Result detalleUsuario(Long id) {
     String connectedUserStr = session("connected");
-      Logger.debug("Usuario conectado: " + connectedUserStr);
-      if (connectedUserStr == null) {
-         return unauthorized("Lo siento, no estás conectado");
-     } else {
-       Long connectedUser =  Long.valueOf(connectedUserStr);
-         if (connectedUser != id) {
-            return unauthorized("Lo siento, no estás autorizado");
-         } else {
-            Usuario usuario = usuarioService.findUsuarioPorId(id);
-            if (usuario == null) {
-               return notFound("Usuario no encontrado");
-            } else {
-               Logger.debug("Encontrado usuario " + usuario.getId() + ": " + usuario.getLogin());
-               return ok(detalleUsuario.render(usuario));
-            }
-         }
-     }
+    Long connectedUser =  Long.valueOf(connectedUserStr);
+    if (connectedUser != id) {
+     return unauthorized("Lo siento, no estás autorizado");
+    } else {
+      Usuario usuario = usuarioService.findUsuarioPorId(id);
+       if (usuario == null) {
+          return notFound("Usuario no encontrado");
+       } else {
+          Logger.debug("Encontrado usuario " + usuario.getId() + ": " + usuario.getLogin());
+          return ok(detalleUsuario.render(usuario));
+       }
+    }
   }
 
 }
