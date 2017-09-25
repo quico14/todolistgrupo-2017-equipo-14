@@ -156,4 +156,37 @@ public class UsuarioTest {
       assertNotEquals(usuario1, usuario3);
     }
 
+    // Test 24: testUpdatedUsuario
+    @Test
+   public void testUpdatedUsuario() {
+     /*<Usuario id="1000" login="juangutierrez" nombre="Juan" apellidos="Gutierrez"
+         password="123456789" eMail="juan.gutierrez@gmail.com" fechaNacimiento="1993-12-10"/>*/
+      UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+      Usuario usuario = repository.findByLogin("juangutierrez");
+      Usuario usuario1 = new Usuario("juangutierrez", "maria@gmail.com");
+      usuario1.setPassword(usuario.getPassword());
+      usuario1.setNombre(usuario.getNombre());
+      usuario1.setApellidos(usuario.getApellidos());
+      usuario1.setFechaNacimiento(usuario.getFechaNacimiento());
+      usuario1.setId((Long)usuario.getId());
+
+      repository.edit(usuario1);
+
+      Usuario usuario3 = repository.findByLogin("juangutierrez");
+
+      if (usuario1.equals(usuario3)) {
+        System.out.println("usuario1 is equal to usuario3");
+      } else {
+        System.out.println("usuario1 is not equal to usuario3");
+      }
+
+      assertEquals(usuario1, usuario3);
+      assertEquals(usuario1.getEmail(), usuario3.getEmail());
+      assertEquals(usuario1.getLogin(), usuario3.getLogin());
+      assertEquals(usuario1.getId(), usuario3.getId());
+      assertEquals(usuario1.getPassword(), usuario3.getPassword());
+      assertEquals(usuario1.getFechaNacimiento(), usuario3.getFechaNacimiento());
+      assertEquals(usuario1.getNombre(), usuario3.getNombre());
+    }
+
 }

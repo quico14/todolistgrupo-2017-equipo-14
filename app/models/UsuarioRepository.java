@@ -9,6 +9,7 @@ import com.google.inject.ImplementedBy;
  @ImplementedBy(JPAUsuarioRepository.class)
  public interface UsuarioRepository {
     Usuario add(Usuario usuario);
+    Usuario edit(Usuario usuario);
     Usuario findById(Long id);
     Usuario findByLogin(String login);
  }

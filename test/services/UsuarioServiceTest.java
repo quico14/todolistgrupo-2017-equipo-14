@@ -1,6 +1,11 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
 import play.db.Database;
 import play.db.Databases;
 
@@ -121,6 +126,46 @@ import java.io.FileInputStream;
        Usuario usuario = usuarioService.findUsuarioPorId(1000L);
        assertNotNull(usuario);
        assertEquals("juangutierrez", usuario.getLogin());
+    }
+
+    //Test 25: UpdateUsuario
+    @Test
+    public void UpdateUsuario() throws ParseException {
+       UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+       UsuarioService usuarioService = new UsuarioService(repository);
+       // En la BD de prueba usuarios_dataset se ha cargado el usuario juangutierrez
+       Usuario usuario = usuarioService.findUsuarioPorId(1000L);
+       usuario.setLogin("1234");
+       Usuario usuarioEditado = usuarioService.editaUsuario(usuario);
+       assertNotNull(usuarioEditado);
+       assertEquals("1234", usuario.getLogin());
+    }
+
+    //Test 26: UpdateUsuarioLanzaExcepcionLogin
+    @Test(expected = UsuarioServiceException.class)
+    public void UpdateUsuarioLanzaExcepcionLogin() throws ParseException {
+       UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+       UsuarioService usuarioService = new UsuarioService(repository);
+       // En la BD de prueba usuarios_dataset se ha cargado el usuario juangutierrez
+       Usuario usuarioCreado = usuarioService.creaUsuario("login", "email", "password");
+       Usuario usuario = usuarioService.findUsuarioPorId(1000L);
+       usuario.setLogin("login");
+       Usuario usuarioEditado = usuarioService.editaUsuario(usuario);
+    }
+
+    //Test 27: UpdateUsuarioLanzaExcepcionFecha
+    @Test(expected = UsuarioServiceException.class)
+    public void UpdateUsuarioLanzaExcepcionFecha() throws ParseException {
+       UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+       UsuarioService usuarioService = new UsuarioService(repository);
+       // En la BD de prueba usuarios_dataset se ha cargado el usuario juangutierrez
+
+       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+       Date fecha = sdf.parse("1899-01-01");
+
+       Usuario usuario = usuarioService.findUsuarioPorId(1000L);
+       usuario.setFechaNacimiento(fecha);
+       Usuario usuarioEditado = usuarioService.editaUsuario(usuario);
     }
 
  }
