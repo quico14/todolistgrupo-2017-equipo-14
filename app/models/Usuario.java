@@ -126,8 +126,9 @@ public class Usuario {
       if (getClass() != obj.getClass()) return false;
       Usuario other = (Usuario) obj;
       // Si tenemos los ID, comparamos por ID
-      if (id != null && other.id != null)
-      return (id == other.id);
+      if (id != null && other.id != null){
+        return (id.equals(other.id));
+      }
       // sino comparamos por campos obligatorios
       else {
          if (login == null) {

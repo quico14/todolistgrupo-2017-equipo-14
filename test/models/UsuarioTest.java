@@ -173,8 +173,16 @@ public class UsuarioTest {
       repository.edit(usuario1);
 
       Usuario usuario3 = repository.findByLogin("juangutierrez");
+
+      if (usuario1.equals(usuario3)) {
+        System.out.println("usuario1 is equal to usuario3");
+      } else {
+        System.out.println("usuario1 is not equal to usuario3");
+      }
+
       assertEquals(usuario1, usuario3);
       assertEquals(usuario1.getEmail(), usuario3.getEmail());
+      assertEquals(usuario1.getLogin(), usuario3.getLogin());
       assertEquals(usuario1.getId(), usuario3.getId());
       assertEquals(usuario1.getPassword(), usuario3.getPassword());
       assertEquals(usuario1.getFechaNacimiento(), usuario3.getFechaNacimiento());
