@@ -2,6 +2,11 @@ package services;
 
 import javax.inject.*;
 
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
 import models.Usuario;
 import models.UsuarioRepository;
 
@@ -23,6 +28,18 @@ public class UsuarioService {
      Usuario usuario = new Usuario(login, email);
      usuario.setPassword(password);
      return repository.add(usuario);
+  }
+
+  public Usuario editaUsuario(Usuario usuario) throws ParseException {
+    if (repository.findByLogin(usuario.getLogin()) != null) {
+      throw new UsuarioServiceException("Login ya existente");
+    }
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    Date fecha = sdf.parse("1900-01-01");
+    if (usuario.getFechaNacimiento().before(fecha)) {
+      throw new UsuarioServiceException("La fecha de nacimiento tiene que ser posterior al año 1900");
+    }
+     return repository.edit(usuario);
   }
   public Usuario findUsuarioPorLogin(String login) {
      return repository.findByLogin(login);

@@ -32,13 +32,6 @@ import javax.persistence.NoResultException;
 
     public Usuario edit(Usuario usuario) {
        return jpaApi.withTransaction(entityManager -> {
-          // Usuario usuarioToUpdate = findById(findByLogin(usuario.getLogin()).getId());
-          // usuarioToUpdate.setPassword(usuario.getPassword());
-          // usuarioToUpdate.setLogin(usuario.getLogin());
-          // usuarioToUpdate.setEmail(usuario.getEmail());
-          // usuarioToUpdate.setNombre(usuario.getNombre());
-          // usuarioToUpdate.setApellidos(usuario.getApellidos());
-          // usuarioToUpdate.setFechaNacimiento(usuario.getFechaNacimiento());
           entityManager.merge(usuario);
           return usuario;
        });
