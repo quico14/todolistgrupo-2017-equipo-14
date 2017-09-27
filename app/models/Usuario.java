@@ -19,6 +19,7 @@ public class Usuario {
     private String password;
     private String nombre;
     private String apellidos;
+    @Formats.DateTime(pattern="dd-MM-yyyy") // para el formulario
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
