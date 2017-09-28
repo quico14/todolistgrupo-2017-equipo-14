@@ -1,0 +1,48 @@
+@(registroForm: Form[Update], mensaje: String, id: Long, model: Usuario)
+@main("Actualizar usuario") {
+  @if(mensaje != "") {
+    <div class="alert alert-danger">
+        @mensaje
+    </div>
+  }
+  <h1>Actualizar usuario</h1>
+  @helper.form(action = routes.UsuarioController.updateUsuario(id)) {
+    <fieldset>
+      @if(model.getLogin() != null){
+        @helper.inputText(registroForm("login"), '_label -> "Login", 'placeholder -> model.getLogin())
+      } else {
+        @helper.inputText(registroForm("login"), '_label -> "Login")
+      }
+
+      @if(model.getEmail() != null){
+        @helper.inputText(registroForm("email"), '_label -> "Email", 'placeholder -> model.getEmail())
+      } else {
+        @helper.inputText(registroForm("email"), '_label -> "Email")
+      }
+
+      @helper.inputPassword(registroForm("password"), '_label -> "Nueva contraseña")
+      @helper.inputPassword(registroForm("confirmacion"), '_label -> "Repite contraseña")
+
+      @if(model.getNombre() != null){
+        @helper.inputText(registroForm("nombre"), '_label -> "Nombre", 'placeholder -> model.getNombre())
+      } else {
+        @helper.inputText(registroForm("nombre"), '_label -> "Nombre")
+      }
+
+      @if(model.getApellidos() != null){
+        @helper.inputText(registroForm("apellidos"), '_label -> "Apellidos", 'placeholder -> model.getApellidos())
+      } else {
+        @helper.inputText(registroForm("apellidos"), '_label -> "Apellidos")
+      }
+
+      @if(model.getFechaNacimiento() != null){
+        @helper.inputText(registroForm("fechaNacimiento"), '_label -> "Fecha de nacimiento", 'placeholder -> model.getFechaNacimientoConFormato())
+      } else {
+        @helper.inputText(registroForm("fechaNacimiento"), '_label -> "Fecha de nacimiento")
+      }
+    </fieldset>
+    <p>
+      <button type="submit" class="btn btn-primary">Actualizar datos</button>
+    <p>
+   }
+}

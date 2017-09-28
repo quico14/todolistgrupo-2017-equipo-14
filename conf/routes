@@ -19,6 +19,8 @@ GET     /                       controllers.UsuarioController.formularioLogin()
 POST    /login                  controllers.UsuarioController.loginUsuario()
 GET     /logout                 controllers.UsuarioController.logout()
 GET     /usuarios/:id           controllers.UsuarioController.detalleUsuario(id: Long)
+GET     /perfiles/:id           controllers.UsuarioController.formularioUpdate(id: Long)
+POST    /perfiles/:id           controllers.UsuarioController.updateUsuario(id: Long)
 
 GET     /usuarios/:id/tareas/nueva  controllers.GestionTareasController.formularioNuevaTarea(id: Long)
 POST    /usuarios/:id/tareas/nueva  controllers.GestionTareasController.creaNuevaTarea(id: Long)

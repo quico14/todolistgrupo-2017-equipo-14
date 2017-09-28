@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import play.data.format.*;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class Usuario {
     private String nombre;
     private String apellidos;
     @Temporal(TemporalType.DATE)
+    @Formats.DateTime(pattern="dd-MM-yyyy") // para el formulario
     private Date fechaNacimiento;
 
     // Relación uno-a-muchos entre usuario y tarea
@@ -33,6 +35,16 @@ public class Usuario {
   public Usuario(String login, String email) {
      this.login = login;
      this.email = email;
+  }
+
+  public Usuario(Long id, String login, String email, String password, String nombre, String apellidos, Date fechaNacimiento) {
+     this.id = id;
+     this.email = email;
+     this.login = login;
+     this.password = password;
+     this.nombre = nombre;
+     this.apellidos = apellidos;
+     this.fechaNacimiento = fechaNacimiento;
   }
 
     // Getters y setters necesarios para JPA
@@ -87,6 +99,11 @@ public class Usuario {
 
     public Date getFechaNacimiento() {
        return fechaNacimiento;
+    }
+
+    public String getFechaNacimientoConFormato() {
+      SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+       return format.format(fechaNacimiento);
     }
 
     public void setFechaNacimiento(Date fechaNacimiento) {

@@ -14,6 +14,9 @@ import play.Logger;
 
 import security.ActionAuthenticator;
 
+import java.text.ParseException;
+
+
 public class UsuarioController extends Controller {
 
   @Inject FormFactory formFactory;
@@ -45,6 +48,52 @@ public class UsuarioController extends Controller {
      }
      Usuario usuario = usuarioService.creaUsuario(datosRegistro.login, datosRegistro.email, datosRegistro.password);
      return redirect(controllers.routes.UsuarioController.formularioLogin());
+  }
+
+  // Comprobamos si hay alguien logeado con @Security.Authenticated(ActionAuthenticator.class)
+  // https://alexgaribay.com/2014/06/15/authentication-in-play-framework-using-java/
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result formularioUpdate(Long id) {
+    String connectedUserStr = session("connected");
+    Long connectedUser =  Long.valueOf(connectedUserStr);
+    if (connectedUser != id) {
+      return unauthorized("Lo siento, no estás autorizado");
+    } else {
+      Usuario usuario = usuarioService.findUsuarioPorId(id);
+      System.out.println(usuario.getFechaNacimiento());
+      return ok(formUpdate.render(formFactory.form(Update.class), "", id, usuario));
+    }
+  }
+
+  // Comprobamos si hay alguien logeado con @Security.Authenticated(ActionAuthenticator.class)
+  // https://alexgaribay.com/2014/06/15/authentication-in-play-framework-using-java/
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result updateUsuario(Long id) throws ParseException {
+    String connectedUserStr = session("connected");
+    Long connectedUser =  Long.valueOf(connectedUserStr);
+    Usuario usuario = usuarioService.findUsuarioPorId(id);
+    if (connectedUser != id) {
+     return unauthorized("Lo siento, no estás autorizado");
+    } else {
+      Form<Update> form = formFactory.form(Update.class).bindFromRequest();
+      if (form.hasErrors()) {
+        return badRequest(formUpdate.render(form, "Hay errores en el formulario", id, usuario));
+      }
+      Update datosUpdate = form.get();
+      if (usuarioService.findUsuarioPorLogin(datosUpdate.login) != null) {
+        return badRequest(formUpdate.render(form, "Login ya existente: escoge otro", id, usuario));
+      }
+      if (!datosUpdate.password.equals(datosUpdate.confirmacion)) {
+        return badRequest(formUpdate.render(form, "No coinciden la contraseña y la confirmación", id, usuario));
+      }
+
+      Usuario usuarioToUpdate = new Usuario(id, datosUpdate.login, datosUpdate.email,
+      datosUpdate.password, datosUpdate.nombre, datosUpdate.apellidos, datosUpdate.fechaNacimiento);
+
+      usuarioService.editaUsuario(usuarioToUpdate);
+
+      return redirect(controllers.routes.UsuarioController.detalleUsuario(id));
+    }
   }
 
   public Result formularioLogin() {
