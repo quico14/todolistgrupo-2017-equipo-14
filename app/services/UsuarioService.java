@@ -34,11 +34,14 @@ public class UsuarioService {
     if (repository.findByLogin(usuario.getLogin()) != null) {
       throw new UsuarioServiceException("Login ya existente");
     }
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    Date fecha = sdf.parse("1900-01-01");
-    if (usuario.getFechaNacimiento().before(fecha)) {
-      throw new UsuarioServiceException("La fecha de nacimiento tiene que ser posterior al año 1900");
+    if (usuario.getFechaNacimiento() != null) {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      Date fecha = sdf.parse("1900-01-01");
+      if (usuario.getFechaNacimiento().before(fecha)) {
+        throw new UsuarioServiceException("La fecha de nacimiento tiene que ser posterior al año 1900");
+      }
     }
+    
      return repository.edit(usuario);
   }
   public Usuario findUsuarioPorLogin(String login) {
