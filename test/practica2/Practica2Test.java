@@ -3,8 +3,11 @@ import static org.junit.Assert.*;
 
 import play.db.Database;
 import play.db.Databases;
-
 import play.db.jpa.*;
+
+import play.Logger;
+
+import java.sql.*;
 
 import org.dbunit.*;
 import org.dbunit.dataset.*;
@@ -15,10 +18,10 @@ import java.io.FileInputStream;
 import java.util.List;
 
 import models.Usuario;
+import models.Tarea;
+
 import models.UsuarioRepository;
 import models.JPAUsuarioRepository;
-
-import models.Tarea;
 import models.TareaRepository;
 import models.JPATareaRepository;
 
@@ -27,17 +30,24 @@ import services.UsuarioServiceException;
 import services.TareaService;
 import services.TareaServiceException;
 
-public class TareaServiceTest {
+public class Practica2Test {
+
   static Database db;
   static JPAApi jpaApi;
 
+  // Se ejecuta sólo una vez, al principio de todos los tests
   @BeforeClass
   static public void initDatabase() {
+     // Inicializamos la BD en memoria y su nombre JNDI
      db = Databases.inMemoryWith("jndiName", "DBTest");
      db.getConnection();
+     // Se activa la compatibilidad MySQL en la BD H2
      db.withConnection(connection -> {
         connection.createStatement().execute("SET MODE MySQL;");
      });
+     // Activamos en JPA la unidad de persistencia "memoryPersistenceUnit"
+     // declarada en META-INF/persistence.xml y obtenemos el objeto
+     // JPAApi
      jpaApi = JPA.createFor("memoryPersistenceUnit");
   }
 
@@ -56,47 +66,19 @@ public class TareaServiceTest {
      return new TareaService(usuarioRepository, tareaRepository);
   }
 
-  // Test #19: allTareasUsuarioEstanOrdenadas
+  // Test #28: testFindUsuarioPorIdInexistente
   @Test
-  public void allTareasUsuarioEstanOrdenadas() {
-     TareaService tareaService = newTareaService();
-     List<Tarea> tareas = tareaService.allTareasUsuario(1000L);
-     assertEquals("Renovar DNI", tareas.get(0).getTitulo());
-     assertEquals("Práctica 1 MADS", tareas.get(1).getTitulo());
+  public void testFindUsuarioPorIdInexistente() {
+    UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+    UsuarioService usuarioService = new UsuarioService(repository);
+    assertNull(usuarioService.findUsuarioPorId(10234L));
   }
 
-  // Test #20: exceptionSiUsuarioNoExisteRecuperandoSusTareas
+  // Test #29: testBorraTareaInexistente
   @Test(expected = TareaServiceException.class)
-  public void crearNuevoUsuarioLoginRepetidoLanzaExcepcion(){
-     TareaService tareaService = newTareaService();
-     List<Tarea> tareas = tareaService.allTareasUsuario(1001L);
-  }
+  public void testBorraTareaInexistente() {
+    TareaService tareaService = newTareaService();
 
-  // Test #21: nuevaTareaUsuario
-  @Test
-  public void nuevaTareaUsuario() {
-     TareaService tareaService = newTareaService();
-     long idUsuario = 1000L;
-     tareaService.nuevaTarea(idUsuario, "Pagar el alquiler");
-     assertEquals(4, tareaService.allTareasUsuario(1000L).size());
-  }
-
-  // Test #22: modificación de tareas
-  @Test
-  public void modificacionTarea() {
-     TareaService tareaService = newTareaService();
-     long idTarea = 1000L;
-     tareaService.modificaTarea(idTarea, "Pagar el alquiler");
-     Tarea tarea = tareaService.obtenerTarea(idTarea);
-     assertEquals("Pagar el alquiler", tarea.getTitulo());
-  }
-
-  // Test #23: borrado tarea
-  @Test
-  public void borradoTarea() {
-     TareaService tareaService = newTareaService();
-     long idTarea = 1000L;
-     tareaService.borraTarea(idTarea);
-     assertNull(tareaService.obtenerTarea(idTarea));
+    tareaService.borraTarea(27624786L);
   }
 }
