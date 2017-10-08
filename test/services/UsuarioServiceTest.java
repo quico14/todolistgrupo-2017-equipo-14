@@ -6,9 +6,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
-import play.db.Database;
-import play.db.Databases;
-
 import play.db.jpa.*;
 
 import org.dbunit.*;
@@ -17,9 +14,15 @@ import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
 import java.io.FileInputStream;
 
+import play.inject.guice.GuiceApplicationBuilder;
+import play.inject.Injector;
+import play.inject.guice.GuiceInjectorBuilder;
+import play.Environment;
+
+import play.db.jpa.JPAApi;
+
 import models.Usuario;
 import models.UsuarioRepository;
-import models.JPAUsuarioRepository;
 
 import services.UsuarioService;
 import services.UsuarioServiceException;
@@ -37,24 +40,21 @@ import java.io.FileInputStream;
 
 
  public class UsuarioServiceTest {
-    static Database db;
-    static JPAApi jpaApi;
+    static private Injector injector;
 
     // Se ejecuta sólo una vez, al principio de todos los tests
     @BeforeClass
-    static public void initDatabase() {
-       // Inicializamos la BD en memoria y su nombre JNDI
-       db = Databases.inMemoryWith("jndiName", "DBTest");
-       db.getConnection();
-       // Se activa la compatibilidad MySQL en la BD H2
-       db.withConnection(connection -> {
-          connection.createStatement().execute("SET MODE MySQL;");
-       });
-       // Activamos en JPA la unidad de persistencia "memoryPersistenceUnit"
-       // declarada en META-INF/persistence.xml y obtenemos el objeto
-       // JPAApi
-       jpaApi = JPA.createFor("memoryPersistenceUnit");
+    static public void initApplication() {
+       GuiceApplicationBuilder guiceApplicationBuilder =
+           new GuiceApplicationBuilder().in(Environment.simple());
+       injector = guiceApplicationBuilder.injector();
+       // Instanciamos un JPAApi para que inicializar JPA
+       injector.instanceOf(JPAApi.class);
     }
+
+    private UsuarioService newUsuarioService() {
+       return injector.instanceOf(UsuarioService.class);
+     }
 
     @Before
    public void initData() throws Exception {
@@ -68,8 +68,7 @@ import java.io.FileInputStream;
     //Test 5: crearNuevoUsuarioCorrectoTest
     @Test
     public void crearNuevoUsuarioCorrectoTest(){
-       UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
-       UsuarioService usuarioService = new UsuarioService(repository);
+       UsuarioService usuarioService = newUsuarioService();
        Usuario usuario = usuarioService.creaUsuario("luciaruiz", "lucia.ruiz@gmail.com", "123456");
        assertNotNull(usuario.getId());
        assertEquals("luciaruiz", usuario.getLogin());
@@ -80,8 +79,7 @@ import java.io.FileInputStream;
        //Test 6: crearNuevoUsuarioLoginRepetidoLanzaExcepcion
     @Test(expected = UsuarioServiceException.class)
     public void crearNuevoUsuarioLoginRepetidoLanzaExcepcion(){
-       UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
-       UsuarioService usuarioService = new UsuarioService(repository);
+       UsuarioService usuarioService = newUsuarioService();
        // En la BD de prueba usuarios_dataset se ha cargado el usuario juangutierrez
        Usuario usuario = usuarioService.creaUsuario("juangutierrez", "juan.gutierrez@gmail.com", "123456");
     }
@@ -89,8 +87,7 @@ import java.io.FileInputStream;
     //Test 7: findUsuarioPorLogin
     @Test
     public void findUsuarioPorLogin() {
-       UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
-       UsuarioService usuarioService = new UsuarioService(repository);
+       UsuarioService usuarioService = newUsuarioService();
        // En la BD de prueba usuarios_dataset se ha cargado el usuario juangutierrez
        Usuario usuario = usuarioService.findUsuarioPorLogin("juangutierrez");
        assertNotNull(usuario);
@@ -100,8 +97,7 @@ import java.io.FileInputStream;
     //Test 8: loginUsuarioExistenteTest
     @Test
     public void loginUsuarioExistenteTest() {
-       UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
-       UsuarioService usuarioService = new UsuarioService(repository);
+       UsuarioService usuarioService = newUsuarioService();
        // En la BD de prueba usuarios_dataset se ha cargado el usuario juangutierrez
        Usuario usuario = usuarioService.login("juangutierrez", "123456789");
        assertEquals((Long) 1000L, usuario.getId());
@@ -110,8 +106,7 @@ import java.io.FileInputStream;
     //Test 9: loginUsuarioNoExistenteTest
     @Test
     public void loginUsuarioNoExistenteTest() {
-       UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
-       UsuarioService usuarioService = new UsuarioService(repository);
+       UsuarioService usuarioService = newUsuarioService();
        // En la BD de prueba usuarios_dataset se ha cargado el usuario juangutierrez
        Usuario usuario = usuarioService.login("juan", "123456789");
        assertNull(usuario);
@@ -120,8 +115,7 @@ import java.io.FileInputStream;
     //Test 10: findUsuarioPorId
     @Test
     public void findUsuarioPorId() {
-       UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
-       UsuarioService usuarioService = new UsuarioService(repository);
+       UsuarioService usuarioService = newUsuarioService();
        // En la BD de prueba usuarios_dataset se ha cargado el usuario juangutierrez
        Usuario usuario = usuarioService.findUsuarioPorId(1000L);
        assertNotNull(usuario);
@@ -131,8 +125,7 @@ import java.io.FileInputStream;
     //Test 25: UpdateUsuario
     @Test
     public void UpdateUsuario() throws ParseException {
-       UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
-       UsuarioService usuarioService = new UsuarioService(repository);
+       UsuarioService usuarioService = newUsuarioService();
        // En la BD de prueba usuarios_dataset se ha cargado el usuario juangutierrez
        Usuario usuario = usuarioService.findUsuarioPorId(1000L);
        usuario.setLogin("1234");
@@ -144,8 +137,7 @@ import java.io.FileInputStream;
     //Test 26: UpdateUsuarioLanzaExcepcionLogin
     @Test(expected = UsuarioServiceException.class)
     public void UpdateUsuarioLanzaExcepcionLogin() throws ParseException {
-       UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
-       UsuarioService usuarioService = new UsuarioService(repository);
+       UsuarioService usuarioService = newUsuarioService();
        // En la BD de prueba usuarios_dataset se ha cargado el usuario juangutierrez
        Usuario usuarioCreado = usuarioService.creaUsuario("login", "email", "password");
        Usuario usuario = usuarioService.findUsuarioPorId(1000L);
@@ -156,8 +148,7 @@ import java.io.FileInputStream;
     //Test 27: UpdateUsuarioLanzaExcepcionFecha
     @Test(expected = UsuarioServiceException.class)
     public void UpdateUsuarioLanzaExcepcionFecha() throws ParseException {
-       UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
-       UsuarioService usuarioService = new UsuarioService(repository);
+       UsuarioService usuarioService = newUsuarioService();
        // En la BD de prueba usuarios_dataset se ha cargado el usuario juangutierrez
 
        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
