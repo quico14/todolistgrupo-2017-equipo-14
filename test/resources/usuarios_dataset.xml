@@ -3,5 +3,8 @@
     <Usuario id="1000" login="juangutierrez" nombre="Juan" apellidos="Gutierrez"
         password="123456789" eMail="juan.gutierrez@gmail.com" fechaNacimiento="1993-12-10"/>
     <Tarea id="1000" titulo="Renovar DNI" usuarioId="1000"/>
+    <Usuario id="1100" login="pepegutierrez" nombre="Pepe" apellidos="Gutierrez"
+        password="12345" eMail="pepe.gutierrez@gmail.com" fechaNacimiento="1996-05-15"/>
+    <Tarea id="1002" titulo="Práctica 2 MADS" usuarioId="1000"/>
     <Tarea id="1001" titulo="Práctica 1 MADS" usuarioId="1000"/>
   </dataset>

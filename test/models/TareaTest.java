@@ -132,7 +132,7 @@ public class TareaTest {
      TareaRepository repository = new JPATareaRepository(jpaApi);
      Long idUsuario = 1000L;
      List<Tarea> tareas = repository.findAllTareas(idUsuario);
-     assertEquals(2, tareas.size());
+     assertEquals(3, tareas.size());
   }
 
 }
