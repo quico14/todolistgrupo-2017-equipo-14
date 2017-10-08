@@ -24,25 +24,25 @@ import models.Usuario;
 import models.UsuarioRepository;
 import models.JPAUsuarioRepository;
 
+import play.inject.guice.GuiceApplicationBuilder;
+import play.inject.Injector;
+import play.inject.guice.GuiceInjectorBuilder;
+import play.Environment;
+
 public class UsuarioTest {
 
   static Database db;
-  static JPAApi jpaApi;
+  static private Injector injector;
 
   // Se ejecuta sólo una vez, al principio de todos los tests
   @BeforeClass
-  static public void initDatabase() {
-     // Inicializamos la BD en memoria y su nombre JNDI
-     db = Databases.inMemoryWith("jndiName", "DBTest");
-     db.getConnection();
-     // Se activa la compatibilidad MySQL en la BD H2
-     db.withConnection(connection -> {
-        connection.createStatement().execute("SET MODE MySQL;");
-     });
-     // Activamos en JPA la unidad de persistencia "memoryPersistenceUnit"
-     // declarada en META-INF/persistence.xml y obtenemos el objeto
-     // JPAApi
-     jpaApi = JPA.createFor("memoryPersistenceUnit");
+  static public void initApplication() {
+     GuiceApplicationBuilder guiceApplicationBuilder =
+         new GuiceApplicationBuilder().in(Environment.simple());
+     injector = guiceApplicationBuilder.injector();
+     db = injector.instanceOf(Database.class);
+     // Necesario para inicializar JPA
+     injector.instanceOf(JPAApi.class);
   }
 
 
@@ -68,6 +68,10 @@ public class UsuarioTest {
        databaseTester.onSetup();
     }
 
+    private UsuarioRepository newUsuarioRepository() {
+       return injector.instanceOf(UsuarioRepository.class);
+     }
+
     // Test 1: testCrearUsuario
 
   @Test
@@ -92,8 +96,7 @@ public class UsuarioTest {
    // Test 2: testAddUsuarioJPARepositoryInsertsUsuarioDatabase
   @Test
   public void testAddUsuarioJPARepositoryInsertsUsuarioDatabase() {
-     assertNotNull(jpaApi);
-     UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+     UsuarioRepository repository = newUsuarioRepository();
      Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
      usuario.setNombre("Juan");
      usuario.setApellidos("Gutierrez");
@@ -120,7 +123,7 @@ public class UsuarioTest {
   // Test 3: testFindUsuarioPorId
   @Test
   public void testFindUsuarioPorId() {
-     UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+     UsuarioRepository repository = newUsuarioRepository();
      Usuario usuario = repository.findById(1000L);
      assertEquals("juangutierrez", usuario.getLogin());
   }
@@ -128,7 +131,7 @@ public class UsuarioTest {
   // Test 4: testFindUsuarioPorLogin
   @Test
   public void testFindUsuarioPorLogin() {
-     UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+     UsuarioRepository repository = newUsuarioRepository();
      Usuario usuario = repository.findByLogin("juangutierrez");
      assertEquals((Long) 1000L, usuario.getId());
   }
@@ -159,9 +162,7 @@ public class UsuarioTest {
     // Test 24: testUpdatedUsuario
     @Test
    public void testUpdatedUsuario() {
-     /*<Usuario id="1000" login="juangutierrez" nombre="Juan" apellidos="Gutierrez"
-         password="123456789" eMail="juan.gutierrez@gmail.com" fechaNacimiento="1993-12-10"/>*/
-      UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+      UsuarioRepository repository = newUsuarioRepository();
       Usuario usuario = repository.findByLogin("juangutierrez");
       Usuario usuario1 = new Usuario("juangutierrez", "maria@gmail.com");
       usuario1.setPassword(usuario.getPassword());
