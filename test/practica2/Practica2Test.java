@@ -24,6 +24,8 @@ import models.UsuarioRepository;
 import models.JPAUsuarioRepository;
 import models.TareaRepository;
 import models.JPATareaRepository;
+import javax.persistence.NoResultException;
+
 
 import services.UsuarioService;
 import services.UsuarioServiceException;
@@ -80,5 +82,22 @@ public class Practica2Test {
     TareaService tareaService = newTareaService();
 
     tareaService.borraTarea(27624786L);
+  }
+
+  // Test #30: modificacionTareaInexistente
+  @Test(expected = TareaServiceException.class)
+  public void modificacionTarea() {
+     TareaService tareaService = newTareaService();
+     long idTarea = 9837598;
+     tareaService.modificaTarea(idTarea, "Pagar el alquiler");
+  }
+
+  //Test 31: findUsuarioPorLoginInexistente
+  @Test
+  public void findUsuarioPorLoginInexistente() {
+     UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+     UsuarioService usuarioService = new UsuarioService(repository);
+
+     assertNull(usuarioService.findUsuarioPorLogin("UsuarioNoExistente"));
   }
 }
