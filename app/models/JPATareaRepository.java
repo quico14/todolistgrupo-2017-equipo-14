@@ -46,13 +46,4 @@ public class JPATareaRepository implements TareaRepository {
      });
   }
 
-  public List<Tarea> findAllTareas(Long idUsuario) {
-     return jpaApi.withTransaction(entityManager -> {
-        Usuario usuario = entityManager.find(Usuario.class, idUsuario);
-        // Cargamos todas las tareas del usuario en memoria
-        usuario.getTareas().size();
-        return usuario.getTareas();
-     });
-  }
-
 }
