@@ -8,6 +8,15 @@ import play.Environment;
 
 import play.db.jpa.*;
 
+import org.dbunit.dataset.xml.*;
+import org.dbunit.operation.*;
+import java.io.FileInputStream;
+
+import play.db.Database;
+import play.db.Databases;
+
+import java.sql.*;
+
 import models.Usuario;
 import models.Tablero;
 import models.TableroRepository;
@@ -24,6 +33,7 @@ public class ModeloRepositorioTableroTest {
     injector.instanceOf(JPAApi.class);
   }
 
+  //Test #32
   @Test
   public void testCrearTablero() {
     Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
@@ -34,9 +44,19 @@ public class ModeloRepositorioTableroTest {
     assertEquals("Tablero 1", tablero.getNombre());
   }
 
+  //Test #33
   @Test
   public void testObtenerTableroRepository() {
     TableroRepository tableroRepository = injector.instanceOf(TableroRepository.class);
     assertNotNull(tableroRepository);
+  }
+  //Test #34
+  @Test
+  public void testCrearTablaTableroEnBD() throws Exception {
+    Database db = injector.instanceOf(Database.class);
+    Connection connection = db.getConnection();
+    DatabaseMetaData meta = connection.getMetaData();
+    ResultSet res = meta.getTables(null, null, "TABLERO", new String[] {"TABLE"});
+    assertTrue(res.next());
   }
 }
