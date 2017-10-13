@@ -7,4 +7,5 @@
         password="12345" eMail="pepe.gutierrez@gmail.com" fechaNacimiento="1996-05-15"/>
     <Tarea id="1002" titulo="Práctica 2 MADS" usuarioId="1000"/>
     <Tarea id="1001" titulo="Práctica 1 MADS" usuarioId="1000"/>
+    <Tablero/>
   </dataset>
