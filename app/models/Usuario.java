@@ -7,6 +7,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import play.data.format.*;
 
+import java.util.Set;
+import java.util.HashSet;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -26,7 +29,7 @@ public class Usuario {
 
     // Relación uno-a-muchos entre usuario y tarea
     @OneToMany(mappedBy="usuario", fetch=FetchType.EAGER)
-    public List<Tarea> tareas = new ArrayList<Tarea>();
+    public Set<Tarea> tareas = new HashSet<Tarea>();
 
     // Un constructor vacío necesario para JPA
     public Usuario() {}
@@ -111,11 +114,12 @@ public class Usuario {
     }
 
     public List<Tarea> getTareas() {
-       return tareas;
+      List<Tarea> list = new ArrayList<Tarea>(tareas);
+       return list;
     }
 
     public void setTareas(List<Tarea> tareas) {
-       this.tareas = tareas;
+       this.tareas = new HashSet<Tarea>(tareas);
    }
 
     public String toString() {
@@ -144,7 +148,7 @@ public class Usuario {
       Usuario other = (Usuario) obj;
       // Si tenemos los ID, comparamos por ID
       if (id != null && other.id != null){
-        return (id.equals(other.id));
+        return ((long) id == (long) other.id);
       }
       // sino comparamos por campos obligatorios
       else {

@@ -182,12 +182,6 @@ public class UsuarioTest {
       }
 
       assertEquals(usuario1, usuario3);
-      assertEquals(usuario1.getEmail(), usuario3.getEmail());
-      assertEquals(usuario1.getLogin(), usuario3.getLogin());
-      assertEquals(usuario1.getId(), usuario3.getId());
-      assertEquals(usuario1.getPassword(), usuario3.getPassword());
-      assertEquals(usuario1.getFechaNacimiento(), usuario3.getFechaNacimiento());
-      assertEquals(usuario1.getNombre(), usuario3.getNombre());
     }
 
 }
