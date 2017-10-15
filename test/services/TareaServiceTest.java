@@ -62,7 +62,7 @@ public class TareaServiceTest {
   @Test(expected = TareaServiceException.class)
   public void crearNuevoUsuarioLoginRepetidoLanzaExcepcion(){
      TareaService tareaService = newTareaService();
-     List<Tarea> tareas = tareaService.allTareasUsuario(1001L);
+     List<Tarea> tareas = tareaService.allTareasUsuario(1023301L);
   }
 
   // Test #21: nuevaTareaUsuario

@@ -126,22 +126,20 @@ public class Usuario {
        this.tareas = new HashSet<Tarea>(tareas);
     }
 
-    public List<Tablero> getAdministrados() {
-      List<Tablero> list = new ArrayList<Tablero>(administrados);
-      return list;
+    public Set<Tablero> getAdministrados() {
+      return administrados;
     }
 
-    public void setAdministrados(List<Tablero> administrados) {
-      this.administrados = new HashSet<Tablero>(administrados);
+    public void setAdministrados(Set<Tablero> administrados) {
+      this.administrados = administrados;
     }
 
-    public List<Tablero> getTableros() {
-      List<Tablero> list = new ArrayList<Tablero>(tableros);
-      return list;
+    public Set<Tablero> getTableros() {
+      return tableros;
     }
 
-    public void setTableros(List<Tablero> tableros) {
-      this.tableros = new HashSet<Tablero>(tableros);
+    public void setTableros(Set<Tablero> tableros) {
+      this.tableros = tableros;
     }
 
     public String toString() {

@@ -54,12 +54,11 @@ public class Tablero {
   }
 
   public Set<Usuario> getParticipantes() {
-      List<Usuario> list = new ArrayList<Usuario>(participantes);
-      return list;
+      return participantes;
    }
 
-   public void setParticipantes(List<Usuario> participantes) {
-      this.participantes = new HashSet<Usuario>(participantes);
+   public void setParticipantes(Set<Usuario> participantes) {
+      this.participantes = participantes;
    }
 
    @Override
