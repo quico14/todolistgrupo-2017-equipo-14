@@ -22,6 +22,8 @@ import java.io.FileInputStream;
 
 import models.Usuario;
 import models.UsuarioRepository;
+import models.Tablero;
+import models.TableroRepository;
 import models.JPAUsuarioRepository;
 
 import play.inject.guice.GuiceApplicationBuilder;
@@ -137,57 +139,50 @@ public class UsuarioTest {
   }
 
   // Test 12: testEqualsUsuariosConId
-    @Test
-    public void testEqualsUsuariosConId() {
-       Usuario usuario1 = new Usuario("juangutierrez", "juangutierrez@gmail.com");
-       Usuario usuario2 = new Usuario("mariafernandez", "mariafernandez@gmail.com");
-       Usuario usuario3 = new Usuario("antoniolopez", "antoniolopez@gmail.com");
-       usuario1.setId(1L);
-       usuario2.setId(1L);
-       usuario3.setId(2L);
-       assertEquals(usuario1, usuario2);
-       assertNotEquals(usuario1, usuario3);
+  @Test
+  public void testEqualsUsuariosConId() {
+     Usuario usuario1 = new Usuario("juangutierrez", "juangutierrez@gmail.com");
+     Usuario usuario2 = new Usuario("mariafernandez", "mariafernandez@gmail.com");
+     Usuario usuario3 = new Usuario("antoniolopez", "antoniolopez@gmail.com");
+     usuario1.setId(1L);
+     usuario2.setId(1L);
+     usuario3.setId(2L);
+     assertEquals(usuario1, usuario2);
+     assertNotEquals(usuario1, usuario3);
+  }
+
+  // Test 13: testEqualsUsuariosSinId
+  @Test
+  public void testEqualsUsuariosSinId() {
+    Usuario usuario1 = new Usuario("mariafernandez", "mariafernandez@gmail.com");
+    Usuario usuario2 = new Usuario("mariafernandez", "mariafernandez@gmail.com");
+    Usuario usuario3 = new Usuario("antoniolopez", "antoniolopez@gmail.com");
+    assertEquals(usuario1, usuario2);
+    assertNotEquals(usuario1, usuario3);
+  }
+
+  // Test 24: testUpdatedUsuario
+  @Test
+  public void testUpdatedUsuario() {
+    UsuarioRepository repository = newUsuarioRepository();
+    Usuario usuario = repository.findByLogin("juangutierrez");
+    Usuario usuario1 = new Usuario("juangutierrez", "maria@gmail.com");
+    usuario1.setPassword(usuario.getPassword());
+    usuario1.setNombre(usuario.getNombre());
+    usuario1.setApellidos(usuario.getApellidos());
+    usuario1.setFechaNacimiento(usuario.getFechaNacimiento());
+    usuario1.setId((Long)usuario.getId());
+
+    repository.edit(usuario1);
+
+    Usuario usuario3 = repository.findByLogin("juangutierrez");
+
+    if (usuario1.equals(usuario3)) {
+      System.out.println("usuario1 is equal to usuario3");
+    } else {
+      System.out.println("usuario1 is not equal to usuario3");
     }
 
-    // Test 13: testEqualsUsuariosSinId
-    @Test
-   public void testEqualsUsuariosSinId() {
-      Usuario usuario1 = new Usuario("mariafernandez", "mariafernandez@gmail.com");
-      Usuario usuario2 = new Usuario("mariafernandez", "mariafernandez@gmail.com");
-      Usuario usuario3 = new Usuario("antoniolopez", "antoniolopez@gmail.com");
-      assertEquals(usuario1, usuario2);
-      assertNotEquals(usuario1, usuario3);
-    }
-
-    // Test 24: testUpdatedUsuario
-    @Test
-   public void testUpdatedUsuario() {
-      UsuarioRepository repository = newUsuarioRepository();
-      Usuario usuario = repository.findByLogin("juangutierrez");
-      Usuario usuario1 = new Usuario("juangutierrez", "maria@gmail.com");
-      usuario1.setPassword(usuario.getPassword());
-      usuario1.setNombre(usuario.getNombre());
-      usuario1.setApellidos(usuario.getApellidos());
-      usuario1.setFechaNacimiento(usuario.getFechaNacimiento());
-      usuario1.setId((Long)usuario.getId());
-
-      repository.edit(usuario1);
-
-      Usuario usuario3 = repository.findByLogin("juangutierrez");
-
-      if (usuario1.equals(usuario3)) {
-        System.out.println("usuario1 is equal to usuario3");
-      } else {
-        System.out.println("usuario1 is not equal to usuario3");
-      }
-
-      assertEquals(usuario1, usuario3);
-      assertEquals(usuario1.getEmail(), usuario3.getEmail());
-      assertEquals(usuario1.getLogin(), usuario3.getLogin());
-      assertEquals(usuario1.getId(), usuario3.getId());
-      assertEquals(usuario1.getPassword(), usuario3.getPassword());
-      assertEquals(usuario1.getFechaNacimiento(), usuario3.getFechaNacimiento());
-      assertEquals(usuario1.getNombre(), usuario3.getNombre());
-    }
-
+    assertEquals(usuario1, usuario3);
+  }
 }
