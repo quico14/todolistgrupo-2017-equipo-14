@@ -3,6 +3,7 @@ package services;
 import javax.inject.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -46,6 +47,18 @@ public class TableroService {
     List<Tablero> tableros = new ArrayList<Tablero>(usuario.getAdministrados());
     Collections.sort(tableros, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
     return tableros;
+  }
+
+  public Tablero addParticipante(Long idUsuario, Tablero tablero) {
+    Usuario usuario = usuarioRepository.findById(idUsuario);
+    if (usuario == null) {
+      throw new TableroServiceException("Usuario no existente");
+    }
+    Set<Usuario> participantes = tablero.getParticipantes();
+    participantes.add(usuario);
+    tablero.setParticipantes(participantes);
+
+    return tableroRepository.update(tablero);
   }
 
 }

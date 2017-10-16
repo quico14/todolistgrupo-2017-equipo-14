@@ -97,4 +97,16 @@ public class TableroServiceTest {
      List<Tablero> tableros = tableroService.allTablerosUsuario(1023301L);
   }
 
+  // Test #42: usuarioParticipaTablero
+  @Test
+  public void usuarioParticipaTablero(){
+    TableroService tableroService = newTableroService();
+    Tablero tablero = tableroService.allTablerosUsuario(1000L).get(0);
+
+    Tablero tableroActualizado = tableroService.addParticipante(1001L, tablero);
+    Tablero tableroQuery = tableroService.allTablerosUsuario(1000L).get(0);
+
+    assertEquals(tableroActualizado, tableroQuery);
+  }
+
 }
