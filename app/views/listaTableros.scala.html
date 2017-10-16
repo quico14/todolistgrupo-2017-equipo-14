@@ -38,8 +38,7 @@
       }
 
       <tr>
-          <td><a href="@routes.GestionTablerosController.formularioNuevoTablero(usuario.getId())">
-              <span class="glyphicon glyphicon-plus"/></a></td>
+          <td></td>
           <td><a href="@routes.UsuarioController.logout()">Salir</a></td>
       </tr>
 
@@ -55,13 +54,16 @@
     @for(tablero <- tablerosSinRelacion) {
         <tr>
             <td>@tablero.getNombre()</td>
-            <td></td>
+            <td>
+              <a href="@routes.GestionTablerosController.participarTablero(usuario.getId(), tablero.getId())">
+                  <span>Participar</span>
+              </a>
+            </td>
         </tr>
       }
 
       <tr>
-          <td><a href="@routes.GestionTablerosController.formularioNuevoTablero(usuario.getId())">
-              <span class="glyphicon glyphicon-plus"/></a></td>
+          <td></td>
           <td><a href="@routes.UsuarioController.logout()">Salir</a></td>
       </tr>
 
