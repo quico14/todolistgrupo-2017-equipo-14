@@ -85,4 +85,12 @@ public class TableroService {
     return tableros;
   }
 
+  public Tablero findTableroPorId(Long id) {
+    Tablero tablero = tableroRepository.findById(id);
+    if (tablero == null) {
+      throw new TableroServiceException("Tablero no existente");
+    }
+     return tablero;
+  }
+
 }
