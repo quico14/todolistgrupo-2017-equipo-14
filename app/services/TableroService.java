@@ -73,4 +73,16 @@ public class TableroService {
     return tableros;
   }
 
+  public List<Tablero> getTablerosSinRelacion(Long idUsuario) {
+    Usuario usuario = usuarioRepository.findById(idUsuario);
+    if (usuario == null) {
+      throw new TableroServiceException("Usuario no existente");
+    }
+    List<Tablero> tableros = tableroRepository.allTableros();
+    tableros.removeAll(getTableros(idUsuario));
+    tableros.removeAll(allTablerosUsuario(idUsuario));
+    Collections.sort(tableros, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+    return tableros;
+  }
+
 }

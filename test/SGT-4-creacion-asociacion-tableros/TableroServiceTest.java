@@ -115,7 +115,7 @@ public class TableroServiceTest {
     assertEquals(tableroActualizado, tableroQuery);
   }
 
-  // Test #43: allParticipantesTablero
+  // Test #43: allTablerosParticipando
   @Test
   public void allTablerosParticipando() {
      TableroService tableroService = newTableroService();
@@ -129,9 +129,25 @@ public class TableroServiceTest {
      assertEquals(1, tableroService.getTableros(1001L).size());
      tableroService.addParticipante(1001L, tablero2);
      assertEquals(2, tableroService.getTableros(1001L).size());
-     List<Tablero> tableros = tableroService.allTablerosUsuario(1000L);
+  }
 
-     assertEquals("Tablero test 2", tableros.get(1).getNombre());
+  // Test #44: allTablerosSinRelacion
+  @Test
+  public void allTablerosSinRelacion() {
+     TableroService tableroService = newTableroService();
+     TableroRepository tableroRepository = newTableroRepository();
+
+     Tablero tableroCreado = tableroService.nuevoTablero(1001L, "Tablero universidad");
+
+     Tablero tablero = tableroService.allTablerosUsuario(1000L).get(0);
+     Tablero tablero2 = tableroService.allTablerosUsuario(1000L).get(1);
+
+     assertEquals(2, tableroService.getTablerosSinRelacion(1001L).size());
+     tableroService.addParticipante(1001L, tablero);
+     assertEquals(tablero2, tableroService.getTablerosSinRelacion(1001L).get(0));
+     assertEquals(1, tableroService.getTablerosSinRelacion(1001L).size());
+     tableroService.addParticipante(1001L, tablero2);
+     assertEquals(0, tableroService.getTablerosSinRelacion(1001L).size());
   }
 
 }
