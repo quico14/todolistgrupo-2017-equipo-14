@@ -37,7 +37,7 @@ public class TableroService {
      return tableroRepository.add(tablero);
   }
 
-  // Devuelve la lista de tableros administrados por un usuario, ordenadas por su id
+  // Devuelve la lista de tableros administrados por un usuario, ordenados por su id
   // (equivalente al orden de creación)
   public List<Tablero> allTablerosUsuario(Long idUsuario) {
     Usuario usuario = usuarioRepository.findById(idUsuario);
@@ -59,6 +59,18 @@ public class TableroService {
     tablero.setParticipantes(participantes);
 
     return tableroRepository.update(tablero);
+  }
+
+  // Devuelve los tableros en los que participa un usuario, ordenados por su id
+  // (equivalente al orden de creación)
+  public List<Tablero> getTableros(Long idUsuario) {
+    Usuario usuario = usuarioRepository.findById(idUsuario);
+    if (usuario == null) {
+      throw new TableroServiceException("Usuario no existente");
+    }
+    List<Tablero> tableros = new ArrayList<Tablero>(usuario.getTableros());
+    Collections.sort(tableros, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+    return tableros;
   }
 
 }

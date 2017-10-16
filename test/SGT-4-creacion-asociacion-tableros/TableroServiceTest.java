@@ -24,6 +24,8 @@ import models.UsuarioRepository;
 
 import services.TableroService;
 import services.TableroServiceException;
+import services.UsuarioService;
+import services.UsuarioServiceException;
 
 import java.util.Set;
 import java.util.List;
@@ -63,6 +65,10 @@ public class TableroServiceTest {
 
   private TableroService newTableroService() {
      return injector.instanceOf(TableroService.class);
+  }
+
+  private UsuarioService newUsuarioService() {
+     return injector.instanceOf(UsuarioService.class);
   }
 
   private TableroRepository newTableroRepository() {
@@ -107,6 +113,25 @@ public class TableroServiceTest {
     Tablero tableroQuery = tableroService.allTablerosUsuario(1000L).get(0);
 
     assertEquals(tableroActualizado, tableroQuery);
+  }
+
+  // Test #43: allParticipantesTablero
+  @Test
+  public void allTablerosParticipando() {
+     TableroService tableroService = newTableroService();
+
+     Tablero tablero = tableroService.allTablerosUsuario(1000L).get(0);
+     Tablero tablero2 = tableroService.allTablerosUsuario(1000L).get(1);
+
+     assertEquals(0, tableroService.getTableros(1001L).size());
+     tableroService.addParticipante(1001L, tablero);
+     assertEquals(tablero, tableroService.getTableros(1001L).get(0));
+     assertEquals(1, tableroService.getTableros(1001L).size());
+     tableroService.addParticipante(1001L, tablero2);
+     assertEquals(2, tableroService.getTableros(1001L).size());
+     List<Tablero> tableros = tableroService.allTablerosUsuario(1000L);
+
+     assertEquals("Tablero test 2", tableros.get(1).getNombre());
   }
 
 }
