@@ -72,38 +72,5 @@ public class GestionTablerosController extends Controller {
         return ok(listaTableros.render(tableros, usuario, aviso));
       }
   }
-  //
-  // @Security.Authenticated(ActionAuthenticator.class)
-  // public Result formularioEditaTarea(Long idTarea) {
-  //   Tarea tarea = tareaService.obtenerTarea(idTarea);
-  //   if (tarea == null) {
-  //     return notFound("Tarea no encontrada");
-  //   } else {
-  //     String connectedUserStr = session("connected");
-  //     Long connectedUser =  Long.valueOf(connectedUserStr);
-  //     if (connectedUser != tarea.getUsuario().getId()) {
-  //       return unauthorized("Lo siento, no estás autorizado");
-  //     } else {
-  //       return ok(formModificacionTarea.render(tarea.getUsuario().getId(),
-  //       tarea.getId(),
-  //       tarea.getTitulo(),
-  //       ""));
-  //     }
-  //   }
-  // }
-  //
-  // @Security.Authenticated(ActionAuthenticator.class)
-  // public Result grabaTareaModificada(Long idTarea) {
-  //    DynamicForm requestData = formFactory.form().bindFromRequest();
-  //    String nuevoTitulo = requestData.get("titulo");
-  //    Tarea tarea = tareaService.modificaTarea(idTarea, nuevoTitulo);
-  //    return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
-  // }
-  //
-  // @Security.Authenticated(ActionAuthenticator.class)
-  // public Result borraTarea(Long idTarea) {
-  //    tareaService.borraTarea(idTarea);
-  //    flash("aviso", "Tarea borrada correctamente");
-  //    return ok();
-  // }
+
 }
