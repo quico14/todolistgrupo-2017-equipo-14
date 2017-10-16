@@ -23,8 +23,11 @@ GET     /perfiles/:id           controllers.UsuarioController.formularioUpdate(i
 POST    /perfiles/:id           controllers.UsuarioController.updateUsuario(id: Long)
 
 GET     /usuarios/:id/tareas/nueva  controllers.GestionTareasController.formularioNuevaTarea(id: Long)
+GET     /usuarios/:id/tableros/nuevo  controllers.GestionTablerosController.formularioNuevoTablero(id: Long)
 POST    /usuarios/:id/tareas/nueva  controllers.GestionTareasController.creaNuevaTarea(id: Long)
+POST    /usuarios/:id/tableros/nuevo  controllers.GestionTablerosController.creaNuevoTablero(id: Long)
 GET     /usuarios/:id/tareas        controllers.GestionTareasController.listaTareas(id: Long)
+GET     /usuarios/:id/tableros        controllers.GestionTablerosController.listaTableros(id: Long)
 GET     /tareas/:id/editar          controllers.GestionTareasController.formularioEditaTarea(id: Long)
 POST    /tareas/:id/editar          controllers.GestionTareasController.grabaTareaModificada(id: Long)
 DELETE  /tareas/:id                 controllers.GestionTareasController.borraTarea(id: Long)
