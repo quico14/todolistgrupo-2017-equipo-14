@@ -81,4 +81,20 @@ public class TableroServiceTest {
      assertEquals(tableroCreado, tableroBD);
   }
 
+  // Test #40: allTareasUsuarioEstanOrdenadas
+  @Test
+  public void allTablerosUsuarioEstanOrdenadas() {
+     TableroService tableroService = newTableroService();
+     List<Tablero> tableros = tableroService.allTablerosUsuario(1000L);
+     assertEquals("Tablero test 1", tableros.get(0).getNombre());
+     assertEquals("Tablero test 2", tableros.get(1).getNombre());
+  }
+
+  // Test #41: usuarioNoExisteRecuperandoAdministrados
+  @Test(expected = TableroServiceException.class)
+  public void usuarioNoExisteRecuperandoAdministrados(){
+     TableroService tableroService = newTableroService();
+     List<Tablero> tableros = tableroService.allTablerosUsuario(1023301L);
+  }
+
 }
