@@ -90,4 +90,18 @@ public class GestionTablerosController extends Controller {
       }
   }
 
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result detalleTablero(Long idUsuario, Long idTablero) {
+     String connectedUserStr = session("connected");
+     Long connectedUser =  Long.valueOf(connectedUserStr);
+     if (connectedUser != idUsuario) {
+        return unauthorized("Lo siento, no estás autorizado");
+     } else {
+        String aviso = flash("aviso");
+        Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+        Tablero tablero = tableroService.findTableroPorId(idTablero);
+        return ok(detalleTablero.render(tablero));
+      }
+  }
+
 }
