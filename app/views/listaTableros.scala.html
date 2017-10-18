@@ -10,7 +10,7 @@
         </tr>
     @for(tablero <- tablerosAdmin) {
         <tr>
-            <td>@tablero.getNombre()</td>
+            <td><a href="@routes.GestionTablerosController.detalleTablero(usuario.getId(), tablero.getId())">@tablero.getNombre()</a></td>
             <td></td>
         </tr>
       }
@@ -18,7 +18,7 @@
       <tr>
           <td><a href="@routes.GestionTablerosController.formularioNuevoTablero(usuario.getId())">
               <span class="glyphicon glyphicon-plus"/></a></td>
-          <td><a href="@routes.UsuarioController.logout()">Salir</a></td>
+          <td><a href="@routes.UsuarioController.formularioLogin()">Salir</a></td>
       </tr>
 
   </table>
@@ -32,14 +32,14 @@
         </tr>
     @for(tablero <- tablerosParticipa) {
         <tr>
-            <td>@tablero.getNombre()</td>
+            <td><a href="@routes.GestionTablerosController.detalleTablero(usuario.getId(), tablero.getId())">@tablero.getNombre()</a></td>
             <td></td>
         </tr>
       }
 
       <tr>
           <td></td>
-          <td><a href="@routes.UsuarioController.logout()">Salir</a></td>
+          <td><a href="@routes.UsuarioController.formularioLogin()">Salir</a></td>
       </tr>
 
   </table>
@@ -53,7 +53,7 @@
         </tr>
     @for(tablero <- tablerosSinRelacion) {
         <tr>
-            <td>@tablero.getNombre()</td>
+            <td><a href="@routes.GestionTablerosController.detalleTablero(usuario.getId(), tablero.getId())">@tablero.getNombre()</a></td>
             <td>
               <a href="@routes.GestionTablerosController.participarTablero(usuario.getId(), tablero.getId())">
                   <span>Participar</span>
@@ -64,7 +64,7 @@
 
       <tr>
           <td></td>
-          <td><a href="@routes.UsuarioController.logout()">Salir</a></td>
+          <td><a href="@routes.UsuarioController.formularioLogin()">Salir</a></td>
       </tr>
 
   </table>

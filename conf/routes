@@ -24,7 +24,8 @@ POST    /perfiles/:id                                 controllers.UsuarioControl
 
 GET     /usuarios/:id/tareas/nueva                    controllers.GestionTareasController.formularioNuevaTarea(id: Long)
 GET     /usuarios/:id/tableros/nuevo                  controllers.GestionTablerosController.formularioNuevoTablero(id: Long)
-GET    /usuarios/:id/tableros/:idTablero/participar   controllers.GestionTablerosController.participarTablero(id: Long, idTablero: Long)
+GET     /usuarios/:id/tableros/:idTablero/participar  controllers.GestionTablerosController.participarTablero(id: Long, idTablero: Long)
+GET     /usuarios/:id/tableros/:idTablero             controllers.GestionTablerosController.detalleTablero(id: Long, idTablero: Long)
 POST    /usuarios/:id/tareas/nueva                    controllers.GestionTareasController.creaNuevaTarea(id: Long)
 POST    /usuarios/:id/tableros/nuevo                  controllers.GestionTablerosController.creaNuevoTablero(id: Long)
 GET     /usuarios/:id/tareas                          controllers.GestionTareasController.listaTareas(id: Long)
