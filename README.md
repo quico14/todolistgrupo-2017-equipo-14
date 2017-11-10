@@ -1,5 +1,5 @@
 # Play Java Starter
-Build rama master: ![alt text](https://travis-ci.com/mads-ua/todolistgrupo-2017-equipo-14.svg?token=MpytqqNVzspp86isJF2c&branch=integracion-travis)
+Build rama master: [![Build Status](https://travis-ci.com/mads-ua/todolistgrupo-2017-equipo-14.svg?token=MpytqqNVzspp86isJF2c&branch=integracion-travis)](https://travis-ci.com/mads-ua/todolistgrupo-2017-equipo-14)
 
 This is a starter application that shows how Play works.  Please see the documentation at https://www.playframework.com/documentation/latest/Home for more details.
 
