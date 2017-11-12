@@ -63,7 +63,7 @@ public class ModeloRepositorioTableroTest {
 
     assertEquals("juangutierrez", tablero.getAdministrador().getLogin());
     assertEquals("juangutierrez@gmail.com", tablero.getAdministrador().getEmail());
-    assertEquals("Tablero 1", "Fallo en test");
+    assertEquals("Tablero 1", "tablero.getNombre()");
   }
 
   //Test #33
