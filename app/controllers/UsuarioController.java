@@ -50,6 +50,10 @@ public class UsuarioController extends Controller {
      return redirect(controllers.routes.UsuarioController.formularioLogin());
   }
 
+  public Result acercaDe(){
+    return ok(acercaDe.render());
+  }
+
   // Comprobamos si hay alguien logeado con @Security.Authenticated(ActionAuthenticator.class)
   // https://alexgaribay.com/2014/06/15/authentication-in-play-framework-using-java/
   @Security.Authenticated(ActionAuthenticator.class)
