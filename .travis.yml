@@ -1,9 +1,5 @@
 sudo: required
 
-env:
-  - DOCKER_USERNAME = madsequipo14
-  - DOCKER_PASSWORD = MADSequipo14
-
 language: bash
 
 services:
@@ -19,4 +15,4 @@ script:
 
 after_success:
    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-   - docker push USER/REPO;
+   - docker push madsequipo14/mads-todolist-2017;
