@@ -2,6 +2,11 @@ sudo: required
 
 language: bash
 
+branches:
+  only:
+  - master
+  - production
+
 services:
   - docker
 
@@ -14,5 +19,8 @@ script:
    - docker run --link play-mysql:mysql --rm -e DB_URL="jdbc:mysql://play-mysql:3306/mads" -e DB_USER_NAME="root" -e DB_USER_PASSWD="mads" madsequipo14/mads-todolist-2017:$TRAVIS_BUILD_NUMBER /bin/bash -c "sbt '; set javaOptions += \"-Dconfig.file=conf/integration.conf\"; test'"
 
 after_success:
-   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-   - docker push madsequipo14/mads-todolist-2017;
+   - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+    docker push madsequipo14/mads-todolist-2017;
+    docker push madsequipo14/mads-todolist-2017:latest;
+    fi
