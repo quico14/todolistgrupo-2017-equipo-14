@@ -55,6 +55,22 @@ public class TareaService {
      return tarea;
   }
 
+  public Tarea cambiaTerminada(Long idTarea) {
+    Tarea tarea = tareaRepository.findById(idTarea);
+    if (tarea == null) {
+      throw new TareaServiceException("No existe tarea");
+    }
+
+    if (tarea.getTerminada()) {
+      tarea.setTerminada(false);
+    } else {
+      tarea.setTerminada(true);
+    }
+
+    tarea = tareaRepository.update(tarea);
+    return tarea;
+  }
+
   public void borraTarea(Long idTarea) {
      Tarea tarea = tareaRepository.findById(idTarea);
      if (tarea == null)

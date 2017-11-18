@@ -92,4 +92,27 @@ public class TareaServiceTest {
      tareaService.borraTarea(idTarea);
      assertNull(tareaService.obtenerTarea(idTarea));
   }
+
+  // Test #46: borrado tarea
+  @Test
+  public void cambiaTerminada() {
+     TareaService tareaService = newTareaService();
+     long idTarea = 1000L;
+     Tarea tareaDevuelta = tareaService.cambiaTerminada(idTarea);
+     assertEquals(tareaDevuelta, tareaService.obtenerTarea(idTarea));
+     assertTrue(tareaService.obtenerTarea(idTarea).getTerminada());
+  }
+
+  // Test #46: borrado tarea
+  @Test
+  public void cambiaTerminadaDosVeces() {
+     TareaService tareaService = newTareaService();
+     long idTarea = 1000L;
+     Tarea tareaDevuelta = tareaService.cambiaTerminada(idTarea);
+     assertEquals(tareaDevuelta, tareaService.obtenerTarea(idTarea));
+     assertTrue(tareaService.obtenerTarea(idTarea).getTerminada());
+     tareaDevuelta = tareaService.cambiaTerminada(idTarea);
+     assertEquals(tareaDevuelta, tareaService.obtenerTarea(idTarea));
+     assertFalse(tareaService.obtenerTarea(idTarea).getTerminada());
+  }
 }
