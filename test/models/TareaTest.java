@@ -141,4 +141,12 @@ public class TareaTest {
     assertEquals(3, usuario.getTareas().size());
   }
 
+  // Test #45 testTerminada
+  @Test
+  public void testTerminada() {
+    TareaRepository repository = newTareaRepository();
+    Tarea tarea = repository.findById(1000L);
+    assertFalse(tarea.getTerminada());
+  }
+
 }
