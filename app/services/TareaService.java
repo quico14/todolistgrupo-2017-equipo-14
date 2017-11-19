@@ -60,12 +60,7 @@ public class TareaService {
     if (tarea == null) {
       throw new TareaServiceException("No existe tarea");
     }
-
-    if (tarea.getTerminada()) {
-      tarea.setTerminada(false);
-    } else {
-      tarea.setTerminada(true);
-    }
+    tarea.setTerminada(!tarea.getTerminada());
 
     tarea = tareaRepository.update(tarea);
     return tarea;
