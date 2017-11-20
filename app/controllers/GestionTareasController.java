@@ -98,16 +98,26 @@ public class GestionTareasController extends Controller {
 
   @Security.Authenticated(ActionAuthenticator.class)
   public Result grabaTareaModificada(Long idTarea) throws ParseException{
-     DynamicForm requestData = formFactory.form().bindFromRequest();
-     String nuevoTitulo = requestData.get("titulo");
-     String nuevaFechaLimite = requestData.get("fechaLimite");
-     Date d_nuevafecha = null;
-     if(!nuevaFechaLimite.equals("")) {
+    Tarea tarea = tareaService.obtenerTarea(idTarea);
+    DynamicForm requestData = formFactory.form().bindFromRequest();
+    String nuevoTitulo = requestData.get("titulo");
+    String nuevaFechaLimite = requestData.get("fechaLimite");
+    Date d_nuevafecha = null;
+    if(!nuevaFechaLimite.equals("")) {
+       Date currentDate = new Date();
        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
        d_nuevafecha = sdf.parse(nuevaFechaLimite);
-     }
-     Tarea tarea = tareaService.modificaTarea(idTarea, nuevoTitulo, d_nuevafecha);
-     return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId(), false));
+       if (d_nuevafecha.before(currentDate)) {
+         String mensaje = "La fecha límite no puede ser anterior a la actual";
+         return ok(formModificacionTarea.render(tarea.getUsuario(), tarea.getUsuario().getId(),
+         tarea.getId(),
+         tarea.getTitulo(),
+         tarea.getFechaLimite(),
+         mensaje));
+       }
+    }
+    Tarea tareaModificada = tareaService.modificaTarea(idTarea, nuevoTitulo, d_nuevafecha);
+    return redirect(controllers.routes.GestionTareasController.listaTareas(tareaModificada.getUsuario().getId(), false));
   }
 
   @Security.Authenticated(ActionAuthenticator.class)
