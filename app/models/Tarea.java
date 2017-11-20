@@ -1,6 +1,11 @@
 package models;
 
+import java.util.Date;
 import javax.persistence.*;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import play.data.format.*;
 
 @Entity
 public class Tarea {
@@ -9,6 +14,8 @@ public class Tarea {
   private Long id;
   private String titulo;
   private boolean terminada;
+  @Formats.DateTime(pattern="dd-MM-yyyy HH:mm:ss") // para el formulario
+  private Date fechaCreacion;
   // Relación muchos-a-uno entre tareas y usuario
   @ManyToOne
   // Nombre de la columna en la BD que guarda físicamente
@@ -47,6 +54,14 @@ public class Tarea {
 
   public void setTerminada(boolean terminada) {
      this.terminada = terminada;
+  }
+
+  public Date getFechaCreacion() {
+     return fechaCreacion;
+  }
+
+  public void setFechaCreacion(Date fechaCreacion) {
+     this.fechaCreacion = fechaCreacion;
   }
 
   public Usuario getUsuario() {
