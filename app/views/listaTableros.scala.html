@@ -1,5 +1,5 @@
 @(tablerosAdmin: List[Tablero], tablerosParticipa: List[Tablero], tablerosSinRelacion: List[Tablero], usuario: Usuario, mensaje: String)
-@main("Tableros administrados por el usuario @usuario.getLogin()") {
+@main("Tableros administrados por el usuario @usuario.getLogin()", usuario) {
 
     <h2> Listado de tableros administrados por @usuario.getLogin()</h2>
 

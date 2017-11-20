@@ -1,11 +1,11 @@
-@(tablero: Tablero)
+@(tablero: Tablero, usuario: Usuario)
 
 <style type="text/css">
             dummydeclaration { padding-left: 4em; } /* Firefox ignores first declaration for some reason */
             tab1 { padding-left: 4em; }
         </style>
 
-@main("Detalle de tablero") {
+@main("Detalle de tablero", usuario) {
   <h1>Detalle del tablero @tablero.getId()</h1>
   <ul>
      <li><strong>Nombre: </strong> @tablero.getNombre()</li>

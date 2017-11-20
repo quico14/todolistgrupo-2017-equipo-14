@@ -1,5 +1,5 @@
-@(registroForm: Form[Registro], mensaje: String)
-@main("Registro usuario") {
+@(registroForm: Form[Registro], usuario: Usuario, mensaje: String)
+@main("Registro usuario", usuario) {
   @if(mensaje != "") {
     <div class="alert alert-danger">
         @mensaje
