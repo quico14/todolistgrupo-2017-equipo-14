@@ -52,12 +52,12 @@ public class GestionTareasController extends Controller {
         Tarea tarea = tareaForm.get();
         tareaService.nuevaTarea(idUsuario, tarea.getTitulo());
         flash("aviso", "La tarea se ha grabado correctamente");
-        return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario));
+        return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario, false));
      }
   }
 
   @Security.Authenticated(ActionAuthenticator.class)
-  public Result listaTareas(Long idUsuario) {
+  public Result listaTareas(Long idUsuario, boolean showTerminadas) {
      String connectedUserStr = session("connected");
      Long connectedUser =  Long.valueOf(connectedUserStr);
      if (connectedUser != idUsuario) {
@@ -66,7 +66,8 @@ public class GestionTareasController extends Controller {
         String aviso = flash("aviso");
         Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
         List<Tarea> tareas = tareaService.allTareasUsuario(idUsuario);
-        return ok(listaTareas.render(tareas, usuario, aviso));
+
+        return ok(listaTareas.render(tareas, usuario, aviso, showTerminadas));
       }
   }
 
@@ -94,7 +95,7 @@ public class GestionTareasController extends Controller {
      DynamicForm requestData = formFactory.form().bindFromRequest();
      String nuevoTitulo = requestData.get("titulo");
      Tarea tarea = tareaService.modificaTarea(idTarea, nuevoTitulo);
-     return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
+     return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId(), false));
   }
 
   @Security.Authenticated(ActionAuthenticator.class)

@@ -118,7 +118,7 @@ public class UsuarioController extends Controller {
         // la sesión de Play
         // https://www.playframework.com/documentation/2.5.x/JavaSessionFlash
         session("connected", usuario.getId().toString());
-        return redirect(controllers.routes.GestionTareasController.listaTareas(usuario.getId()));
+        return redirect(controllers.routes.GestionTareasController.listaTareas(usuario.getId(), false));
      }
   }
 
@@ -128,7 +128,7 @@ public class UsuarioController extends Controller {
   public Result logout() {
     String connectedUserStr = session("connected");
     session().remove("connected");
-    return redirect(controllers.routes.UsuarioController.loginUsuario());
+    return redirect(controllers.routes.UsuarioController.formularioLogin());
   }
 
   @Security.Authenticated(ActionAuthenticator.class)
