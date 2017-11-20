@@ -101,8 +101,12 @@ public class GestionTareasController extends Controller {
      DynamicForm requestData = formFactory.form().bindFromRequest();
      String nuevoTitulo = requestData.get("titulo");
      String nuevaFechaLimite = requestData.get("fechaLimite");
-     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-     Tarea tarea = tareaService.modificaTarea(idTarea, nuevoTitulo, sdf.parse(nuevaFechaLimite));
+     Date d_nuevafecha = null;
+     if(!nuevaFechaLimite.equals("")) {
+       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+       d_nuevafecha = sdf.parse(nuevaFechaLimite);
+     }
+     Tarea tarea = tareaService.modificaTarea(idTarea, nuevoTitulo, d_nuevafecha);
      return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId(), false));
   }
 
