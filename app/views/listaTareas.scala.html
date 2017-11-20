@@ -41,7 +41,10 @@
           @if(tarea.getTerminada() == showTerminadas) {
             <tr>
                 <td>@tarea.getTitulo()</td>
-                <td>@tarea.getFechaLimite().format("dd-MM-yyyy")</td>
+                <td>
+                  @if(tarea.getFechaLimite() != null) {
+                      @tarea.getFechaLimite().format("dd-MM-yyyy")
+                  }</td>
                 <td>
                   <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" title="Editar tarea">
                     <span class="glyphicon glyphicon-pencil"></span>&nbsp;
