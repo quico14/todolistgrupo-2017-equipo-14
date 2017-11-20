@@ -154,7 +154,7 @@ public class TareaTest {
     assertFalse(tarea.getTerminada());
   }
 
-  // Test #46 testFechaCreacion
+  // Test #48 testFechaCreacion
   @Test
   public void testFechaCreacion() throws ParseException {
     TareaRepository repository = newTareaRepository();

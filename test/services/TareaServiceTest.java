@@ -25,6 +25,11 @@ import services.UsuarioServiceException;
 import services.TareaService;
 import services.TareaServiceException;
 
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
 public class TareaServiceTest {
   static private Injector injector;
 
@@ -93,7 +98,7 @@ public class TareaServiceTest {
      assertNull(tareaService.obtenerTarea(idTarea));
   }
 
-  // Test #46: borrado tarea
+  // Test #46: cambiaTerminada
   @Test
   public void cambiaTerminada() {
      TareaService tareaService = newTareaService();
@@ -103,7 +108,7 @@ public class TareaServiceTest {
      assertTrue(tareaService.obtenerTarea(idTarea).getTerminada());
   }
 
-  // Test #46: borrado tarea
+  // Test #47: cambiaTerminadaDosVeces
   @Test
   public void cambiaTerminadaDosVeces() {
      TareaService tareaService = newTareaService();
@@ -115,4 +120,23 @@ public class TareaServiceTest {
      assertEquals(tareaDevuelta, tareaService.obtenerTarea(idTarea));
      assertFalse(tareaService.obtenerTarea(idTarea).getTerminada());
   }
+
+  // Test #49: comprobacionFechaCreacion
+  // Comprobamos solo la fecha (no la hora) ya que, al ser segundos es imposible acertar exactamente
+  @Test
+  public void comprobacionFechaCreacion() throws ParseException {
+     TareaService tareaService = newTareaService();
+     long idUsuario = 1000L;
+     tareaService.nuevaTarea(idUsuario, "Comprobar fecha");
+     List<Tarea> tareas = tareaService.allTareasUsuario(1000L);
+
+     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+     int year_fechaCreacion = tareas.get(0).getFechaCreacion().getYear();
+     int month_fechaCreacion = tareas.get(0).getFechaCreacion().getMonth();
+     int day_fechaCreacion = tareas.get(0).getFechaCreacion().getDate();
+     Date hoy_fechaCreacion = new Date(year_fechaCreacion, month_fechaCreacion, day_fechaCreacion);
+     Date hoy = new Date();
+     assertEquals(sdf.format(hoy), sdf.format(hoy_fechaCreacion));
+  }
+
 }

@@ -28,6 +28,7 @@ public class Tarea {
   public Tarea(Usuario usuario, String titulo) {
      this.usuario = usuario;
      this.titulo = titulo;
+     this.fechaCreacion = new Date();
   }
 
   // Getters y setters necesarios para JPA
