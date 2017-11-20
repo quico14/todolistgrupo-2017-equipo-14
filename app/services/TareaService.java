@@ -52,11 +52,12 @@ public class TareaService {
      return tareaRepository.findById(idTarea);
   }
 
-  public Tarea modificaTarea(Long idTarea, String nuevoTitulo) {
+  public Tarea modificaTarea(Long idTarea, String nuevoTitulo, Date nuevaFechaLimite) {
      Tarea tarea = tareaRepository.findById(idTarea);
      if (tarea == null)
           throw new TareaServiceException("No existe tarea");
      tarea.setTitulo(nuevoTitulo);
+     tarea.setFechaLimite(nuevaFechaLimite);
      tarea = tareaRepository.update(tarea);
      return tarea;
   }

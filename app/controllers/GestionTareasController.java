@@ -17,6 +17,11 @@ import models.Usuario;
 import models.Tarea;
 import security.ActionAuthenticator;
 
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
 public class GestionTareasController extends Controller {
 
   @Inject FormFactory formFactory;
@@ -85,16 +90,19 @@ public class GestionTareasController extends Controller {
         return ok(formModificacionTarea.render(tarea.getUsuario(), tarea.getUsuario().getId(),
         tarea.getId(),
         tarea.getTitulo(),
+        tarea.getFechaLimite(),
         ""));
       }
     }
   }
 
   @Security.Authenticated(ActionAuthenticator.class)
-  public Result grabaTareaModificada(Long idTarea) {
+  public Result grabaTareaModificada(Long idTarea) throws ParseException{
      DynamicForm requestData = formFactory.form().bindFromRequest();
      String nuevoTitulo = requestData.get("titulo");
-     Tarea tarea = tareaService.modificaTarea(idTarea, nuevoTitulo);
+     String nuevaFechaLimite = requestData.get("fechaLimite");
+     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+     Tarea tarea = tareaService.modificaTarea(idTarea, nuevoTitulo, sdf.parse(nuevaFechaLimite));
      return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId(), false));
   }
 

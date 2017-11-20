@@ -82,10 +82,11 @@ public class TareaServiceTest {
 
   // Test #22: modificación de tareas
   @Test
-  public void modificacionTarea() {
+  public void modificacionTarea() throws ParseException {
      TareaService tareaService = newTareaService();
      long idTarea = 1000L;
-     tareaService.modificaTarea(idTarea, "Pagar el alquiler");
+     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+     tareaService.modificaTarea(idTarea, "Pagar el alquiler", sdf.parse("2017-12-01"));
      Tarea tarea = tareaService.obtenerTarea(idTarea);
      assertEquals("Pagar el alquiler", tarea.getTitulo());
   }
@@ -139,6 +140,17 @@ public class TareaServiceTest {
      Date hoy_fechaCreacion = new Date(year_fechaCreacion, month_fechaCreacion, day_fechaCreacion);
      Date hoy = new Date();
      assertEquals(sdf.format(hoy), sdf.format(hoy_fechaCreacion));
+  }
+
+  // Test #51: modificacionFechaLimite
+  @Test
+  public void modificacionFechaLimite() throws ParseException {
+     TareaService tareaService = newTareaService();
+     long idTarea = 1000L;
+     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+     tareaService.modificaTarea(idTarea, "Pagar el alquiler", sdf.parse("2017-12-31"));
+     Tarea tarea = tareaService.obtenerTarea(idTarea);
+     assertEquals(sdf.parse("2017-12-31"), tarea.getFechaLimite());
   }
 
 }
