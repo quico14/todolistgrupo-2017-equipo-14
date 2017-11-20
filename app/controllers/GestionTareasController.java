@@ -103,4 +103,11 @@ public class GestionTareasController extends Controller {
      flash("aviso", "Tarea borrada correctamente");
      return ok();
   }
+
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result cambiaTerminada(Long idTarea) {
+    tareaService.cambiaTerminada(idTarea);
+    flash("aviso", "Tarea terminada correctamente");
+    return ok();
+  }
 }

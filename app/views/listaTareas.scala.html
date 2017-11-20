@@ -11,9 +11,19 @@
                  }
              });
          }
+         function terminada(urlTerminada) {
+             $.ajax({
+                 url: urlTerminada,
+                 type: 'PUT',
+                 success: function(results) {
+                     //refresh the page
+                     location.reload();
+                 }
+             });
+         }
      </script>
 }
-@main("Tareas del usuario @usuario.getLogin()", scripts) {
+@main("Tareas no terminadas del usuario @usuario.getLogin()", scripts) {
 
     <h2> Listado de tareas de @usuario.getLogin()</h2>
 
@@ -22,24 +32,32 @@
             <th>Tareas</th>
             <th>Acción</th>
         </tr>
-    @for(tarea <- tareas) {
+        @for(tarea <- tareas) {
+          @if(!tarea.getTerminada()) {
+            <tr>
+                <td>@tarea.getTitulo()</td>
+                <td>
+                  <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" title="Editar tarea">
+                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                  </a>
+                  <a onmouseover="" style="cursor: pointer;" title="Borrar tarea" onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  </a>
+                  <a onmouseover="" style="cursor: pointer;" title="Finalizar tarea" onclick="terminada('@routes.GestionTareasController.cambiaTerminada(tarea.getId())')">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                  </a>
+                </td>
+            </tr>
+          }
+        }
+
         <tr>
-            <td>@tarea.getTitulo()</td>
-            <td><a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())">
-              <span class="glyphicon glyphicon-pencil"></span>&nbsp;
-              <a onmouseover="" style="cursor: pointer;"
-              onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
-              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
+            <td><a href="@routes.GestionTareasController.formularioNuevaTarea(usuario.getId())">
+                <span class="glyphicon glyphicon-plus"/></a></td>
+            <td><a href="@routes.UsuarioController.logout()">Salir</a></td>
         </tr>
-      }
 
-      <tr>
-          <td><a href="@routes.GestionTareasController.formularioNuevaTarea(usuario.getId())">
-              <span class="glyphicon glyphicon-plus"/></a></td>
-          <td><a href="@routes.UsuarioController.logout()">Salir</a></td>
-      </tr>
-
-  </table>
+    </table>
 
   @if(mensaje != null) {
       <div class="alert alert-success">
