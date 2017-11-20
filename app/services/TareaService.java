@@ -10,6 +10,11 @@ import models.UsuarioRepository;
 import models.Tarea;
 import models.TareaRepository;
 
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import play.data.format.*;
+
 
 public class TareaService {
   UsuarioRepository usuarioRepository;
@@ -33,12 +38,13 @@ public class TareaService {
     return tareas;
   }
 
-  public Tarea nuevaTarea(Long idUsuario, String titulo) {
+  public Tarea nuevaTarea(Long idUsuario, String titulo, Date fechaLimite) {
      Usuario usuario = usuarioRepository.findById(idUsuario);
      if (usuario == null) {
         throw new TareaServiceException("Usuario no existente");
      }
      Tarea tarea = new Tarea(usuario, titulo);
+     tarea.setFechaLimite(fechaLimite);
      return tareaRepository.add(tarea);
   }
 

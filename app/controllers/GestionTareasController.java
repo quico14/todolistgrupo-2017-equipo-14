@@ -50,7 +50,7 @@ public class GestionTareasController extends Controller {
            return badRequest(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), "Hay errores en el formulario"));
         }
         Tarea tarea = tareaForm.get();
-        tareaService.nuevaTarea(idUsuario, tarea.getTitulo());
+        tareaService.nuevaTarea(idUsuario, tarea.getTitulo(), tarea.getFechaLimite());
         flash("aviso", "La tarea se ha grabado correctamente");
         return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario, false));
      }
