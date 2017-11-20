@@ -30,6 +30,11 @@ import play.inject.Injector;
 import play.inject.guice.GuiceInjectorBuilder;
 import play.Environment;
 
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
 public class TareaTest {
 
   static Database db;
@@ -147,6 +152,16 @@ public class TareaTest {
     TareaRepository repository = newTareaRepository();
     Tarea tarea = repository.findById(1000L);
     assertFalse(tarea.getTerminada());
+  }
+
+  // Test #48 testFechaCreacion
+  @Test
+  public void testFechaCreacion() throws ParseException {
+    TareaRepository repository = newTareaRepository();
+    Tarea tarea = repository.findById(1000L);
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    assertTrue(tarea.getFechaCreacion().compareTo(sdf.parse("2017-09-09 16:32:00")) == 0);
   }
 
 }
