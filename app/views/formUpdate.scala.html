@@ -1,5 +1,5 @@
 @(registroForm: Form[Update], mensaje: String, id: Long, model: Usuario)
-@main("Actualizar usuario") {
+@main("Actualizar usuario", model) {
   @if(mensaje != "") {
     <div class="alert alert-danger">
         @mensaje

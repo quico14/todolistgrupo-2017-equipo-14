@@ -1,6 +1,6 @@
 @(usuario: Usuario)
 
-@main("Detalle de usuario") {
+@main("Detalle de usuario", usuario) {
   <h1>Detalle del usuario @usuario.getId()</h1>
   <ul>
      <li><strong>Login: </strong> @usuario.getLogin()</li>
