@@ -1,4 +1,4 @@
-@(usuario: Usuario, tareaForm: Form[Tarea], mensaje: String)
+@(usuario: Usuario, titulo: String, fechaLimite: Date, mensaje: String)
 @main("Nueva tarea", usuario) {
    @if(mensaje != "") {
        <div class="alert alert-danger">
@@ -9,8 +9,8 @@
    @helper.form(action = routes.GestionTareasController.creaNuevaTarea(usuario.getId())) {
        <fieldset>
            <legend>Nueva tarea</legend>
-           @helper.inputText(tareaForm("titulo"), '_label -> "Titulo", 'size -> 70)
-           @helper.inputText(tareaForm("fechaLimite"), '_label -> "Fecha Limite", 'size -> 70)
+           Título:  <input type="text" size=70 name="titulo" value= "@titulo"><br>
+           Fecha Limite: <input type="date" size=70 name="fechaLimite" value='@fechaLimite'>
        </fieldset>
        <p>
           <input type="submit" class="btn btn-primary" value="Guardar">

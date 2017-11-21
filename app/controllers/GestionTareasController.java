@@ -38,24 +38,36 @@ public class GestionTareasController extends Controller {
         return unauthorized("Lo siento, no estás autorizado");
      } else {
         Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-        return ok(formNuevaTarea.render(usuario, formFactory.form(Tarea.class),""));
+        return ok(formNuevaTarea.render(usuario, "", null, ""));
      }
   }
 
   @Security.Authenticated(ActionAuthenticator.class)
-  public Result creaNuevaTarea(Long idUsuario) {
+  public Result creaNuevaTarea(Long idUsuario) throws ParseException {
      String connectedUserStr = session("connected");
      Long connectedUser =  Long.valueOf(connectedUserStr);
      if (connectedUser != idUsuario) {
         return unauthorized("Lo siento, no estás autorizado");
      } else {
-        Form<Tarea> tareaForm = formFactory.form(Tarea.class).bindFromRequest();
-        if (tareaForm.hasErrors()) {
+        DynamicForm requestData = formFactory.form().bindFromRequest();
+        String nuevoTitulo = requestData.get("titulo");
+        if (nuevoTitulo.equals("")) {
            Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-           return badRequest(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), "Hay errores en el formulario"));
+           return badRequest(formNuevaTarea.render(usuario, "", null, "El titulo no puede estar vacío."));
         }
-        Tarea tarea = tareaForm.get();
-        tareaService.nuevaTarea(idUsuario, tarea.getTitulo(), tarea.getFechaLimite());
+        String nuevaFechaLimite = requestData.get("fechaLimite");
+        Date d_nuevafecha = null;
+        if(!nuevaFechaLimite.equals("")) {
+           Date currentDate = new Date();
+           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+           d_nuevafecha = sdf.parse(nuevaFechaLimite);
+           if (d_nuevafecha.before(currentDate)) {
+             Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+             String mensaje = "La fecha límite no puede ser anterior a la actual";
+             return badRequest(formNuevaTarea.render(usuario, nuevoTitulo, null, mensaje));
+           }
+        }
+        tareaService.nuevaTarea(idUsuario, nuevoTitulo, d_nuevafecha);
         flash("aviso", "La tarea se ha grabado correctamente");
         return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario, false));
      }
