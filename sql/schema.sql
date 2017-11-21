@@ -33,16 +33,6 @@ CREATE TABLE `Persona_Tablero` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Persona_Tablero`
---
-
-LOCK TABLES `Persona_Tablero` WRITE;
-/*!40000 ALTER TABLE `Persona_Tablero` DISABLE KEYS */;
-INSERT INTO `Persona_Tablero` VALUES (1000,1001);
-/*!40000 ALTER TABLE `Persona_Tablero` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `Tablero`
 --
 
@@ -60,16 +50,6 @@ CREATE TABLE `Tablero` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Tablero`
---
-
-LOCK TABLES `Tablero` WRITE;
-/*!40000 ALTER TABLE `Tablero` DISABLE KEYS */;
-INSERT INTO `Tablero` VALUES (1000,'Tablero test 1',1000),(1001,'Tablero test 2',1000);
-/*!40000 ALTER TABLE `Tablero` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `Tarea`
 --
 
@@ -78,24 +58,16 @@ DROP TABLE IF EXISTS `Tarea`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Tarea` (
   `id` bigint(20) NOT NULL,
+  `fechaCreacion` datetime DEFAULT NULL,
+  `fechaLimite` datetime DEFAULT NULL,
+  `terminada` bit(1) NOT NULL,
   `titulo` varchar(255) DEFAULT NULL,
   `usuarioId` bigint(20) DEFAULT NULL,
-  `terminada` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FKepne2t52y8dmn8l9da0dd7l51` (`usuarioId`),
   CONSTRAINT `FKepne2t52y8dmn8l9da0dd7l51` FOREIGN KEY (`usuarioId`) REFERENCES `Usuario` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Tarea`
---
-
-LOCK TABLES `Tarea` WRITE;
-/*!40000 ALTER TABLE `Tarea` DISABLE KEYS */;
-INSERT INTO `Tarea` VALUES (1000,'Renovar DNI',1000,'\0'),(1001,'Práctica 1 MADS',1000,'\0'),(1002,'Práctica 2 MADS',1000,'\0');
-/*!40000 ALTER TABLE `Tarea` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `Usuario`
@@ -117,16 +89,6 @@ CREATE TABLE `Usuario` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Usuario`
---
-
-LOCK TABLES `Usuario` WRITE;
-/*!40000 ALTER TABLE `Usuario` DISABLE KEYS */;
-INSERT INTO `Usuario` VALUES (1000,'Gutierrez','juan.gutierrez@gmail.com','1993-12-10','juangutierrez','Juan','123456789'),(1001,'Gutierrez Dos','juan.gutierrez@gmail.com','1993-12-10','juangutierrez2','Juan','123456789'),(1002,'Gutierrez Tres','juan.gutierrez@gmail.com','1993-12-10','juangutierrez3','Juan','123456789'),(1100,'Gutierrez','pepe.gutierrez@gmail.com','1996-05-15','pepegutierrez','Pepe','12345');
-/*!40000 ALTER TABLE `Usuario` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `hibernate_sequence`
 --
 
@@ -137,6 +99,7 @@ CREATE TABLE `hibernate_sequence` (
   `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 --
 -- Dumping data for table `hibernate_sequence`
@@ -147,7 +110,6 @@ LOCK TABLES `hibernate_sequence` WRITE;
 INSERT INTO `hibernate_sequence` VALUES (1),(1);
 /*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
