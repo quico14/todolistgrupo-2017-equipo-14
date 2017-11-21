@@ -164,4 +164,14 @@ public class TareaTest {
     assertTrue(tarea.getFechaCreacion().compareTo(sdf.parse("2017-09-09 16:32:00")) == 0);
   }
 
+  // Test #50 testFechaLimite
+  @Test
+  public void testFechaLimite() throws ParseException {
+    TareaRepository repository = newTareaRepository();
+    Tarea tarea = repository.findById(1000L);
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    assertTrue(tarea.getFechaLimite().compareTo(sdf.parse("2017-12-05")) == 0);
+  }
+
 }

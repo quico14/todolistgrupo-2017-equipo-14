@@ -16,6 +16,8 @@ public class Tarea {
   private boolean terminada;
   @Formats.DateTime(pattern="dd-MM-yyyy HH:mm:ss") // para el formulario
   private Date fechaCreacion;
+  @Formats.DateTime(pattern="dd-MM-yyyy") // para el formulario
+  private Date fechaLimite;
   // Relación muchos-a-uno entre tareas y usuario
   @ManyToOne
   // Nombre de la columna en la BD que guarda físicamente
@@ -63,6 +65,14 @@ public class Tarea {
 
   public void setFechaCreacion(Date fechaCreacion) {
      this.fechaCreacion = fechaCreacion;
+  }
+
+  public Date getFechaLimite() {
+     return fechaLimite;
+  }
+
+  public void setFechaLimite(Date fechaLimite) {
+     this.fechaLimite = fechaLimite;
   }
 
   public Usuario getUsuario() {
