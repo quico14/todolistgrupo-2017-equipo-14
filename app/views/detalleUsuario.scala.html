@@ -1,7 +1,7 @@
 @(usuario: Usuario)
 
-@main("Detalle de usuario") {
-  <h1>Detalle del usuario @usuario.getId()</h1>
+@main("Detalle de usuario", usuario) {
+  <h1>Perfil de <strong>@usuario.getLogin()</strong></h1>
   <ul>
      <li><strong>Login: </strong> @usuario.getLogin()</li>
      <li><strong>Email: </strong> @usuario.getEmail()</li>
@@ -12,4 +12,6 @@
                @usuario.getFechaNacimiento().format("dd-MM-yyyy")
            }</li>
   </ul>
+</table>
+  <td><a href="@routes.UsuarioController.formularioUpdate(usuario.getId())">Modificar Perfil</a></td>
 }

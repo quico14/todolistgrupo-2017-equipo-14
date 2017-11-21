@@ -1,4 +1,5 @@
-@main("Acerca de") {
+@(usuario: Usuario)
+@main("Acerca de", usuario) {
   <h2>Acerca de</h2>
   <table class="table table-striped">
       <tr>
@@ -12,9 +13,9 @@
       </tr>
   </table>
   <div class="card-footer text-muted">
-    <div class="pull-left">Versión: 1.0 </div>
+    <div class="pull-left">Versión: 1.1 </div>
     <div class="pull-right">
-      <div class="text-right">Versión publicada el 13/11/2017</div>
+      <div class="text-right">Versión publicada el 21/11/2017</div>
     </div>
   </div>
 }

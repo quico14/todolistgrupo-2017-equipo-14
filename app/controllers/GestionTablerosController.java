@@ -100,7 +100,7 @@ public class GestionTablerosController extends Controller {
         String aviso = flash("aviso");
         Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
         Tablero tablero = tableroService.findTableroPorId(idTablero);
-        return ok(detalleTablero.render(tablero));
+        return ok(detalleTablero.render(tablero, usuario));
       }
   }
 

@@ -1,5 +1,5 @@
-@(loginForm: Form[Login], mensaje: String)
-@main("Registro usuario") {
+@(loginForm: Form[Login], usuario: Usuario, mensaje: String)
+@main("Registro usuario", usuario) {
   @if(mensaje != "") {
      <div class="alert alert-danger">
         @mensaje
@@ -14,7 +14,6 @@
      </fieldset>
      <p>
         <button type="submit" class="btn btn-primary">Login</button>
-        <a class="btn btn-link" href="@routes.UsuarioController.registroUsuario()">Ir a registro</a>
      </p>
   }
 }

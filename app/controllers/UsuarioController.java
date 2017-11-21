@@ -27,31 +27,35 @@ public class UsuarioController extends Controller {
 
 
   public Result saludo(String mensaje) {
-     return ok(saludo.render("El mensaje que he recibido es: " + mensaje));
+    Usuario usuario = new Usuario();
+     return ok(saludo.render("El mensaje que he recibido es: " + mensaje, usuario));
   }
 
   public Result formularioRegistro() {
-     return ok(formRegistro.render(formFactory.form(Registro.class),""));
+    Usuario usuario = new Usuario();
+     return ok(formRegistro.render(formFactory.form(Registro.class),usuario,""));
   }
 
   public Result registroUsuario() {
+    Usuario usuario2 = new Usuario();
      Form<Registro> form = formFactory.form(Registro.class).bindFromRequest();
      if (form.hasErrors()) {
-        return badRequest(formRegistro.render(form, "Hay errores en el formulario"));
+        return badRequest(formRegistro.render(form, usuario2, "Hay errores en el formulario"));
      }
      Registro datosRegistro = form.get();
      if (usuarioService.findUsuarioPorLogin(datosRegistro.login) != null) {
-        return badRequest(formRegistro.render(form, "Login ya existente: escoge otro"));
+        return badRequest(formRegistro.render(form, usuario2, "Login ya existente: escoge otro"));
      }
      if (!datosRegistro.password.equals(datosRegistro.confirmacion)) {
-        return badRequest(formRegistro.render(form, "No coinciden la contraseña y la confirmación"));
+        return badRequest(formRegistro.render(form,usuario2, "No coinciden la contraseña y la confirmación"));
      }
      Usuario usuario = usuarioService.creaUsuario(datosRegistro.login, datosRegistro.email, datosRegistro.password);
      return redirect(controllers.routes.UsuarioController.formularioLogin());
   }
 
   public Result acercaDe(){
-    return ok(acercaDe.render());
+    Usuario usuario = new Usuario();
+    return ok(acercaDe.render(usuario));
   }
 
   // Comprobamos si hay alguien logeado con @Security.Authenticated(ActionAuthenticator.class)
@@ -101,24 +105,26 @@ public class UsuarioController extends Controller {
   }
 
   public Result formularioLogin() {
-     return ok(formLogin.render(formFactory.form(Login.class),""));
+    Usuario usuario = new Usuario();
+     return ok(formLogin.render(formFactory.form(Login.class),usuario, ""));
   }
 
   public Result loginUsuario() {
+    Usuario usuario2 = new Usuario();
      Form<Login> form = formFactory.form(Login.class).bindFromRequest();
      if (form.hasErrors()) {
-        return badRequest(formLogin.render(form, "Hay errores en el formulario"));
+        return badRequest(formLogin.render(form,usuario2, "Hay errores en el formulario"));
      }
      Login login = form.get();
      Usuario usuario = usuarioService.login(login.username, login.password);
      if (usuario == null) {
-        return notFound(formLogin.render(form, "Login y contraseña no existentes"));
+        return notFound(formLogin.render(form,usuario, "Login y contraseña no existentes"));
      } else {
         // Añadimos el id del usuario a la clave `connected` de
         // la sesión de Play
         // https://www.playframework.com/documentation/2.5.x/JavaSessionFlash
         session("connected", usuario.getId().toString());
-        return redirect(controllers.routes.GestionTareasController.listaTareas(usuario.getId()));
+        return redirect(controllers.routes.GestionTareasController.listaTareas(usuario.getId(), false));
      }
   }
 
@@ -128,7 +134,7 @@ public class UsuarioController extends Controller {
   public Result logout() {
     String connectedUserStr = session("connected");
     session().remove("connected");
-    return redirect(controllers.routes.UsuarioController.loginUsuario());
+    return redirect(controllers.routes.UsuarioController.formularioLogin());
   }
 
   @Security.Authenticated(ActionAuthenticator.class)

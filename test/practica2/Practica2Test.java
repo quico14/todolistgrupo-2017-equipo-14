@@ -35,6 +35,11 @@ import services.UsuarioServiceException;
 import services.TareaService;
 import services.TareaServiceException;
 
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
 public class Practica2Test {
 
   static Database db;
@@ -93,10 +98,11 @@ public class Practica2Test {
 
   // Test #30: modificacionTareaInexistente
   @Test(expected = TareaServiceException.class)
-  public void modificacionTarea() {
+  public void modificacionTarea() throws ParseException {
      TareaService tareaService = newTareaService();
      long idTarea = 9837598;
-     tareaService.modificaTarea(idTarea, "Pagar el alquiler");
+     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+     tareaService.modificaTarea(idTarea, "Pagar el alquiler", sdf.parse("2017-12-01"));
   }
 
   //Test 31: findUsuarioPorLoginInexistente

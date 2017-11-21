@@ -1,5 +1,5 @@
 @(tablerosAdmin: List[Tablero], tablerosParticipa: List[Tablero], tablerosSinRelacion: List[Tablero], usuario: Usuario, mensaje: String)
-@main("Tableros administrados por el usuario @usuario.getLogin()") {
+@main("Tableros administrados por el usuario @usuario.getLogin()", usuario) {
 
     <h2> Listado de tableros administrados por @usuario.getLogin()</h2>
 
@@ -18,7 +18,7 @@
       <tr>
           <td><a href="@routes.GestionTablerosController.formularioNuevoTablero(usuario.getId())">
               <span class="glyphicon glyphicon-plus"/></a></td>
-          <td><a href="@routes.UsuarioController.formularioLogin()">Salir</a></td>
+              <td></td>
       </tr>
 
   </table>
@@ -36,10 +36,9 @@
             <td></td>
         </tr>
       }
-
       <tr>
           <td></td>
-          <td><a href="@routes.UsuarioController.formularioLogin()">Salir</a></td>
+          <td></td>
       </tr>
 
   </table>
@@ -61,12 +60,10 @@
             </td>
         </tr>
       }
-
       <tr>
-          <td></td>
-          <td><a href="@routes.UsuarioController.formularioLogin()">Salir</a></td>
+        <td></td>
+        <td></td>
       </tr>
-
   </table>
 
   @if(mensaje != null) {
