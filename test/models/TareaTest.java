@@ -174,4 +174,13 @@ public class TareaTest {
     assertTrue(tarea.getFechaLimite().compareTo(sdf.parse("2017-12-05")) == 0);
   }
 
+  // Test 59: testTareaTablero
+  @Test
+  public void testTareaTablero() {
+    TareaRepository repository = newTareaRepository();
+    Tarea tarea = repository.findById(1000L);
+
+    assertEquals("Tablero test 1", tarea.getTablero().getNombre());
+  }
+
 }

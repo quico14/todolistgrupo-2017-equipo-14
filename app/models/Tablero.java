@@ -22,6 +22,10 @@ public class Tablero {
   @JoinTable(name="Persona_Tablero")
   private Set<Usuario> participantes = new HashSet<Usuario>();
 
+  // Relación uno-a-muchos entre tablero y tarea
+  @OneToMany(mappedBy="tablero", fetch=FetchType.EAGER)
+  public Set<Tarea> tareas = new HashSet<Tarea>();
+
   public Tablero() {}
 
   public Tablero(Usuario administrador, String nombre) {
@@ -59,6 +63,15 @@ public class Tablero {
 
    public void setParticipantes(Set<Usuario> participantes) {
       this.participantes = participantes;
+   }
+
+   public List<Tarea> getTareas() {
+     List<Tarea> list = new ArrayList<Tarea>(tareas);
+      return list;
+   }
+
+   public void setTareas(List<Tarea> tareas) {
+      this.tareas = new HashSet<Tarea>(tareas);
    }
 
    @Override
