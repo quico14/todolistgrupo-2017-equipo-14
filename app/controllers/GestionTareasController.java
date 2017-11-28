@@ -67,7 +67,7 @@ public class GestionTareasController extends Controller {
              return badRequest(formNuevaTarea.render(usuario, nuevoTitulo, null, mensaje));
            }
         }
-        tareaService.nuevaTarea(idUsuario, nuevoTitulo, d_nuevafecha);
+        tareaService.nuevaTarea(idUsuario, nuevoTitulo, d_nuevafecha, null);
         flash("aviso", "La tarea se ha grabado correctamente");
         return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario, false));
      }
