@@ -31,6 +31,12 @@ public class UsuarioController extends Controller {
      return ok(saludo.render("El mensaje que he recibido es: " + mensaje, usuario));
   }
 
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result calendario(Long idUsuario) {
+     Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+     return ok(calendario.render(usuario));
+  }
+
   public Result formularioRegistro() {
     Usuario usuario = new Usuario();
      return ok(formRegistro.render(formFactory.form(Registro.class),usuario,""));
