@@ -9,6 +9,8 @@ import models.Usuario;
 import models.UsuarioRepository;
 import models.Tarea;
 import models.TareaRepository;
+import models.Tablero;
+import models.TableroRepository;
 
 import java.util.Date;
 import java.text.DateFormat;
@@ -19,11 +21,14 @@ import play.data.format.*;
 public class TareaService {
   UsuarioRepository usuarioRepository;
   TareaRepository tareaRepository;
+  TableroRepository tableroRepository;
 
   @Inject
-  public TareaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository) {
+  public TareaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository,
+                      TableroRepository tableroRepository) {
      this.usuarioRepository = usuarioRepository;
      this.tareaRepository = tareaRepository;
+     this.tableroRepository = tableroRepository;
   }
 
   // Devuelve la lista de tareas de un usuario, ordenadas por su id
@@ -38,13 +43,18 @@ public class TareaService {
     return tareas;
   }
 
-  public Tarea nuevaTarea(Long idUsuario, String titulo, Date fechaLimite) {
+  public Tarea nuevaTarea(Long idUsuario, String titulo, Date fechaLimite, Long idTablero) {
      Usuario usuario = usuarioRepository.findById(idUsuario);
+     Tablero tablero = tableroRepository.findById(idTablero);
      if (usuario == null) {
         throw new TareaServiceException("Usuario no existente");
      }
+     else if (tablero == null) {
+       throw new TareaServiceException("Tablero no existente");
+     }
      Tarea tarea = new Tarea(usuario, titulo);
      tarea.setFechaLimite(fechaLimite);
+     tarea.setTablero(tablero);
      return tareaRepository.add(tarea);
   }
 
@@ -52,12 +62,16 @@ public class TareaService {
      return tareaRepository.findById(idTarea);
   }
 
-  public Tarea modificaTarea(Long idTarea, String nuevoTitulo, Date nuevaFechaLimite) {
+  public Tarea modificaTarea(Long idTarea, String nuevoTitulo, Date nuevaFechaLimite, Long idTablero) {
      Tarea tarea = tareaRepository.findById(idTarea);
+     Tablero tablero = tableroRepository.findById(idTablero);
      if (tarea == null)
           throw new TareaServiceException("No existe tarea");
+     else if (tablero == null)
+          throw new TareaServiceException("Tablero no existente");
      tarea.setTitulo(nuevoTitulo);
      tarea.setFechaLimite(nuevaFechaLimite);
+     tarea.setTablero(tablero);
      tarea = tareaRepository.update(tarea);
      return tarea;
   }

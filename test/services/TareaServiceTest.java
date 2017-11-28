@@ -15,6 +15,8 @@ import models.Usuario;
 
 import models.Tarea;
 
+import models.Tablero;
+
 import play.inject.guice.GuiceApplicationBuilder;
 import play.inject.Injector;
 import play.inject.guice.GuiceInjectorBuilder;
@@ -75,8 +77,9 @@ public class TareaServiceTest {
   public void nuevaTareaUsuario() throws ParseException {
      TareaService tareaService = newTareaService();
      long idUsuario = 1000L;
+     long idTablero = 1000L;
      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-     tareaService.nuevaTarea(idUsuario, "Pagar el alquiler", sdf.parse("2017-12-01"));
+     tareaService.nuevaTarea(idUsuario, "Pagar el alquiler", sdf.parse("2017-12-01"), idTablero);
      assertEquals(4, tareaService.allTareasUsuario(1000L).size());
   }
 
@@ -85,8 +88,9 @@ public class TareaServiceTest {
   public void modificacionTarea() throws ParseException {
      TareaService tareaService = newTareaService();
      long idTarea = 1000L;
+     long idTablero = 1000L;
      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-     tareaService.modificaTarea(idTarea, "Pagar el alquiler", sdf.parse("2017-12-01"));
+     tareaService.modificaTarea(idTarea, "Pagar el alquiler", sdf.parse("2017-12-01"), idTablero);
      Tarea tarea = tareaService.obtenerTarea(idTarea);
      assertEquals("Pagar el alquiler", tarea.getTitulo());
   }
@@ -129,9 +133,10 @@ public class TareaServiceTest {
   public void comprobacionFechaCreacion() throws ParseException {
      TareaService tareaService = newTareaService();
      long idUsuario = 1000L;
+     long idTablero = 1000L;
      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-     tareaService.nuevaTarea(idUsuario, "Comprobar fecha", sdf.parse("2017-12-01"));
+     tareaService.nuevaTarea(idUsuario, "Comprobar fecha", sdf.parse("2017-12-01"), idTablero);
      List<Tarea> tareas = tareaService.allTareasUsuario(1000L);
 
      int year_fechaCreacion = tareas.get(0).getFechaCreacion().getYear();
@@ -147,10 +152,42 @@ public class TareaServiceTest {
   public void modificacionFechaLimite() throws ParseException {
      TareaService tareaService = newTareaService();
      long idTarea = 1000L;
+     long idTablero = 1000L;
      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-     tareaService.modificaTarea(idTarea, "Pagar el alquiler", sdf.parse("2017-12-31"));
+     tareaService.modificaTarea(idTarea, "Pagar el alquiler", sdf.parse("2017-12-31"), idTablero);
      Tarea tarea = tareaService.obtenerTarea(idTarea);
      assertEquals(sdf.parse("2017-12-31"), tarea.getFechaLimite());
   }
+
+  // Test #60: nuevaTareaTablero
+  @Test
+  public void nuevaTareaTablero() throws ParseException {
+     TareaService tareaService = newTareaService();
+     long idUsuario = 1000L;
+     long idTablero = 1000L;
+     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+     tareaService.nuevaTarea(idUsuario, "Comprobar fecha", sdf.parse("2017-12-01"), idTablero);
+     List<Tarea> tareas = tareaService.allTareasUsuario(1000L);
+
+     assertEquals("Tablero test 1", tareas.get(0).getTablero().getNombre());
+  }
+
+  // Test #61: modificacionTableroTarea
+  @Test
+  public void modificacionTableroTarea() throws ParseException {
+     TareaService tareaService = newTareaService();
+     long idTarea = 1000L;
+     long idTablero = 1000L;
+     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+     tareaService.modificaTarea(idTarea, "Pagar el alquiler", sdf.parse("2017-12-31"), idTablero);
+     Tarea tarea = tareaService.obtenerTarea(idTarea);
+     assertEquals("Tablero test 1", tarea.getTablero().getNombre());
+
+     idTablero = 1001L;
+     tareaService.modificaTarea(idTarea, "Pagar el alquiler", sdf.parse("2017-12-31"), idTablero);
+     tarea = tareaService.obtenerTarea(idTarea);
+     assertEquals("Tablero test 2", tarea.getTablero().getNombre());
+  }
+
 
 }
