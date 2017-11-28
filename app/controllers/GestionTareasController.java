@@ -128,7 +128,7 @@ public class GestionTareasController extends Controller {
          mensaje));
        }
     }
-    Tarea tareaModificada = tareaService.modificaTarea(idTarea, nuevoTitulo, d_nuevafecha);
+    Tarea tareaModificada = tareaService.modificaTarea(idTarea, nuevoTitulo, d_nuevafecha, null);
     return redirect(controllers.routes.GestionTareasController.listaTareas(tareaModificada.getUsuario().getId(), false));
   }
 

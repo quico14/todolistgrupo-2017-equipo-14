@@ -101,8 +101,9 @@ public class Practica2Test {
   public void modificacionTarea() throws ParseException {
      TareaService tareaService = newTareaService();
      long idTarea = 9837598;
+     long idTablero = 1000L;
      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-     tareaService.modificaTarea(idTarea, "Pagar el alquiler", sdf.parse("2017-12-01"));
+     tareaService.modificaTarea(idTarea, "Pagar el alquiler", sdf.parse("2017-12-01"), idTablero);
   }
 
   //Test 31: findUsuarioPorLoginInexistente
