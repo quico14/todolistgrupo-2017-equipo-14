@@ -35,6 +35,7 @@
         <tr>
             <th>Tareas</th>
             <th>Fecha Limite</th>
+            <th>Tablero</th>
             <th>Acción</th>
         </tr>
         @for(tarea <- tareas) {
@@ -45,6 +46,11 @@
                   @if(tarea.getFechaLimite() != null) {
                       @tarea.getFechaLimite().format("dd-MM-yyyy")
                   }</td>
+                  <td>
+                    @if(tarea.getTablero() != null) {
+                      @tarea.getTablero().getNombre()
+                    }
+                  </td>
                 <td>
                   <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" title="Editar tarea">
                     <span class="glyphicon glyphicon-pencil"></span>&nbsp;
