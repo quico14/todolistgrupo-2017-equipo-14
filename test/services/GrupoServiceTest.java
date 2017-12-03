@@ -157,4 +157,26 @@ public class GrupoServiceTest {
     assertEquals("Grupo test 1", grupo.getNombre());
   }
 
+  // Test #70: borrado grupo
+  @Test(expected = GrupoServiceException.class)
+  public void borradoGrupo() {
+    GrupoService grupoService = newGrupoService();
+    // Obtenemos datos del dataset
+    Grupo grupo = grupoService.findGrupoPorId(1000L);
+
+    assertNotNull(grupo);
+    grupoService.deleteGrupo(1000L);
+    grupoService.findGrupoPorId(1000L);
+  }
+
+  // Test #71: actualizar nombre grupo
+  @Test
+  public void actualizarNombreGrupo() {
+    GrupoService grupoService = newGrupoService();
+    // Obtenemos datos del dataset
+    Grupo grupo = grupoService.modificaGrupo(1000L, "cambiado");
+    grupo = grupoService.findGrupoPorId(1000L);
+    assertEquals("cambiado", grupo.getNombre());
+  }
+
 }

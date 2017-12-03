@@ -50,6 +50,10 @@ public class GrupoService {
     if (usuario == null) {
       throw new GrupoServiceException("Usuario no existente");
     }
+    if (nombreUsuario.equals(grupo.getAdministrador().getLogin())) {
+      throw new GrupoServiceException("Ese usuario ya es administrador");
+    }
+    System.out.println(nombreUsuario + " ++ " + grupo.getAdministrador().getLogin());
     Set<Usuario> participantes = grupo.getParticipantes();
     participantes.add(usuario);
     grupo.setParticipantes(participantes);
@@ -65,6 +69,16 @@ public class GrupoService {
     Set<Usuario> participantes = grupo.getParticipantes();
     participantes.remove(usuario);
     grupo.setParticipantes(participantes);
+
+    return grupoRepository.update(grupo);
+  }
+
+  public Grupo modificaGrupo(Long idGrupo, String nombreGrupo) {
+    Grupo grupo = grupoRepository.findById(idGrupo);
+    if (grupo == null) {
+      throw new GrupoServiceException("Grupo no existente");
+    }
+    grupo.setNombre(nombreGrupo);
 
     return grupoRepository.update(grupo);
   }
@@ -87,6 +101,14 @@ public class GrupoService {
       throw new GrupoServiceException("Grupo no existente");
     }
      return grupo;
+  }
+
+  public void deleteGrupo(Long idGrupo) {
+    Grupo grupo = grupoRepository.findById(idGrupo);
+    if (grupo == null) {
+      throw new GrupoServiceException("Grupo no existente");
+    }
+    grupoRepository.delete(idGrupo);
   }
 
 }
