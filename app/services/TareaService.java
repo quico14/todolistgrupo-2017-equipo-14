@@ -45,12 +45,15 @@ public class TareaService {
 
   public Tarea nuevaTarea(Long idUsuario, String titulo, Date fechaLimite, Long idTablero) {
      Usuario usuario = usuarioRepository.findById(idUsuario);
-     Tablero tablero = tableroRepository.findById(idTablero);
      if (usuario == null) {
         throw new TareaServiceException("Usuario no existente");
      }
-     else if (tablero == null) {
-       throw new TareaServiceException("Tablero no existente");
+     Tablero tablero = null;
+     if(idTablero != null) {
+       tablero = tableroRepository.findById(idTablero);
+       if (tablero == null) {
+         throw new TareaServiceException("Tablero no existente");
+       }
      }
      Tarea tarea = new Tarea(usuario, titulo);
      tarea.setFechaLimite(fechaLimite);
@@ -64,11 +67,15 @@ public class TareaService {
 
   public Tarea modificaTarea(Long idTarea, String nuevoTitulo, Date nuevaFechaLimite, Long idTablero) {
      Tarea tarea = tareaRepository.findById(idTarea);
-     Tablero tablero = tableroRepository.findById(idTablero);
      if (tarea == null)
           throw new TareaServiceException("No existe tarea");
-     else if (tablero == null)
+    Tablero tablero = null;
+    if(idTablero != null) {
+        tablero = tableroRepository.findById(idTablero);
+        if (tablero == null) {
           throw new TareaServiceException("Tablero no existente");
+        }
+     }
      tarea.setTitulo(nuevoTitulo);
      tarea.setFechaLimite(nuevaFechaLimite);
      tarea.setTablero(tablero);
