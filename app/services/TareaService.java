@@ -67,11 +67,15 @@ public class TareaService {
 
   public Tarea modificaTarea(Long idTarea, String nuevoTitulo, Date nuevaFechaLimite, Long idTablero) {
      Tarea tarea = tareaRepository.findById(idTarea);
-     Tablero tablero = tableroRepository.findById(idTablero);
      if (tarea == null)
           throw new TareaServiceException("No existe tarea");
-     else if (tablero == null)
+    Tablero tablero = null;
+    if(idTablero != null) {
+        tablero = tableroRepository.findById(idTablero);
+        if (tablero == null) {
           throw new TareaServiceException("Tablero no existente");
+        }
+     }
      tarea.setTitulo(nuevoTitulo);
      tarea.setFechaLimite(nuevaFechaLimite);
      tarea.setTablero(tablero);

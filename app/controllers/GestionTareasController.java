@@ -106,11 +106,22 @@ public class GestionTareasController extends Controller {
       if (connectedUser != tarea.getUsuario().getId()) {
         return unauthorized("Lo siento, no estás autorizado");
       } else {
-        return ok(formModificacionTarea.render(tarea.getUsuario(), tarea.getUsuario().getId(),
-        tarea.getId(),
-        tarea.getTitulo(),
-        tarea.getFechaLimite(),
-        ""));
+        if(tarea.getTablero() != null) {
+          return ok(formModificacionTarea.render(tarea.getUsuario(), tarea.getUsuario().getId(),
+          tarea.getId(),
+          tarea.getTitulo(),
+          tarea.getFechaLimite(),
+          tarea.getTablero().getId(),
+          ""));
+        }
+        else {
+          return ok(formModificacionTarea.render(tarea.getUsuario(), tarea.getUsuario().getId(),
+          tarea.getId(),
+          tarea.getTitulo(),
+          tarea.getFechaLimite(),
+          null,
+          ""));
+        }
       }
     }
   }
@@ -128,14 +139,31 @@ public class GestionTareasController extends Controller {
        d_nuevafecha = sdf.parse(nuevaFechaLimite);
        if (d_nuevafecha.before(currentDate)) {
          String mensaje = "La fecha límite no puede ser anterior a la actual";
-         return ok(formModificacionTarea.render(tarea.getUsuario(), tarea.getUsuario().getId(),
-         tarea.getId(),
-         tarea.getTitulo(),
-         tarea.getFechaLimite(),
-         mensaje));
+         if(tarea.getTablero() != null) {
+           return ok(formModificacionTarea.render(tarea.getUsuario(), tarea.getUsuario().getId(),
+           tarea.getId(),
+           tarea.getTitulo(),
+           tarea.getFechaLimite(),
+           tarea.getTablero().getId(),
+           mensaje));
+         }
+         else {
+           return ok(formModificacionTarea.render(tarea.getUsuario(), tarea.getUsuario().getId(),
+           tarea.getId(),
+           tarea.getTitulo(),
+           tarea.getFechaLimite(),
+           null,
+           mensaje));
+         }
        }
     }
-    Tarea tareaModificada = tareaService.modificaTarea(idTarea, nuevoTitulo, d_nuevafecha, null);
+    long idTablero = Long.parseLong(requestData.get("tableroId"), 10);
+    Tarea tareaModificada = null;
+    if(idTablero == 0L) {
+      tareaModificada = tareaService.modificaTarea(idTarea, nuevoTitulo, d_nuevafecha, null);
+    }
+    else
+      tareaModificada = tareaService.modificaTarea(idTarea, nuevoTitulo, d_nuevafecha, idTablero);
     return redirect(controllers.routes.GestionTareasController.listaTareas(tareaModificada.getUsuario().getId(), false));
   }
 
