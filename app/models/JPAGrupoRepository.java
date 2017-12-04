@@ -39,6 +39,14 @@ public class JPAGrupoRepository implements GrupoRepository {
       });
    }
 
+   public void delete(Long idGrupo) {
+      jpaApi.withTransaction(() -> {
+         EntityManager entityManager = jpaApi.em();
+         Grupo grupoBD = entityManager.getReference(Grupo.class, idGrupo);
+         entityManager.remove(grupoBD);
+      });
+   }
+
    public List<Grupo> allGrupos() {
       return jpaApi.withTransaction(entityManager -> {
          TypedQuery<Grupo> query = entityManager.createQuery(

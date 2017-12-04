@@ -1,0 +1,20 @@
+@(usuario: Usuario, idGrupo: Long, nombreGrupo: String, mensaje: String)
+@main("Modificar Grupo", usuario) {
+  @if(mensaje != "") {
+     <div class="alert alert-danger">
+        @mensaje
+     </div>
+  }
+  <h1>Añadir participante</h1>
+  @helper.form(action = routes.GestionGruposController.participarGrupo(usuario.getId(),idGrupo)) {
+     <fieldset>
+        <legend>Participante</legend>
+        Usuario:  <input type="text" size=70 name="nombreUsuario"><br>
+     </fieldset>
+     <p/>
+     <p>
+        <input type="submit" class="btn btn-primary" value="Guardar">
+        <a class="btn btn-warning" href="@routes.GestionGruposController.listaParticipantes(usuario.getId())">Cancelar</a>
+     </p>
+  }
+}

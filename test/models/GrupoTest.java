@@ -47,7 +47,8 @@ public class GrupoTest {
     db = injector.instanceOf(Database.class);
   }
 
-  private void initDataSet() throws Exception {
+  @Before
+  public void initDataSet() throws Exception {
     JndiDatabaseTester databaseTester = new JndiDatabaseTester("DBTest");
     IDataSet initialDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("test/resources/usuarios_dataset.xml"));
     databaseTester.setDataSet(initialDataSet);
@@ -183,5 +184,17 @@ public class GrupoTest {
     assertEquals(1, usuario1.getGrupos().size());
     assertTrue(grupo.getParticipantes().contains(usuario1));
     assertTrue(usuario1.getGrupos().contains(grupo));
+  }
+
+  // Test #62: borrado grupo
+  @Test
+  public void borradoGrupo() {
+    GrupoRepository grupoRepository = injector.instanceOf(GrupoRepository.class);
+    // Obtenemos datos del dataset
+    Grupo grupo = grupoRepository.findById(1000L);
+
+    assertNotNull(grupo);
+    grupoRepository.delete(1000L);
+    assertNull(grupoRepository.findById(1000L));
   }
 }

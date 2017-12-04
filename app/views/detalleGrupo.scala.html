@@ -1,0 +1,18 @@
+@(grupo: Grupo, usuario: Usuario)
+
+<style type="text/css">
+            dummydeclaration { padding-left: 4em; } /* Firefox ignores first declaration for some reason */
+            tab1 { padding-left: 4em; }
+        </style>
+
+@main("Detalle de grupo", usuario) {
+  <h1>Detalle del grupo @grupo.getId()</h1>
+  <ul>
+     <li><strong>Nombre: </strong> @grupo.getNombre()</li>
+     <li><strong>Administrador: </strong> @grupo.getAdministrador().getLogin()</li>
+     <li><strong>Participantes: </strong> </li>
+     @for(participante <- grupo.getParticipantes()) {
+       <p><tab1>@participante.getLogin()</tab1></p>
+     }
+  </ul>
+}

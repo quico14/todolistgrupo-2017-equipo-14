@@ -1,0 +1,18 @@
+@(usuario: Usuario, grupoForm: Form[Grupo], mensaje: String)
+@main("Nuevo grupo", usuario) {
+   @if(mensaje != "") {
+       <div class="alert alert-danger">
+           @mensaje
+       </div>
+   }
+   <h1>Nuevo grupo administrado por @usuario.getLogin()</h1>
+   @helper.form(action = routes.GestionGruposController.creaNuevoGrupo(usuario.getId())) {
+       <fieldset>
+           <legend>Nuevo grupo</legend>
+           @helper.inputText(grupoForm("nombre"), '_label -> "Nombre", 'size -> 70)
+       </fieldset>
+       <p>
+          <input type="submit" class="btn btn-primary" value="Crear">
+       </p>
+   }
+}

@@ -10,4 +10,5 @@ public interface GrupoRepository {
   public Grupo update(Grupo grupo);
   public Grupo findById(Long idGrupo);
   public List<Grupo> allGrupos();
+  public void delete(Long idGrupo);
 }
