@@ -13,6 +13,28 @@
      <li><strong>Participantes: </strong> </li>
      @for(participante <- tablero.getParticipantes()) {
        <p><tab1>@participante.getLogin()</tab1></p>
-     }
+     }<br>
+      <li><strong>Tareas: </strong> </li>
+     <table class="table table-striped">
+       <tr>
+           <th>Tarea</th>
+           <th>Fecha Limite</th>
+           <th>Tablero</th>
+       </tr>
+       @for(tarea <- tablero.getTareas()) {
+         <tr>
+           <td>@tarea.getTitulo()</td>
+           <td>
+             @if(tarea.getFechaLimite() != null) {
+                 @tarea.getFechaLimite().format("dd-MM-yyyy")
+             }</td>
+             <td>
+               @if(tarea.getTablero() != null) {
+                 @tarea.getTablero().getNombre()
+               }
+             </td>
+         </tr>
+       }
+     </table>
   </ul>
 }
