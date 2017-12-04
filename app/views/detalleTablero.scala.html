@@ -19,7 +19,7 @@
        <tr>
            <th>Tarea</th>
            <th>Fecha Limite</th>
-           <th>Tablero</th>
+           <th>Terminada</th>
        </tr>
        @for(tarea <- tablero.getTareas()) {
          <tr>
@@ -29,8 +29,10 @@
                  @tarea.getFechaLimite().format("dd-MM-yyyy")
              }</td>
              <td>
-               @if(tarea.getTablero() != null) {
-                 @tarea.getTablero().getNombre()
+               @if(tarea.getTerminada()) {
+                 <font color="green"> Sí </font>
+               } else {
+                 <font color="red"> No </font>
                }
              </td>
          </tr>
