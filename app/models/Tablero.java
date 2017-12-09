@@ -24,7 +24,11 @@ public class Tablero {
 
   // Relación uno-a-muchos entre tablero y tarea
   @OneToMany(mappedBy="tablero", fetch=FetchType.EAGER)
-  public Set<Tarea> tareas = new HashSet<Tarea>();
+  private Set<Tarea> tareas = new HashSet<Tarea>();
+
+  @ManyToMany(fetch=FetchType.EAGER)
+  @JoinTable(name="Size_Tablero")
+  private Set<Size> tareaSize = new HashSet<Size>();
 
   public Tablero() {}
 
@@ -72,6 +76,15 @@ public class Tablero {
 
    public void setTareas(List<Tarea> tareas) {
       this.tareas = new HashSet<Tarea>(tareas);
+   }
+
+   public List<Size> getTareaSize() {
+     List<Size> list = new ArrayList<Size>(tareaSize);
+      return list;
+   }
+
+   public void setTareaSize(List<Size> tareaSize) {
+      this.tareaSize = new HashSet<Size>(tareaSize);
    }
 
    @Override
