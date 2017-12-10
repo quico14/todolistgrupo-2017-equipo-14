@@ -20,4 +20,8 @@
     <Grupo id="1000" nombre="Grupo test 1" administradorId="1000"/>
     <Grupo id="1001" nombre="Grupo test 2" administradorId="1000"/>
     <Persona_Grupo/>
+    <Size id="1000" nombre="Small"/>
+    <Size id="1001" nombre="Medium"/>
+    <Size id="1002" nombre="Large"/>
+    <Size_Tablero/>
   </dataset>

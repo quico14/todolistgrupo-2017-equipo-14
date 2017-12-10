@@ -24,6 +24,7 @@ public class Tarea {
   // el ID del usuario con el que está asociado una tarea
   @JoinColumn(name="usuarioId")
   public Usuario usuario;
+  public String size;
 
   // Relación muchos-a-uno entre tareas y tablero
   @ManyToOne
@@ -96,6 +97,14 @@ public class Tarea {
 
   public void setTablero (Tablero tablero) {
      this.tablero = tablero;
+  }
+
+  public String getSize() {
+     return size;
+  }
+
+  public void setSize (String size) {
+     this.size = size;
   }
 
   public String toString() {
