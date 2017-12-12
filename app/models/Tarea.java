@@ -7,6 +7,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import play.data.format.*;
 
+import java.util.Set;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
+
 @Entity
 public class Tarea {
   @Id
@@ -32,6 +37,9 @@ public class Tarea {
   // el ID del tablero con el que está asociado una tarea
   @JoinColumn(name="tableroId")
   public Tablero tablero;
+
+  @OneToMany(mappedBy="tareaId", fetch=FetchType.EAGER)
+  private Set<Comentario> comentariosRecibidos = new HashSet<Comentario>();
 
   public Tarea() {}
 
@@ -105,6 +113,14 @@ public class Tarea {
 
   public void setSize (String size) {
      this.size = size;
+  }
+
+  public Set<Comentario> getComentariosRecibidos() {
+    return comentariosRecibidos;
+  }
+
+  public void setComentariosRecibidos(Set<Comentario> comentariosRecibidos) {
+    this.comentariosRecibidos = comentariosRecibidos;
   }
 
   public String toString() {
