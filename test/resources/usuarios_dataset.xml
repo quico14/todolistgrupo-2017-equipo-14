@@ -25,4 +25,5 @@
     <Size id="1002" nombre="Large"/>
     <Size_Tablero/>
     <Comentario id="1000" descripcion="Es correcto" creador="1000" tareaId="1000"/>
+    <Comentario id="1001" descripcion="Comentario 2" creador="1000" tareaId="1000"/>
   </dataset>
