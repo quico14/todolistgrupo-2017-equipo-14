@@ -39,6 +39,11 @@ public class JPATareaRepository implements TareaRepository {
         jpaApi.withTransaction(() -> {
            EntityManager entityManager = jpaApi.em();
            Tarea tareaBD = entityManager.getReference(Tarea.class, idTarea);
+           if(tareaBD.getComentariosRecibidos() != null) {
+             for(Comentario c: tareaBD.getComentariosRecibidos()) {
+               entityManager.remove(c);
+             }
+           }
            entityManager.remove(tareaBD);
         });
      }
