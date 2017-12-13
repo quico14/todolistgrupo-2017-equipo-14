@@ -9,7 +9,6 @@ import play.data.format.*;
 
 import java.util.Set;
 import java.util.HashSet;
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -38,6 +37,9 @@ public class Usuario {
     private Set<Grupo> gruposAdministrados = new HashSet<Grupo>();
     @ManyToMany(mappedBy="participantes", fetch=FetchType.EAGER)
     private Set<Grupo> grupos = new HashSet<Grupo>();
+
+    @OneToMany(mappedBy="creador", fetch=FetchType.EAGER)
+    private Set<Comentario> comentariosCreados = new HashSet<Comentario>();
 
     // Un constructor vacío necesario para JPA
     public Usuario() {}
@@ -160,6 +162,14 @@ public class Usuario {
 
     public void setGrupos(Set<Grupo> grupos) {
       this.grupos = grupos;
+    }
+
+    public Set<Comentario> getComentariosCreados() {
+      return comentariosCreados;
+    }
+
+    public void setComentariosCreados(Set<Comentario> comentariosCreados) {
+      this.comentariosCreados = comentariosCreados;
     }
 
     public String toString() {
