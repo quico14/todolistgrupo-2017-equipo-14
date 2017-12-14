@@ -17,6 +17,8 @@
               @for(tab <- usuario.getAdministrados()) {
                 <option value="@tab.getId()">@tab.getNombre()</option>
               }
+            }
+            @if(!usuario.getTableros().isEmpty()) {
               @for(tab <- usuario.getTableros()) {
                 <option value="@tab.getId()">@tab.getNombre()</option>
               }
