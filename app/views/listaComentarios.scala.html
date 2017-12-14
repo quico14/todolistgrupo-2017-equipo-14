@@ -1,0 +1,59 @@
+@(comentarios: List[Comentario], tarea: Tarea, usuario: Usuario, mensaje: String)
+@scripts = {
+     <script type="text/javascript">
+         function del(urlBorrar) {
+             $.ajax({
+                 url: urlBorrar,
+                 type: 'DELETE',
+                 success: function(results) {
+                     //refresh the page
+                     location.reload();
+                 }
+             });
+         }
+     </script>
+}
+
+@main("Comentarios de la tarea @tarea.getTitulo()", usuario, scripts) {
+
+    <h2> Listado de comentarios de la tarea @tarea.getTitulo()</h2>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Usuario</th>
+            <th>Descripción</th>
+            <th>Acción</th>
+        </tr>
+        @for(comentario <- comentarios) {
+          <tr>
+            <td>@comentario.getCreador().getNombre()</td>
+            <td>@comentario.getDescripcion()</td>
+            <td>
+              <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" title="Editar comentario">
+                <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+              </a>
+              <a onmouseover="" style="cursor: pointer;" title="Borrar comentario" onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              </a>
+            </td>
+          </tr>
+          }
+        <tr>
+            <td>
+              <a href="@routes.GestionTareasController.formularioNuevaTarea(usuario.getId())">
+                <span class="glyphicon glyphicon-plus"/>
+              </a>
+            </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        </tr>
+
+    </table>
+
+  @if(mensaje != null) {
+      <div class="alert alert-success">
+          @mensaje
+      </div>
+  }
+}

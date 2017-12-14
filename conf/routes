@@ -47,7 +47,7 @@ DELETE  /tareas/:id                                                       contro
 DELETE  /grupos/:id                                                       controllers.GestionGruposController.borraGrupo(id: Long)
 DELETE  /usuarios/:idUsuario/grupos/:id/participantes                     controllers.GestionGruposController.borraParticipante(idUsuario: Long, id: Long)
 PUT     /tareas/:id                                                       controllers.GestionTareasController.cambiaTerminada(id: Long)
-
+GET     /usuarios/:id/tareas/:idTarea/comentarios                         controllers.GestionComentariosController.listaComentarios(idTarea: Long, id: Long)
 
 
 # Map static resources from the /public folder to the /assets URL path
