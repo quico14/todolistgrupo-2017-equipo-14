@@ -17,6 +17,9 @@
               @for(tab <- usuario.getAdministrados()) {
                 <option value="@tab.getId()">@tab.getNombre()</option>
               }
+              @for(tab <- usuario.getTableros()) {
+                <option value="@tab.getId()">@tab.getNombre()</option>
+              }
             }
          </select>
        </fieldset>

@@ -26,6 +26,13 @@
                <option value="@tab.getId()" selected>@tab.getNombre()</option>
              }
            }
+           @for(tab <- usuario.getTableros()) {
+             @if(tableroId==null || tab.getId()!=tableroId) {
+               <option value="@tab.getId()">@tab.getNombre()</option>
+             } else {
+               <option value="@tab.getId()" selected>@tab.getNombre()</option>
+             }
+           }
          }
      </fieldset>
      <p/>
