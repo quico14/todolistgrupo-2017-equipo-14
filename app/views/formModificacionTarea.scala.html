@@ -26,6 +26,8 @@
                <option value="@tab.getId()" selected>@tab.getNombre()</option>
              }
            }
+         }
+         @if(!usuario.getTableros().isEmpty()) {
            @for(tab <- usuario.getTableros()) {
              @if(tableroId==null || tab.getId()!=tableroId) {
                <option value="@tab.getId()">@tab.getNombre()</option>
@@ -34,6 +36,7 @@
              }
            }
          }
+       </select>
      </fieldset>
      <p/>
      <p>

@@ -52,6 +52,11 @@
                       @tarea.getTablero().getNombre()
                     }
                   </td>
+                  <td>
+                    @if(tarea.getSize() != null) {
+                      @tarea.getSize().getNombre()
+                    }
+                  </td>
                 <td>
                   <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" title="Editar tarea">
                     <span class="glyphicon glyphicon-pencil"></span>&nbsp;
