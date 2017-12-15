@@ -85,6 +85,13 @@ public class GestionComentariosController extends Controller {
       }
   }
 
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result borraComentario(Long idComentario) {
+     comentarioService.borraComentario(idComentario);
+     flash("aviso", "Comentario borrado correctamente");
+     return ok();
+  }
+
   /*@Security.Authenticated(ActionAuthenticator.class)
   public Result detalleTablero(Long idUsuario, Long idTablero) {
      String connectedUserStr = session("connected");

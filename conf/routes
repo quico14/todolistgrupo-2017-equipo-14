@@ -50,6 +50,7 @@ PUT     /tareas/:id                                                       contro
 GET     /usuarios/:id/tareas/:idTarea/comentarios                         controllers.GestionComentariosController.listaComentarios(idTarea: Long, id: Long)
 GET     /usuarios/:id/tareas/:idTarea/comentarios/nuevo                   controllers.GestionComentariosController.formularioNuevoComentario(idTarea:Long, id: Long)
 POST    /usuarios/:id/tareas/:idTarea/comentarios/nuevo                   controllers.GestionComentariosController.creaNuevoComentario(idTarea: Long, id: Long)
+DELETE  /comentarios/:id                                                       controllers.GestionComentariosController.borraComentario(id: Long)
 
 
 # Map static resources from the /public folder to the /assets URL path
