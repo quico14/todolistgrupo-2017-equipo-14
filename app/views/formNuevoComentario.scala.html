@@ -1,0 +1,19 @@
+@(usuario: Usuario, tarea: Tarea, descripcion: String, mensaje: String)
+@main("Nuevo comentario", usuario) {
+   @if(mensaje != "") {
+       <div class="alert alert-danger">
+           @mensaje
+       </div>
+   }
+   <h1>Nuevo comentario para @tarea.getTitulo()</h1>
+   @helper.form(action = routes.GestionComentariosController.creaNuevoComentario(tarea.getId(), usuario.getId())) {
+       <fieldset>
+           <legend>Nuevo Comentario</legend>
+           Descripcion:  <br><textarea cols=40 rows=5 name="descripcion" value= "@descripcion"></textarea><br>
+       </fieldset>
+       <br>
+       <p>
+          <input type="submit" class="btn btn-primary" value="Guardar">
+       </p>
+   }
+}

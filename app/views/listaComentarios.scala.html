@@ -26,7 +26,7 @@
         </tr>
         @for(comentario <- comentarios) {
           <tr>
-            <td>@comentario.getCreador().getNombre()</td>
+            <td>@comentario.getCreador().getLogin()</td>
             <td>@comentario.getDescripcion()</td>
             <td>
               <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" title="Editar comentario">
@@ -40,7 +40,7 @@
           }
         <tr>
             <td>
-              <a href="@routes.GestionTareasController.formularioNuevaTarea(usuario.getId())">
+              <a href="@routes.GestionComentariosController.formularioNuevoComentario(tarea.getId(), usuario.getId())">
                 <span class="glyphicon glyphicon-plus"/>
               </a>
             </td>

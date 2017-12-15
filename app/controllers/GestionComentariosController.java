@@ -28,8 +28,8 @@ public class GestionComentariosController extends Controller {
 
   // Comprobamos si hay alguien logeado con @Security.Authenticated(ActionAuthenticator.class)
   // https://alexgaribay.com/2014/06/15/authentication-in-play-framework-using-java/
-  /*@Security.Authenticated(ActionAuthenticator.class)
-  public Result formularioNuevoComentario(Long idUsuario, Long idTarea) {
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result formularioNuevoComentario(Long idTarea, Long idUsuario) {
      String connectedUserStr = session("connected");
      Long connectedUser =  Long.valueOf(connectedUserStr);
      if (connectedUser != idUsuario) {
@@ -37,28 +37,34 @@ public class GestionComentariosController extends Controller {
      } else {
         Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
         Tarea tarea = tareaService.obtenerTarea(idTarea);
-        return ok(formNuevoTablero.render(usuario, formFactory.form(Tablero.class),""));
+        if (tarea == null) {
+          return notFound("Tarea no encontrada");
+        } else {
+          return ok(formNuevoComentario.render(usuario, tarea, "", ""));
+        }
      }
   }
 
   @Security.Authenticated(ActionAuthenticator.class)
-  public Result creaNuevoTablero(Long idUsuario) {
+  public Result creaNuevoComentario(Long idTarea, Long idUsuario) {
      String connectedUserStr = session("connected");
      Long connectedUser =  Long.valueOf(connectedUserStr);
      if (connectedUser != idUsuario) {
         return unauthorized("Lo siento, no estás autorizado");
      } else {
-        Form<Tablero> tableroForm = formFactory.form(Tablero.class).bindFromRequest();
-        if (tableroForm.hasErrors()) {
+        DynamicForm requestData = formFactory.form().bindFromRequest();
+        String nuevaDescripcion = requestData.get("descripcion");
+        if (nuevaDescripcion.equals("")) {
            Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-           return badRequest(formNuevoTablero.render(usuario, formFactory.form(Tablero.class), "Hay errores en el formulario"));
+           Tarea tarea = tareaService.obtenerTarea(idTarea);
+           return badRequest(formNuevoComentario.render(usuario, tarea, "",
+                              "La descripcion no puede estar vacía."));
         }
-        Tablero tablero = tableroForm.get();
-        tableroService.nuevoTablero(idUsuario, tablero.getNombre());
-        flash("aviso", "El tablero se ha creado correctamente");
-        return redirect(controllers.routes.GestionTablerosController.listaTableros(idUsuario));
+        comentarioService.nuevoComentario(idUsuario, idTarea, nuevaDescripcion);
+        flash("aviso", "El comentario se ha grabado correctamente");
+        return redirect(controllers.routes.GestionComentariosController.listaComentarios(idTarea, idUsuario));
      }
-  }*/
+  }
 
   @Security.Authenticated(ActionAuthenticator.class)
   public Result listaComentarios(Long idTarea, Long idUsuario) {
