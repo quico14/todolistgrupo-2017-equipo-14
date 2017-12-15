@@ -10,6 +10,8 @@ import play.data.DynamicForm;
 import play.Logger;
 
 import java.util.List;
+import play.libs.Json;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import services.UsuarioService;
 import services.TareaService;
@@ -102,6 +104,22 @@ public class GestionTablerosController extends Controller {
         return ok(listaSizes.render(tablero.getTareaSize(), tablero, tablero.getAdministrador(), aviso));
       }
   }
+
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result listaSizesJson(Long idUsuario, Long idTablero) {
+      String connectedUserStr = session("connected");
+      Long connectedUser =  Long.valueOf(connectedUserStr);
+      if (connectedUser != idUsuario) {
+         return unauthorized("Lo siento, no estás autorizado");
+      } else {
+        String aviso = flash("aviso");
+        ObjectNode result = Json.newObject();
+        Tablero tablero = tableroService.findTableroPorId(idTablero);
+        List <Size> sizes = tablero.getTareaSize();
+        return ok(Json.toJson(sizes));
+      }
+  }
+
   @Security.Authenticated(ActionAuthenticator.class)
   public Result borraSize(Long idTablero, String nombreSize) {
 
@@ -109,6 +127,8 @@ public class GestionTablerosController extends Controller {
     flash("aviso", "Tamaño borrado correctamente");
     return ok();
   }
+
+
 
   @Security.Authenticated(ActionAuthenticator.class)
   public Result creaNuevoSize(Long idTablero) {

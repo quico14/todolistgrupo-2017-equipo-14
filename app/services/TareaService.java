@@ -10,7 +10,9 @@ import models.UsuarioRepository;
 import models.Tarea;
 import models.TareaRepository;
 import models.Tablero;
+import models.Size;
 import models.TableroRepository;
+import models.SizeRepository;
 
 import java.util.Date;
 import java.text.DateFormat;
@@ -22,13 +24,15 @@ public class TareaService {
   UsuarioRepository usuarioRepository;
   TareaRepository tareaRepository;
   TableroRepository tableroRepository;
+  SizeRepository sizeRepository;
 
   @Inject
   public TareaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository,
-                      TableroRepository tableroRepository) {
+                      TableroRepository tableroRepository, SizeRepository sizeRepository) {
      this.usuarioRepository = usuarioRepository;
      this.tareaRepository = tareaRepository;
      this.tableroRepository = tableroRepository;
+     this.sizeRepository = sizeRepository;
   }
 
   // Devuelve la lista de tareas de un usuario, ordenadas por su id
@@ -43,7 +47,7 @@ public class TareaService {
     return tareas;
   }
 
-  public Tarea nuevaTarea(Long idUsuario, String titulo, Date fechaLimite, Long idTablero) {
+  public Tarea nuevaTarea(Long idUsuario, String titulo, Date fechaLimite, Long idTablero, Long idSize) {
      Usuario usuario = usuarioRepository.findById(idUsuario);
      if (usuario == null) {
         throw new TareaServiceException("Usuario no existente");
@@ -55,9 +59,17 @@ public class TareaService {
          throw new TareaServiceException("Tablero no existente");
        }
      }
+     Size size = null;
+     if(idSize != null) {
+       size = sizeRepository.findById(idSize);
+       if (size == null) {
+         throw new SizeServiceException("Tamaño no existente");
+       }
+     }
      Tarea tarea = new Tarea(usuario, titulo);
      tarea.setFechaLimite(fechaLimite);
      tarea.setTablero(tablero);
+     tarea.setSize(size);
      return tareaRepository.add(tarea);
   }
 
@@ -65,7 +77,7 @@ public class TareaService {
      return tareaRepository.findById(idTarea);
   }
 
-  public Tarea modificaTarea(Long idTarea, String nuevoTitulo, Date nuevaFechaLimite, Long idTablero) {
+  public Tarea modificaTarea(Long idTarea, String nuevoTitulo, Date nuevaFechaLimite, Long idTablero, Long idSize) {
      Tarea tarea = tareaRepository.findById(idTarea);
      if (tarea == null)
           throw new TareaServiceException("No existe tarea");
@@ -76,9 +88,17 @@ public class TareaService {
           throw new TareaServiceException("Tablero no existente");
         }
      }
+     Size size = null;
+     if(idSize != null) {
+       size = sizeRepository.findById(idSize);
+       if (size == null) {
+         throw new SizeServiceException("Tamaño no existente");
+       }
+     }
      tarea.setTitulo(nuevoTitulo);
      tarea.setFechaLimite(nuevaFechaLimite);
      tarea.setTablero(tablero);
+     tarea.setSize(size);
      tarea = tareaRepository.update(tarea);
      return tarea;
   }

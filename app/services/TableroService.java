@@ -82,9 +82,17 @@ public class TableroService {
 
   public Tablero removeTareaSize(Size size, Tablero tablero) {
     List<Size> sizes = tablero.getTareaSize();
+
+    for (Tarea tarea : tablero.getTareas()) {
+      if (tarea.getSize().equals(size)) {
+        tarea.setSize(null);
+        tareaRepository.update(tarea);
+      }
+    }
     sizes.remove(size);
     tablero.setTareaSize(sizes);
     tablero = tableroRepository.update(tablero);
+
     return tablero;
   }
 

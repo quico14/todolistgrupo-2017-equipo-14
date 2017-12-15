@@ -11,18 +11,18 @@
     <Tablero id="1000" nombre="Tablero test 1" administradorId="1000"/>
     <Tablero id="1001" nombre="Tablero test 2" administradorId="1000"/>
     <Persona_Tablero/>
-    <Tarea id="1000" titulo="Renovar DNI" usuarioId="1000" terminada="false"
-        fechaCreacion="2017-09-09 16:32:00" fechaLimite="2017-12-05" tableroId="1000"/>
-    <Tarea id="1002" titulo="Práctica 2 MADS" usuarioId="1000" terminada="false"
-        fechaCreacion="2017-09-15 01:15:00" fechaLimite="2017-11-29" tableroId="1000"/>
-    <Tarea id="1001" titulo="Práctica 1 MADS" usuarioId="1000" terminada="false"
-        fechaCreacion="2017-09-29 23:43:00" fechaLimite="2017-12-09" tableroId="1001"/>
-    <Grupo id="1000" nombre="Grupo test 1" administradorId="1000"/>
-    <Grupo id="1001" nombre="Grupo test 2" administradorId="1000"/>
-    <Persona_Grupo/>
     <Size id="1000" nombre="Small"/>
     <Size id="1001" nombre="Medium"/>
     <Size id="1002" nombre="Large"/>
+    <Tarea id="1000" titulo="Renovar DNI" usuarioId="1000" terminada="false"
+        fechaCreacion="2017-09-09 16:32:00" fechaLimite="2017-12-05" tableroId="1000" sizeId="1000"/>
+    <Tarea id="1002" titulo="Práctica 2 MADS" usuarioId="1000" terminada="false"
+        fechaCreacion="2017-09-15 01:15:00" fechaLimite="2017-11-29" tableroId="1000" sizeId="1000"/>
+    <Tarea id="1001" titulo="Práctica 1 MADS" usuarioId="1000" terminada="false"
+        fechaCreacion="2017-09-29 23:43:00" fechaLimite="2017-12-09" tableroId="1001" sizeId="1001"/>
+    <Grupo id="1000" nombre="Grupo test 1" administradorId="1000"/>
+    <Grupo id="1001" nombre="Grupo test 2" administradorId="1000"/>
+    <Persona_Grupo/>
     <Size_Tablero/>
     <Comentario id="1000" descripcion="Es correcto" creador="1000" tareaId="1000"/>
     <Comentario id="1001" descripcion="Comentario 2" creador="1000" tareaId="1000"/>

@@ -41,6 +41,7 @@ GET     /usuarios/:id/tableros                                            contro
 GET     /usuarios/:id/grupos                                              controllers.GestionGruposController.listaGrupos(id: Long)
 GET     /tareas/:id/editar                                                controllers.GestionTareasController.formularioEditaTarea(id: Long)
 GET     /tableros/:id/sizes                                               controllers.GestionTablerosController.listaSizes(id: Long)
+GET     /usuarios/:idUsuario/tableros/:idTablero/sizes                    controllers.GestionTablerosController.listaSizesJson(idUsuario: Long, idTablero: Long)
 GET     /tableros/:id/sizes/nuevo                                         controllers.GestionTablerosController.formularioNuevoSize(id: Long)
 POST    /tableros/:id/sizes/nuevo                                         controllers.GestionTablerosController.creaNuevoSize(id: Long)
 GET     /grupos/:id/editar                                                controllers.GestionGruposController.formularioEditaGrupo(id: Long)
