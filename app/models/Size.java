@@ -15,6 +15,8 @@ public class Size {
   Long id;
   @ManyToMany(mappedBy="tareaSize", fetch=FetchType.EAGER)
   private Set<Tablero> tableros = new HashSet<Tablero>();
+  @OneToMany(mappedBy="size", fetch=FetchType.EAGER)
+  private Set<Tarea> tareas = new HashSet<Tarea>();
   private String nombre;
 
   public Size() {}
