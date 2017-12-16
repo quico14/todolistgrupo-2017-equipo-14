@@ -29,7 +29,7 @@
             <td>@comentario.getCreador().getLogin()</td>
             <td>@comentario.getDescripcion()</td>
             <td>
-              <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" title="Editar comentario">
+              <a href="@routes.GestionComentariosController.formularioEditaComentario(comentario.getId())" title="Editar comentario">
                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;
               </a>
               <a onmouseover="" style="cursor: pointer;" title="Borrar comentario" onclick="del('@routes.GestionComentariosController.borraComentario(comentario.getId())')">

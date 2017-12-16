@@ -1,0 +1,20 @@
+@(usuario: Usuario, tarea: Tarea, comentarioId: Long, descripcion: String, mensaje: String)
+@main("Edición de comentario", usuario) {
+   @if(mensaje != "") {
+       <div class="alert alert-danger">
+           @mensaje
+       </div>
+   }
+   <h1>Edición del comentario del usuario @usuario.getLogin()</h1>
+   @helper.form(action = routes.GestionComentariosController.grabaComentarioModificado(comentarioId)) {
+       <fieldset>
+           <legend>Edición de Comentario</legend>
+           Descripcion:  <br><textarea cols=40 rows=5 name="descripcion" value= "@descripcion">@descripcion</textarea><br>
+       </fieldset>
+       <br>
+       <p>
+          <input type="submit" class="btn btn-primary" value="Guardar">
+          <a class="btn btn-warning" href="@routes.GestionComentariosController.listaComentarios(tarea.getId(), usuario.getId())">Cancelar</a>
+       </p>
+   }
+}

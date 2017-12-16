@@ -87,23 +87,47 @@ public class GestionComentariosController extends Controller {
 
   @Security.Authenticated(ActionAuthenticator.class)
   public Result borraComentario(Long idComentario) {
-     comentarioService.borraComentario(idComentario);
-     flash("aviso", "Comentario borrado correctamente");
-     return ok();
+    Comentario comentario = comentarioService.findComentarioPorId(idComentario);
+    if (comentario == null) {
+      return notFound("Comentario no encontrado");
+    } else {
+      String connectedUserStr = session("connected");
+      Long connectedUser =  Long.valueOf(connectedUserStr);
+      if (connectedUser != comentario.getCreador().getId()) {
+        return unauthorized("Lo siento, no estás autorizado");
+      } else {
+        comentarioService.borraComentario(idComentario);
+        flash("aviso", "Comentario borrado correctamente");
+        return ok();
+      }
+    }
   }
 
-  /*@Security.Authenticated(ActionAuthenticator.class)
-  public Result detalleTablero(Long idUsuario, Long idTablero) {
-     String connectedUserStr = session("connected");
-     Long connectedUser =  Long.valueOf(connectedUserStr);
-     if (connectedUser != idUsuario) {
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result formularioEditaComentario(Long idComentario) {
+    Comentario comentario = comentarioService.findComentarioPorId(idComentario);
+    if (comentario == null) {
+      return notFound("Comentario no encontrado");
+    } else {
+      String connectedUserStr = session("connected");
+      Long connectedUser =  Long.valueOf(connectedUserStr);
+      if (connectedUser != comentario.getCreador().getId()) {
         return unauthorized("Lo siento, no estás autorizado");
-     } else {
-        String aviso = flash("aviso");
-        Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-        Tablero tablero = tableroService.findTableroPorId(idTablero);
-        return ok(detalleTablero.render(tablero, usuario));
+      } else {
+        return ok(formModificacionComentario.render(comentario.getCreador(), comentario.getTareaId(),
+                  comentario.getId(), comentario.getDescripcion(), ""));
       }
-  }*/
+    }
+  }
+
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result grabaComentarioModificado(Long idComentario) {
+    Comentario comentario = comentarioService.findComentarioPorId(idComentario);
+    DynamicForm requestData = formFactory.form().bindFromRequest();
+    String nuevaDescripcion = requestData.get("descripcion");
+    Comentario comentarioModificado = comentarioService.modificaComentario(idComentario, nuevaDescripcion);
+    return redirect(controllers.routes.GestionComentariosController.listaComentarios(comentarioModificado.getTareaId().getId(),
+                      comentarioModificado.getCreador().getId()));
+  }
 
 }
