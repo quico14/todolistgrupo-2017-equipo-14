@@ -78,6 +78,17 @@
                 }
               }
             }
+            @for(tab <- usuario.getTableros()) {
+              @if(tab.getId() == tableroId) {
+                @for(size <- tab.getTareaSize()) {
+                  @if(sizeId == null || size.getId() != sizeId) {
+                    <option value="@size.getId()">@size.getNombre()</option>
+                  } else {
+                    <option value="@size.getId()" selected>@size.getNombre()</option>
+                  }
+                }
+              }
+            }
           }
        </select>
      </fieldset>

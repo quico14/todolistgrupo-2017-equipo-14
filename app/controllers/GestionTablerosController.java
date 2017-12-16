@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import services.UsuarioService;
 import services.TareaService;
 import services.TableroService;
+import services.TableroServiceException;
 import services.SizeService;
 import models.Usuario;
 import models.Size;
@@ -143,9 +144,15 @@ public class GestionTablerosController extends Controller {
            return badRequest(formNuevoSize.render(tablero.getAdministrador(), formFactory.form(Size.class), tablero, "Hay errores en el formulario"));
         }
         Size size = sizeForm.get();
-        tableroService.addTareaSize(size.getNombre(), tablero);
-        flash("aviso", "El tamaño se ha creado correctamente");
-        return redirect(controllers.routes.GestionTablerosController.listaSizes(tablero.getId()));
+        try{
+          tableroService.addTareaSize(size.getNombre(), tablero);
+          flash("aviso", "El tamaño se ha creado correctamente");
+          return redirect(controllers.routes.GestionTablerosController.listaSizes(tablero.getId()));
+        } catch (TableroServiceException ex) {
+          String mensaje = ex.getMessage();
+          return ok(formNuevoSize.render(tablero.getAdministrador(),
+          formFactory.form(Size.class), tablero, mensaje));
+        }
       }
   }
 
