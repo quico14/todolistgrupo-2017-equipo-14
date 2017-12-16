@@ -37,6 +37,7 @@
             <th>Fecha Limite</th>
             <th>Tablero</th>
             <th>Comentarios</th>
+            <th>Tamaño</th>
             <th>Acción</th>
         </tr>
         @for(tarea <- tareas) {
@@ -57,6 +58,11 @@
                       @tarea.getComentariosRecibidos().size()
                     } else {
                       0
+                    }
+                  </td>
+                  <td>
+                    @if(tarea.getSize() != null) {
+                      @tarea.getSize().getNombre()
                     }
                   </td>
                 <td>
@@ -89,6 +95,7 @@
                 <span class="glyphicon glyphicon-plus"/>
               </a>
             </td>
+            <td> </td>
             <td> </td>
             <td> </td>
             <td> </td>

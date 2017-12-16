@@ -103,7 +103,7 @@ public class Practica2Test {
      long idTarea = 9837598;
      long idTablero = 1000L;
      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-     tareaService.modificaTarea(idTarea, "Pagar el alquiler", sdf.parse("2017-12-01"), idTablero);
+     tareaService.modificaTarea(idTarea, "Pagar el alquiler", sdf.parse("2017-12-01"), idTablero, null);
   }
 
   //Test 31: findUsuarioPorLoginInexistente
