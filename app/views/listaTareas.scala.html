@@ -36,6 +36,7 @@
             <th>Tareas</th>
             <th>Fecha Limite</th>
             <th>Tablero</th>
+            <th>Comentarios</th>
             <th>Tamaño</th>
             <th>Acción</th>
         </tr>
@@ -50,6 +51,13 @@
                   <td>
                     @if(tarea.getTablero() != null) {
                       @tarea.getTablero().getNombre()
+                    }
+                  </td>
+                  <td>
+                    @if(tarea.getComentariosRecibidos() != null) {
+                      @tarea.getComentariosRecibidos().size()
+                    } else {
+                      0
                     }
                   </td>
                   <td>
@@ -73,6 +81,9 @@
                       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     </a>
                   }
+                  <a href="@routes.GestionComentariosController.listaComentarios(tarea.getId(), usuario.getId())" title="Comentarios">
+                    <span class="glyphicon glyphicon-comment"></span>&nbsp;
+                  </a>
                 </td>
             </tr>
           }
@@ -84,6 +95,7 @@
                 <span class="glyphicon glyphicon-plus"/>
               </a>
             </td>
+            <td> </td>
             <td> </td>
             <td> </td>
             <td> </td>
