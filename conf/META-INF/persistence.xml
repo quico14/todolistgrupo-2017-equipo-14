@@ -35,6 +35,7 @@
        <class>models.Tablero</class>
        <class>models.Size</class>
        <class>models.Grupo</class>
+       <class>models.Comentario</class>
        <properties>
           <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
           <property name="hibernate.hbm2ddl.auto" value="validate"/>
