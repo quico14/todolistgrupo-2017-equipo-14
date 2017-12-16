@@ -26,6 +26,8 @@ import models.UsuarioRepository;
 
 import services.TableroService;
 import services.TableroServiceException;
+import services.SizeService;
+import services.SizeServiceException;
 import services.UsuarioService;
 import services.UsuarioServiceException;
 
@@ -77,8 +79,8 @@ public class TableroServiceTest {
      return injector.instanceOf(TableroRepository.class);
   }
 
-  private SizeRepository newSizeRepository() {
-     return injector.instanceOf(SizeRepository.class);
+  private SizeService newSizeService() {
+     return injector.instanceOf(SizeService.class);
   }
 
   //Test #39 testCrearTableroService
@@ -210,8 +212,8 @@ public class TableroServiceTest {
     tablero = tableroService.addTareaSize("Medium", tablero);
     assertEquals(2, tablero.getTareaSize().size());
 
-    SizeRepository sizeRepository = newSizeRepository();
-    Size size = sizeRepository.findByName("Medium");
+    SizeService sizeService = newSizeService();
+    Size size = sizeService.findPorNombre("Medium");
 
     tableroService.removeTareaSize(size, tablero);
     assertEquals(1, tablero.getTareaSize().size());

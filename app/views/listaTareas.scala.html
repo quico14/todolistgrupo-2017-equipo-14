@@ -36,6 +36,7 @@
             <th>Tareas</th>
             <th>Fecha Limite</th>
             <th>Tablero</th>
+            <th>Tamaño</th>
             <th>Acción</th>
         </tr>
         @for(tarea <- tareas) {
@@ -49,6 +50,11 @@
                   <td>
                     @if(tarea.getTablero() != null) {
                       @tarea.getTablero().getNombre()
+                    }
+                  </td>
+                  <td>
+                    @if(tarea.getSize() != null) {
+                      @tarea.getSize().getNombre()
                     }
                   </td>
                 <td>
@@ -78,6 +84,7 @@
                 <span class="glyphicon glyphicon-plus"/>
               </a>
             </td>
+            <td> </td>
             <td> </td>
             <td> </td>
             <td> </td>

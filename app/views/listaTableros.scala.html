@@ -11,7 +11,11 @@
     @for(tablero <- tablerosAdmin) {
         <tr>
             <td><a href="@routes.GestionTablerosController.detalleTablero(usuario.getId(), tablero.getId())">@tablero.getNombre()</a></td>
-            <td></td>
+            <td>
+              <a href="@routes.GestionTablerosController.listaSizes(tablero.getId())" title="Gestionar tamaños de tareas">
+                <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+              </a>
+          </td>
         </tr>
       }
 
