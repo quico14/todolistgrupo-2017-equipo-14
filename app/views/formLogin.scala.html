@@ -6,14 +6,24 @@
      </div>
 
   }
-  <h1>Login</h1>
+  <div class="hero">
+    Login
+  </div>
   @helper.form(action = routes.UsuarioController.loginUsuario()) {
-     <fieldset>
-        @helper.inputText(loginForm("username"), '_label -> "Usuario")
-        @helper.inputPassword(loginForm("password"), '_label -> "Contraseña")
-     </fieldset>
-     <p>
+    <div class="form-group-row">
+      <div class="col-xs-4 col-lg-offset-4">
+        <div class="input-group" align="center">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
+          <input type="text" class="form-control" placeholder="Usuario" aria-describedby="basic-addon1" name="username">
+        </div>
+        <br>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock"></span></span>
+          <input type="password" class="form-control" placeholder="Contraseña" aria-describedby="basic-addon1" name="password">
+        </div>
+        <br>
         <button type="submit" class="btn btn-primary">Login</button>
-     </p>
+      </div>
+    </div>
   }
 }

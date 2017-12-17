@@ -59,8 +59,11 @@ public class UsuarioController extends Controller {
      return redirect(controllers.routes.UsuarioController.formularioLogin());
   }
 
+  @Security.Authenticated(ActionAuthenticator.class)
   public Result acercaDe(){
-    Usuario usuario = new Usuario();
+    String connectedUserStr = session("connected");
+    Long connectedUser =  Long.valueOf(connectedUserStr);
+    Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
     return ok(acercaDe.render(usuario));
   }
 

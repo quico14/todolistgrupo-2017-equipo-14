@@ -5,16 +5,34 @@
         @mensaje
     </div>
   }
-  <h1>Registrar nuevo usuario</h1>
+  <div class="hero">
+    Registro
+  </div>
   @helper.form(action = routes.UsuarioController.registroUsuario()) {
-    <fieldset>
-      @helper.inputText(registroForm("login"), '_label -> "Login")
-      @helper.inputText(registroForm("email"), '_label -> "Email")
-      @helper.inputPassword(registroForm("password"), '_label -> "Contraseña")
-      @helper.inputPassword(registroForm("confirmacion"), '_label -> "Repite contraseña")
-    </fieldset>
-    <p>
-      <button type="submit" class="btn btn-primary">Registro</button>
-    <p>
+    <div class="form-group-row">
+      <div class="col-xs-4 col-lg-offset-4">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
+          <input type="text" class="form-control" placeholder="Usuario" aria-describedby="basic-addon1" name="login">
+        </div>
+        <br>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-envelope"></span></span>
+          <input type="text" class="form-control" placeholder="Correo electrónico" aria-describedby="basic-addon1" name="email">
+        </div>
+        <br>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock"></span></span>
+          <input type="password" class="form-control" placeholder="Contraseña" aria-describedby="basic-addon1" name="password">
+        </div>
+        <br>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock"></span></span>
+          <input type="password" class="form-control" placeholder="Repite contraseña" aria-describedby="basic-addon1" name="confirmacion">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Registro</button>
+      </div>
+    </div>
    }
 }

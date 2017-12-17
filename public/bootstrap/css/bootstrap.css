@@ -3170,6 +3170,63 @@ fieldset[disabled] .btn-primary.focus {
   color: #337ab7;
   background-color: #fff;
 }
+.btn-panel {
+  color: #fff;
+  background-color: #6499c7;
+  border-color: #286090;
+}
+.btn-panel:focus,
+.btn-panel.focus {
+  color: #fff;
+  background-color: #286090;
+  border-color: #122b40;
+}
+.btn-panel:hover {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+.btn-panel:active,
+.btn-panel.active,
+.open > .dropdown-toggle.btn-panel {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+.btn-panel:active:hover,
+.btn-panel.active:hover,
+.open > .dropdown-toggle.btn-panel:hover,
+.btn-panel:active:focus,
+.btn-panel.active:focus,
+.open > .dropdown-toggle.btn-panel:focus,
+.btn-panel:active.focus,
+.btn-panel.active.focus,
+.open > .dropdown-toggle.btn-panel.focus {
+  color: #fff;
+  background-color: #204d74;
+  border-color: #122b40;
+}
+.btn-panel:active,
+.btn-panel.active,
+.open > .dropdown-toggle.btn-panel {
+  background-image: none;
+}
+.btn-panel.disabled:hover,
+.btn-panel[disabled]:hover,
+fieldset[disabled] .btn-panel:hover,
+.btn-panel.disabled:focus,
+.btn-panel[disabled]:focus,
+fieldset[disabled] .btn-panel:focus,
+.btn-panel.disabled.focus,
+.btn-panel[disabled].focus,
+fieldset[disabled] .btn-panel.focus {
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+.btn-panel .badge {
+  color: #337ab7;
+  background-color: #fff;
+}
 .btn-success {
   color: #fff;
   background-color: #5cb85c;
@@ -4589,8 +4646,8 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   color: #ccc;
 }
 .navbar-inverse {
-  background-color: #222;
-  border-color: #080808;
+  background-color: #f5f5f5;
+  border-color: transparent;
 }
 .navbar-inverse .navbar-brand {
   color: #9d9d9d;
@@ -4604,12 +4661,12 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   color: #9d9d9d;
 }
 .navbar-inverse .navbar-nav > li > a {
-  color: #9d9d9d;
+  color: black;
 }
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
   color: #fff;
-  background-color: transparent;
+  background-color: #b3cccc;
 }
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
@@ -4641,7 +4698,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-nav > .open > a:hover,
 .navbar-inverse .navbar-nav > .open > a:focus {
   color: #fff;
-  background-color: #080808;
+  background-color: #b3cccc;
 }
 @media (max-width: 767px) {
   .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {
