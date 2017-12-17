@@ -124,7 +124,7 @@ public class UsuarioController extends Controller {
      Login login = form.get();
      Usuario usuario = usuarioService.login(login.username, login.password);
      if (usuario == null) {
-        return notFound(formLogin.render(form,usuario, "Login y contraseña no existentes"));
+        return notFound(formLogin.render(form,usuario2, "Login y contraseña no existentes"));
      } else {
         // Añadimos el id del usuario a la clave `connected` de
         // la sesión de Play
