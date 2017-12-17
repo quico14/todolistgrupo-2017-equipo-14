@@ -6,11 +6,16 @@ import views.html.*;
 import javax.inject.*;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.Json;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import services.UsuarioService;
 import models.Usuario;
+import models.Tarea;
 
 import play.Logger;
+import java.util.List;
+import java.util.ArrayList;
 
 import security.ActionAuthenticator;
 
@@ -34,7 +39,50 @@ public class UsuarioController extends Controller {
   @Security.Authenticated(ActionAuthenticator.class)
   public Result calendario(Long idUsuario) {
      Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-     return ok(calendario.render(usuario));
+     List <Tarea> tareas = usuario.getTareas();
+     /*List <String> titulos = new ArrayList();
+     for(int i=0; i<tareas.size(); i++){
+       titulos.add(tareas[i].getTitulo());
+     }*/
+     return ok(calendario.render(usuario, tareas/*, titulos*/));
+  }
+
+  public Result calendarioTareas(Long idUsuario, String mescal, String añocal){
+    Logger.debug("mescal: " + mescal);
+    int  mescalAux = Integer.parseInt(mescal) +1;
+    int añocalAux = Integer.parseInt(añocal);
+    int mescalSiguiente = mescalAux + 1;
+    Logger.debug("mescalSiguiente: " + mescalSiguiente);
+    if(mescalAux > 12){
+      mescalAux = 1;
+    }
+    if(mescalSiguiente > 12){
+      mescalSiguiente = 1;
+    }
+    Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+    List <Tarea> tareas = usuario.getTareas();
+    Usuario user = new Usuario();
+    List <Tarea> tareasAux = new ArrayList();
+    for(Tarea tarea: tareas){
+      Logger.debug("fecha: " + tarea.getFechaLimite());
+      String[] arrayFecha = tarea.getFechaLimite().toString().split(" ");
+      Logger.debug(arrayFecha[0]);
+      String[] array = arrayFecha[0].split("-");
+      String añoTarea = array[0];
+      String mesTarea = array[1];
+      String diaTarea = array[2];
+      Logger.debug("añoTarea: " + añoTarea);
+      Logger.debug("mesTarea: " + mesTarea);
+      Logger.debug("diaTarea: " + diaTarea);
+      if((Integer.parseInt(mesTarea) == mescalAux && Integer.parseInt(añoTarea) == añocalAux && Integer.parseInt(mesTarea) == mescalAux)){
+        Logger.debug("años buenos");
+        Tarea tareaAux = new Tarea();
+        tareaAux.setTitulo(tarea.getTitulo());
+        tareaAux.setFechaLimite(tarea.getFechaLimite());
+        tareasAux.add(tareaAux);
+      }
+    }
+    return ok(Json.toJson(tareasAux));
   }
 
   public Result formularioRegistro() {
