@@ -35,12 +35,14 @@
               <td>@comentario.getCreador().getLogin()</td>
               <td>@comentario.getDescripcion()</td>
               <td>
-                <a href="@routes.GestionComentariosController.formularioEditaComentario(comentario.getId())" title="Editar comentario">
-                  <span class="glyphicon glyphicon-pencil"></span>&nbsp;
-                </a>
-                <a onmouseover="" style="cursor: pointer;" title="Borrar comentario" onclick="del('@routes.GestionComentariosController.borraComentario(comentario.getId())')">
-                  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                </a>
+                @if(comentario.getCreador() == usuario) {
+                  <a href="@routes.GestionComentariosController.formularioEditaComentario(comentario.getId())" title="Editar comentario">
+                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                  </a>
+                  <a onmouseover="" style="cursor: pointer;" title="Borrar comentario" onclick="del('@routes.GestionComentariosController.borraComentario(comentario.getId())')">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  </a>
+                }
               </td>
             </tr>
             }
