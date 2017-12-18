@@ -49,6 +49,8 @@
          <th>Tarea</th>
          <th>Fecha Limite</th>
          <th>Terminada</th>
+         <th>Comentarios</th>
+         <th>Accion</th>
      </tr>
      @for(tarea <- tablero.getTareas()) {
        <tr>
@@ -64,6 +66,12 @@
                <span class="glyphicon glyphicon-remove" title="Tarea no terminada"></span>
              }
            </td>
+           <td>@tarea.getComentariosRecibidos.size()</td>
+           <td>
+           <a href="@routes.GestionComentariosController.listaComentarios(tarea.getId(), usuario.getId())" title="Comentarios">
+             <span class="glyphicon glyphicon-comment"></span>&nbsp;
+           </a>
+         </td>
        </tr>
      }
     </table>
