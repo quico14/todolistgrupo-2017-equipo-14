@@ -1,4 +1,4 @@
-@(usuario: Usuario)
+@(usuario: Usuario, tareas: List[Tarea])
 
 <script type="text/javascript">
   //Arrays de datos:
@@ -50,23 +50,24 @@ function primeralinea() {
          }
 //rellenar celdas con los días
 function escribirdias() {
+  mesant=mescal-1; //mes anterior
+  mespos=mescal+1; //mes posterior
+  if (mesant<0) {mesant=11;}
+  if (mespos>11) {mespos=0;}
    //Buscar dia de la semana del dia 1 del mes:
    primeromes=new Date(annocal,mescal,"1") //buscar primer día del mes
-   console.log("primeromes " + primeromes)
    prsem=primeromes.getDay() //buscar día de la semana del día 1
    prsem--; //adaptar al calendario español (empezar por lunes)
    if (prsem==-1) {prsem=6;}
-   console.log("prsem " + prsem)
    //buscar fecha para primera celda:
    diaprmes=primeromes.getDate()
-   console.log("diaprmes " + diaprmes)
    prcelda=diaprmes-prsem; //restar días que sobran de la semana
-   console.log("prcelda " + prcelda)
    empezar=primeromes.setDate(prcelda) //empezar= tiempo UNIX 1ª celda
-   console.log("empezar " + empezar)
    diames=new Date() //convertir en fecha
    diames.setTime(empezar); //diames=fecha primera celda.
-   console.log("diames " + diames)
+   arrayAux = diames.toString().split(" ");
+   diaInicio = arrayAux[2];
+   añoInicio = arrayAux[3];
    //Recorrer las celdas para escribir el día:
    for (i=1;i<7;i++) { //localizar fila
        fila=document.getElementById("fila"+i);
@@ -74,10 +75,13 @@ function escribirdias() {
            midia=diames.getDate()
            mimes=diames.getMonth()
            mianno=diames.getFullYear()
+           stringFecha = midia + "-" + mimes + "-" + mianno;
            celda=fila.getElementsByTagName("td")[j];
-           celda.innerHTML=midia;
-           //Recuperar estado inicial al cambiar de mes:
+           celda.name=stringFecha;
            celda.style.backgroundColor="#ffffff";
+           celda.innerHTML= midia;
+           //Recuperar estado inicial al cambiar de mes:
+
            celda.style.color="#492736";
            //domingos en rojo
            if (j==6) {
@@ -97,6 +101,43 @@ function escribirdias() {
            diames.setDate(midia);
        }
    }
+   midia = midia -1;
+   diames.setDate(midia);
+   diaFin = diames.getDate();
+   añoFin = diames.getFullYear();
+   escribirtareas(mescal-1);
+}
+
+function escribirtareas(mescal){
+  mescal += 1;
+  console.log("Escribo tareas");
+  $.ajax({
+      url: '/usuarios/@usuario.getId()/calendario/' + mescal + '/' + annocal,
+      type: 'GET',
+      success: function(tareas) {
+          //refresh the page
+          for (var tarea of tareas) {
+            console.log("tarea");
+            var fechaLimiteAux = new Date();
+            fechaLimiteAux.setTime(tarea.fechaLimite);
+            diaLimite= fechaLimiteAux.getDate()
+            mesLimite=fechaLimiteAux.getMonth()
+            añoLimite =fechaLimiteAux.getFullYear()
+
+            for (i=1;i<7;i++) { //localizar fila
+                fila=document.getElementById("fila"+i);
+                for (j=0;j<7;j++) {
+                    celda=fila.getElementsByTagName("td")[j];
+                    contenido = celda.innerHTML;
+                    arraySeparado = celda.name.split("-");
+                    if(contenido == diaLimite && arraySeparado[1] == mesLimite){
+                        celda.style.backgroundColor="#FE642E";
+                    }
+                }
+            }
+          }
+      }
+  });
 }
 //Ver mes anterior
 function mesantes() {
@@ -164,7 +205,12 @@ h1 { text-align: center; padding: 0.5em; }
     <h2 id="titulos"></h2>
     <table id="diasc">
       <tr id="fila0"><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-      <tr id="fila1"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr id="fila1">
+
+        <td>
+        </td>
+
+        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr id="fila2"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr id="fila3"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr id="fila4"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
