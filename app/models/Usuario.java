@@ -23,7 +23,7 @@ public class Usuario {
     private String nombre;
     private String apellidos;
     @Temporal(TemporalType.DATE)
-    @Formats.DateTime(pattern="dd-MM-yyyy") // para el formulario
+    @Formats.DateTime(pattern="yyyy-MM-dd") // para el formulario
     private Date fechaNacimiento;
 
     // Relación uno-a-muchos entre usuario y tarea
@@ -115,7 +115,7 @@ public class Usuario {
     }
 
     public String getFechaNacimientoConFormato() {
-      SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
        return format.format(fechaNacimiento);
     }
 

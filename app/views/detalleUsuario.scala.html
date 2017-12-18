@@ -1,17 +1,30 @@
 @(usuario: Usuario)
 
 @main("Detalle de usuario", usuario) {
-  <h1>Perfil de <strong>@usuario.getLogin()</strong></h1>
-  <ul>
-     <li><strong>Login: </strong> @usuario.getLogin()</li>
-     <li><strong>Email: </strong> @usuario.getEmail()</li>
-     <li><strong>Nombre: </strong> @usuario.getNombre()</li>
-     <li><strong>Apellidos: </strong> @usuario.getApellidos()</li>
-     <li><strong>Fecha de nacimiento: </strong>
-           @if(usuario.getFechaNacimiento() != null) {
-               @usuario.getFechaNacimiento().format("dd-MM-yyyy")
-           }</li>
-  </ul>
-</table>
-  <td><a href="@routes.UsuarioController.formularioUpdate(usuario.getId())">Modificar Perfil</a></td>
+  <div class="hero">
+    Perfil
+  </div>
+  <br>
+  <div class="hero-small-center">
+    Login: @usuario.getLogin()
+  </div>
+  <div class="hero-small-center">
+    Email: @usuario.getEmail()
+  </div>
+  <div class="hero-small-center">
+    Nombre: @usuario.getNombre()
+  </div>
+  <div class="hero-small-center">
+    Apellidos: @usuario.getApellidos()
+  </div>
+  <div class="hero-small-center">
+    @if(usuario.getFechaNacimiento() != null) {
+      Fecha de nacimiento: @usuario.getFechaNacimientoConFormato()
+    }
+  </div>
+  <br>
+  <div class="button-center">
+    <a class="btn btn-primary" href="@routes.UsuarioController.formularioUpdate(usuario.getId())">Modificar Perfil</a>
+  </div>
+  <td></td>
 }

@@ -13,11 +13,10 @@ public class Update {
   public String login;
   @Constraints.Required
   public String email;
-  @Constraints.Required
   public String password;
   public String confirmacion;
   public String nombre;
   public String apellidos;
-  @Formats.DateTime(pattern="dd-MM-yyyy") // para el formulario
+  @Formats.DateTime(pattern="yyyy-MM-dd") // para el formulario
   public Date fechaNacimiento;
 }

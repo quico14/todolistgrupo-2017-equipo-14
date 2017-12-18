@@ -6,37 +6,66 @@
         </style>
 
 @main("Detalle de tablero", usuario) {
-  <h1>Detalle del tablero @tablero.getId()</h1>
-  <ul>
-     <li><strong>Nombre: </strong> @tablero.getNombre()</li>
-     <li><strong>Administrador: </strong> @tablero.getAdministrador().getLogin()</li>
-     <li><strong>Participantes: </strong> </li>
+  <div class="hero">
+    Tablero @tablero.getNombre()
+  </div>
+  <div class="hero-small">
+    Administrador: @tablero.getAdministrador().getLogin()
+  </div>
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Participantes</h3>
+    </div>
+    <table class="table table-striped">
      @for(participante <- tablero.getParticipantes()) {
-       <p><tab1>@participante.getLogin()</tab1></p>
-     }<br>
-      <li><strong>Tareas: </strong> </li>
-     <table class="table table-striped">
        <tr>
-           <th>Tarea</th>
-           <th>Fecha Limite</th>
-           <th>Terminada</th>
+         <td>@participante.getLogin()</td>
        </tr>
-       @for(tarea <- tablero.getTareas()) {
-         <tr>
-           <td>@tarea.getTitulo()</td>
+     }
+    </table>
+  </div>
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Tamaños</h3>
+    </div>
+    <table class="table table-striped">
+     @for(size <- tablero.getTareaSize()) {
+       <tr>
+         <td>@size.getNombre()</td>
+       </tr>
+     }
+    </table>
+  </div>
+
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Tareas</h3>
+    </div>
+    <table class="table table-striped">
+     <tr>
+         <th>Tarea</th>
+         <th>Fecha Limite</th>
+         <th>Terminada</th>
+     </tr>
+     @for(tarea <- tablero.getTareas()) {
+       <tr>
+         <td>@tarea.getTitulo()</td>
+         <td>
+           @if(tarea.getFechaLimite() != null) {
+               @tarea.getFechaLimite().format("dd-MM-yyyy")
+           }</td>
            <td>
-             @if(tarea.getFechaLimite() != null) {
-                 @tarea.getFechaLimite().format("dd-MM-yyyy")
-             }</td>
-             <td>
-               @if(tarea.getTerminada()) {
-                 <font color="green"> Sí </font>
-               } else {
-                 <font color="red"> No </font>
-               }
-             </td>
-         </tr>
-       }
-     </table>
-  </ul>
+             @if(tarea.getTerminada()) {
+               <span class="glyphicon glyphicon-ok" title="Tarea terminada"></span>
+             } else {
+               <span class="glyphicon glyphicon-remove" title="Tarea no terminada"></span>
+             }
+           </td>
+       </tr>
+     }
+    </table>
+  </div>
 }
