@@ -39,7 +39,7 @@
         <br>
         <h4><span class="label label-primary">Nombre</span></h4>
         <div class="input-group">
-          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock"></span></span>
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
           @if(model.getNombre() != null){
             <input type="text" class="form-control" placeholder="Nombre" aria-describedby="basic-addon1" name="nombre" value="@model.getNombre">
           } else {
@@ -49,7 +49,7 @@
         <br>
         <h4><span class="label label-primary">Apellidos</span></h4>
         <div class="input-group">
-          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock"></span></span>
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
           @if(model.getApellidos() != null){
             <input type="text" class="form-control" placeholder="Apellidos" aria-describedby="basic-addon1" name="apellidos" value="@model.getApellidos()">
           } else {
@@ -59,7 +59,7 @@
         <br>
         <h4><span class="label label-primary">Fecha de nacimiento</span></h4>
         <div class="input-group">
-          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock"></span></span>
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar"></span></span>
           @if(model.getFechaNacimiento() != null){
             <input type="date" class="form-control" placeholder="Fecha de nacimiento" aria-describedby="basic-addon1" name="fechaNacimiento" value="@model.getFechaNacimientoConFormato()">
           } else {

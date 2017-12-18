@@ -75,22 +75,17 @@
                       }
                     </td>
                     <td>
+                      @if(tarea.getComentariosRecibidos() != null) {
+                        @tarea.getComentariosRecibidos().size()
+                      } else {
+                        0
+                      }
+                    </td>
+                    <td>
                       @if(tarea.getSize() != null) {
                         @tarea.getSize().getNombre()
                       }
                     </td>
-                  <td>
-                    @if(tarea.getComentariosRecibidos() != null) {
-                      @tarea.getComentariosRecibidos().size()
-                    } else {
-                      0
-                    }
-                  </td>
-                  <td>
-                    @if(tarea.getSize() != null) {
-                      @tarea.getSize().getNombre()
-                    }
-                  </td>
                 <td>
                   <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" title="Editar tarea">
                     <span class="glyphicon glyphicon-pencil"></span>&nbsp;

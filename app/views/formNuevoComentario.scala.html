@@ -5,15 +5,16 @@
            @mensaje
        </div>
    }
-   <h1>Nuevo comentario para @tarea.getTitulo()</h1>
+   <div class="hero">
+     Nuevo comentario - @tarea.getTitulo()
+   </div>
    @helper.form(action = routes.GestionComentariosController.creaNuevoComentario(tarea.getId(), usuario.getId())) {
-       <fieldset>
-           <legend>Nuevo Comentario</legend>
-           Descripcion:  <br><textarea cols=40 rows=5 name="descripcion" value= "@descripcion"></textarea><br>
-       </fieldset>
-       <br>
+     <h4><span class="label label-primary">Descripción</span></h4>
+      <textarea class="form-control" rows="5" id="comment" name="descripcion"></textarea>
+      <br>
        <p>
           <input type="submit" class="btn btn-primary" value="Guardar">
+          <a class="btn btn-primary" href="@routes.GestionComentariosController.listaComentarios(tarea.getId(), usuario.getId())">Cancelar</a>
        </p>
    }
 }
