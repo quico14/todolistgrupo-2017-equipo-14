@@ -57,6 +57,7 @@
               <th>Tareas</th>
               <th>Fecha Límite</th>
               <th>Tablero</th>
+              <th>Comentarios</th>
               <th>Tamaño</th>
               <th>Acción</th>
           </tr>
@@ -79,36 +80,52 @@
                       }
                     </td>
                   <td>
-                    <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" title="Editar tarea">
-                      <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                    @if(tarea.getComentariosRecibidos() != null) {
+                      @tarea.getComentariosRecibidos().size()
+                    } else {
+                      0
+                    }
+                  </td>
+                  <td>
+                    @if(tarea.getSize() != null) {
+                      @tarea.getSize().getNombre()
+                    }
+                  </td>
+                <td>
+                  <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" title="Editar tarea">
+                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                  </a>
+                  <a onmouseover="" style="cursor: pointer;" title="Borrar tarea" onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  </a>
+                  @if(showTerminadas){
+                    <a onmouseover="" style="cursor: pointer;" title="Reiniciar tarea" onclick="terminada('@routes.GestionTareasController.cambiaTerminada(tarea.getId())')">
+                      <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
                     </a>
                     <a onmouseover="" style="cursor: pointer;" title="Borrar tarea" onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
                       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </a>
-                    @if(showTerminadas){
-                      <a onmouseover="" style="cursor: pointer;" title="Reiniciar tarea" onclick="terminada('@routes.GestionTareasController.cambiaTerminada(tarea.getId())')">
-                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-                      </a>
-                    } else{
-                      <a onmouseover="" style="cursor: pointer;" title="Finalizar tarea" onclick="terminada('@routes.GestionTareasController.cambiaTerminada(tarea.getId())')">
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                      </a>
-                    }
-                  </td>
-              </tr>
-            }
+                  }
+                  <a href="@routes.GestionComentariosController.listaComentarios(tarea.getId(), usuario.getId())" title="Comentarios">
+                    <span class="glyphicon glyphicon-comment"></span>&nbsp;
+                  </a>
+                </td>
+            </tr>
           }
-          <tr>
-              <td>
-                <a href="@routes.GestionTareasController.formularioNuevaTarea(usuario.getId())">
-                  <span class="glyphicon glyphicon-plus"/>
-                </a>
-              </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-          </tr>
+        }
+
+        <tr>
+            <td>
+              <a href="@routes.GestionTareasController.formularioNuevaTarea(usuario.getId())">
+                <span class="glyphicon glyphicon-plus"/>
+              </a>
+            </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        </tr>
       </table>
     </div>
 
