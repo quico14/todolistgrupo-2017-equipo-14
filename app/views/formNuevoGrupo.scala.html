@@ -5,14 +5,19 @@
            @mensaje
        </div>
    }
-   <h1>Nuevo grupo administrado por @usuario.getLogin()</h1>
+   <div class="hero">
+     Nuevo grupo
+   </div>
    @helper.form(action = routes.GestionGruposController.creaNuevoGrupo(usuario.getId())) {
-       <fieldset>
-           <legend>Nuevo grupo</legend>
-           @helper.inputText(grupoForm("nombre"), '_label -> "Nombre", 'size -> 70)
-       </fieldset>
-       <p>
-          <input type="submit" class="btn btn-primary" value="Crear">
-       </p>
+     <div class="form-group-row">
+       <div class="col-xs-4 col-lg-offset-4">
+         <div class="input-group">
+           <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+           <input type="text" class="form-control" placeholder="Nombre" aria-describedby="basic-addon1" name="nombre">
+         </div>
+         <br>
+         <button type="submit" class="btn btn-primary">Crear grupo</button>
+       </div>
+     </div>
    }
 }

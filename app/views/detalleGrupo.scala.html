@@ -6,13 +6,24 @@
         </style>
 
 @main("Detalle de grupo", usuario) {
-  <h1>Detalle del grupo @grupo.getId()</h1>
-  <ul>
-     <li><strong>Nombre: </strong> @grupo.getNombre()</li>
-     <li><strong>Administrador: </strong> @grupo.getAdministrador().getLogin()</li>
-     <li><strong>Participantes: </strong> </li>
+  <div class="hero">
+    Grupo @grupo.getNombre()
+  </div>
+
+  <div class="hero-small">
+    Administrador: @grupo.getAdministrador().getLogin()
+  </div>
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Participantes</h3>
+    </div>
+    <table class="table table-striped">
      @for(participante <- grupo.getParticipantes()) {
-       <p><tab1>@participante.getLogin()</tab1></p>
+       <tr>
+         <td>@participante.getLogin()</td>
+       </tr>
      }
-  </ul>
+    </table>
+  </div>
 }

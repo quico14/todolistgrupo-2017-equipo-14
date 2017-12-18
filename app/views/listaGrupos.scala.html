@@ -16,57 +16,68 @@
 }
 @main("Grupos administrados por el usuario @usuario.getLogin()", usuario, scripts) {
 
-    <h2> Listado de grupos administrados por @usuario.getLogin()</h2>
+    <div class="hero">
+      Grupos
+    </div>
 
-    <table class="table table-striped">
-        <tr>
-            <th>Grupos</th>
-            <th>Acción</th>
-        </tr>
-    @for(grupo <- gruposAdmin) {
-        <tr>
-            <td><a href="@routes.GestionGruposController.detalleGrupo(usuario.getId(), grupo.getId())">@grupo.getNombre()</a></td>
-            <td>
-              <a href="@routes.GestionGruposController.formularioEditaGrupo(grupo.getId())" title="Editar grupo">
-                <span class="glyphicon glyphicon-pencil"></span>&nbsp;
-              </a>
-              <a href="@routes.GestionGruposController.listaParticipantes(grupo.getId())" title="Administrar usuarios">
-                <span class="glyphicon glyphicon-user"></span>&nbsp;
-              </a>
-              <a onmouseover="" style="cursor: pointer;" title="Borrar grupo" onclick="del('@routes.GestionGruposController.borraGrupo(grupo.getId())')">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-              </a>
-            </td>
-        </tr>
-      }
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Administrados</h3>
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <th>Grupos</th>
+                <th>Acción</th>
+            </tr>
+        @for(grupo <- gruposAdmin) {
+            <tr>
+                <td><a href="@routes.GestionGruposController.detalleGrupo(usuario.getId(), grupo.getId())">@grupo.getNombre()</a></td>
+                <td>
+                  <a href="@routes.GestionGruposController.formularioEditaGrupo(grupo.getId())" title="Editar grupo">
+                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                  </a>
+                  <a href="@routes.GestionGruposController.listaParticipantes(grupo.getId())" title="Administrar usuarios">
+                    <span class="glyphicon glyphicon-user"></span>&nbsp;
+                  </a>
+                  <a onmouseover="" style="cursor: pointer;" title="Borrar grupo" onclick="del('@routes.GestionGruposController.borraGrupo(grupo.getId())')">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  </a>
+                </td>
+            </tr>
+          }
 
-      <tr>
-          <td><a title="Añadir grupo" href="@routes.GestionGruposController.formularioNuevoGrupo(usuario.getId())">
-              <span class="glyphicon glyphicon-plus"/></a></td>
+          <tr>
+              <td><a title="Añadir grupo" href="@routes.GestionGruposController.formularioNuevoGrupo(usuario.getId())">
+                  <span class="glyphicon glyphicon-plus"/></a></td>
+                  <td></td>
+          </tr>
+
+      </table>
+    </div>
+
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Participando</h3>
+        </div>
+      <table class="table table-striped">
+          <tr>
+              <th>Grupos</th>
+              <th>Acción</th>
+          </tr>
+        @for(grupo <- gruposParticipa) {
+            <tr>
+                <td><a href="@routes.GestionGruposController.detalleGrupo(usuario.getId(), grupo.getId())">@grupo.getNombre()</a></td>
+                <td></td>
+            </tr>
+          }
+          <tr>
               <td></td>
-      </tr>
+              <td></td>
+          </tr>
 
-  </table>
-
-    <h2> Listado de grupos en los que participa @usuario.getLogin()</h2>
-
-    <table class="table table-striped">
-        <tr>
-            <th>Grupos</th>
-            <th>Acción</th>
-        </tr>
-    @for(grupo <- gruposParticipa) {
-        <tr>
-            <td><a href="@routes.GestionGruposController.detalleGrupo(usuario.getId(), grupo.getId())">@grupo.getNombre()</a></td>
-            <td></td>
-        </tr>
-      }
-      <tr>
-          <td></td>
-          <td></td>
-      </tr>
-
-  </table>
+      </table>
+    </div>
 
   @if(mensaje != null) {
       <div class="alert alert-success">

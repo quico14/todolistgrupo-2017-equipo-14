@@ -1,0 +1,32 @@
+@font-face {
+    font-family: titleFont;
+    src: url(font/bebas_neue/BebasNeue\ Light.otf);
+}
+.hero {
+  text-align: center;
+  color: 	#31708f;
+  letter-spacing: 2px;
+  font-family: "titleFont";
+  font-size: 70px;
+  line-height: 1.8;
+}
+.hero-small {
+  text-align: left;
+  color: 	#31708f;
+  letter-spacing: 2px;
+  font-family: "titleFont";
+  font-size: 40px;
+  line-height: 1.8;
+}
+.hero-small-center {
+  text-align: center;
+  color: 	#31708f;
+  letter-spacing: 2px;
+  font-family: "titleFont";
+  font-size: 40px;
+  line-height: 1.8;
+}
+
+.button-center {
+  text-align: center;
+}

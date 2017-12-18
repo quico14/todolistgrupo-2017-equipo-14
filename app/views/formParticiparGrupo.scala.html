@@ -5,16 +5,20 @@
         @mensaje
      </div>
   }
-  <h1>Añadir participante</h1>
+  <div class="hero">
+    Añadir participante
+  </div>
   @helper.form(action = routes.GestionGruposController.participarGrupo(usuario.getId(),idGrupo)) {
-     <fieldset>
-        <legend>Participante</legend>
-        Usuario:  <input type="text" size=70 name="nombreUsuario"><br>
-     </fieldset>
-     <p/>
-     <p>
-        <input type="submit" class="btn btn-primary" value="Guardar">
-        <a class="btn btn-warning" href="@routes.GestionGruposController.listaParticipantes(usuario.getId())">Cancelar</a>
-     </p>
+    <div class="form-group-row">
+      <div class="col-xs-4 col-lg-offset-4">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+          <input type="text" class="form-control" placeholder="Usuario" aria-describedby="basic-addon1" name="nombreUsuario">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Añadir participante</button>
+        <a class="btn btn-primary" href="@routes.GestionGruposController.listaParticipantes(idGrupo)">Cancelar</a>
+      </div>
+    </div>
   }
 }

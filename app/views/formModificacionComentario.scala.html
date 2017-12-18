@@ -5,16 +5,15 @@
            @mensaje
        </div>
    }
-   <h1>Edición del comentario del usuario @usuario.getLogin()</h1>
+   <div class="hero">
+     Modificar comentario - @tarea.getTitulo()
+   </div>
    @helper.form(action = routes.GestionComentariosController.grabaComentarioModificado(comentarioId)) {
-       <fieldset>
-           <legend>Edición de Comentario</legend>
-           Descripcion:  <br><textarea cols=40 rows=5 name="descripcion" value= "@descripcion">@descripcion</textarea><br>
-       </fieldset>
-       <br>
-       <p>
-          <input type="submit" class="btn btn-primary" value="Guardar">
-          <a class="btn btn-warning" href="@routes.GestionComentariosController.listaComentarios(tarea.getId(), usuario.getId())">Cancelar</a>
-       </p>
+     <textarea class="form-control" rows="5" id="comment" name="descripcion">@descripcion</textarea>
+     <br>
+      <p>
+         <input type="submit" class="btn btn-primary" value="Guardar">
+         <a class="btn btn-primary" href="@routes.GestionComentariosController.listaComentarios(tarea.getId(), usuario.getId())">Cancelar</a>
+      </p>
    }
 }

@@ -59,8 +59,11 @@ public class UsuarioController extends Controller {
      return redirect(controllers.routes.UsuarioController.formularioLogin());
   }
 
+  @Security.Authenticated(ActionAuthenticator.class)
   public Result acercaDe(){
-    Usuario usuario = new Usuario();
+    String connectedUserStr = session("connected");
+    Long connectedUser =  Long.valueOf(connectedUserStr);
+    Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
     return ok(acercaDe.render(usuario));
   }
 
@@ -90,11 +93,13 @@ public class UsuarioController extends Controller {
      return unauthorized("Lo siento, no estás autorizado");
     } else {
       Form<Update> form = formFactory.form(Update.class).bindFromRequest();
+      Update datosUpdate = form.get();
+      datosUpdate.fechaNacimiento.toString();
       if (form.hasErrors()) {
         return badRequest(formUpdate.render(form, "Hay errores en el formulario", id, usuario));
       }
-      Update datosUpdate = form.get();
-      if (usuarioService.findUsuarioPorLogin(datosUpdate.login) != null) {
+
+      if (usuarioService.findUsuarioPorLogin(datosUpdate.login) != null && usuarioService.findUsuarioPorLogin(datosUpdate.login).getId() != connectedUser) {
         return badRequest(formUpdate.render(form, "Login ya existente: escoge otro", id, usuario));
       }
       if (!datosUpdate.password.equals(datosUpdate.confirmacion)) {
@@ -104,7 +109,7 @@ public class UsuarioController extends Controller {
       Usuario usuarioToUpdate = new Usuario(id, datosUpdate.login, datosUpdate.email,
       datosUpdate.password, datosUpdate.nombre, datosUpdate.apellidos, datosUpdate.fechaNacimiento);
 
-      usuarioService.editaUsuario(usuarioToUpdate);
+      usuarioService.editaUsuario(usuarioToUpdate, id);
 
       return redirect(controllers.routes.UsuarioController.detalleUsuario(id));
     }
@@ -124,7 +129,7 @@ public class UsuarioController extends Controller {
      Login login = form.get();
      Usuario usuario = usuarioService.login(login.username, login.password);
      if (usuario == null) {
-        return notFound(formLogin.render(form,usuario, "Login y contraseña no existentes"));
+        return notFound(formLogin.render(form,usuario2, "Login y contraseña no existentes"));
      } else {
         // Añadimos el id del usuario a la clave `connected` de
         // la sesión de Play

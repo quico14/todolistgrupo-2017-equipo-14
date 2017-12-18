@@ -30,72 +30,91 @@
         @mensaje
      </div>
   }
-  <h1>Modificar tarea</h1>
+  <div class="hero">
+    Modificar tarea
+  </div>
   @helper.form(action = routes.GestionTareasController.grabaTareaModificada(idTarea)) {
-     <fieldset>
-        <legend>Tarea</legend>
-        Título:  <input type="text" size=70 name="titulo" value= "@titulo"><br>
-        Fecha Limite:
-        @if(fechaLimite != null) {
-          <input type="date" size=70 name="fechaLimite" value='@fechaLimite.format("yyyy-MM-dd")'>
-        } else {
-          <input type="date" size=70 name="fechaLimite" value='@fechaLimite'>
-        }
+    <div class="form-group-row">
+      <div class="col-xs-4 col-lg-offset-4">
+        <h4><span class="label label-primary">Título</span></h4>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+          <input type="text" class="form-control" placeholder="Título" aria-describedby="basic-addon1" name="titulo" value= "@titulo">
+        </div>
         <br>
-        Tablero: <select id="selectTablero" name="tableroId" onchange="getSizes()">
-         <option value="0">null</option>
-         @if(!usuario.getAdministrados().isEmpty()) {
-           @for(tab <- usuario.getAdministrados()) {
-             @if(tableroId==null || tab.getId()!=tableroId) {
-               <option value="@tab.getId()">@tab.getNombre()</option>
-             } else {
-               <option value="@tab.getId()" selected>@tab.getNombre()</option>
-             }
-           }
-         }
-         @if(!usuario.getTableros().isEmpty()) {
-           @for(tab <- usuario.getTableros()) {
-             @if(tableroId==null || tab.getId()!=tableroId) {
-               <option value="@tab.getId()">@tab.getNombre()</option>
-             } else {
-               <option value="@tab.getId()" selected>@tab.getNombre()</option>
-             }
-           }
-         }
-       </select>
-       <br>
-         Size: <select id="selectSize" name="sizeId">
-          <option value="0">null</option>
-          @if(tableroId != null) {
-            @for(tab <- usuario.getAdministrados()) {
-              @if(tab.getId() == tableroId) {
-                @for(size <- tab.getTareaSize()) {
-                  @if(sizeId == null || size.getId() != sizeId) {
-                    <option value="@size.getId()">@size.getNombre()</option>
-                  } else {
-                    <option value="@size.getId()" selected>@size.getNombre()</option>
-                  }
-                }
-              }
-            }
-            @for(tab <- usuario.getTableros()) {
-              @if(tab.getId() == tableroId) {
-                @for(size <- tab.getTareaSize()) {
-                  @if(sizeId == null || size.getId() != sizeId) {
-                    <option value="@size.getId()">@size.getNombre()</option>
-                  } else {
-                    <option value="@size.getId()" selected>@size.getNombre()</option>
-                  }
-                }
-              }
-            }
+        <h4><span class="label label-primary">Fecha límite</span></h4>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar"></span></span>
+          @if(fechaLimite != null) {
+            <input type="date" class="form-control" aria-describedby="basic-addon1" name="fechaLimite" value='@fechaLimite.format("yyyy-MM-dd")'>
+          } else {
+            <input type="date" class="form-control" aria-describedby="basic-addon1" name="fechaLimite" value='@fechaLimite'>
           }
-       </select>
-     </fieldset>
-     <p/>
+        </div>
+        <br>
+        <h4><span class="label label-primary">Tablero</span></h4>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-blackboard"></span></span>
+          <select id="selectTablero" class="form-control" aria-describedby="basic-addon1" name="tableroId" onchange="getSizes()">
+            <option value="0">null</option>
+            @if(!usuario.getAdministrados().isEmpty()) {
+              @for(tab <- usuario.getAdministrados()) {
+                @if(tableroId==null || tab.getId()!=tableroId) {
+                  <option value="@tab.getId()">@tab.getNombre()</option>
+                } else {
+                  <option value="@tab.getId()" selected>@tab.getNombre()</option>
+                }
+              }
+            }
+            @if(!usuario.getTableros().isEmpty()) {
+              @for(tab <- usuario.getTableros()) {
+                @if(tableroId==null || tab.getId()!=tableroId) {
+                  <option value="@tab.getId()">@tab.getNombre()</option>
+                } else {
+                  <option value="@tab.getId()" selected>@tab.getNombre()</option>
+                }
+              }
+            }
+          </select>
+        </div>
+        <br>
+        <h4><span class="label label-primary">Tamaño</span></h4>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-object-align-bottom"></span></span>
+          <select id="selectSize" class="form-control" aria-describedby="basic-addon1" name="sizeId">
+           <option value="0">null</option>
+           @if(tableroId != null) {
+             @for(tab <- usuario.getAdministrados()) {
+               @if(tab.getId() == tableroId) {
+                 @for(size <- tab.getTareaSize()) {
+                   @if(sizeId == null || size.getId() != sizeId) {
+                     <option value="@size.getId()">@size.getNombre()</option>
+                   } else {
+                     <option value="@size.getId()" selected>@size.getNombre()</option>
+                   }
+                 }
+               }
+             }
+             @for(tab <- usuario.getTableros()) {
+               @if(tab.getId() == tableroId) {
+                 @for(size <- tab.getTareaSize()) {
+                   @if(sizeId == null || size.getId() != sizeId) {
+                     <option value="@size.getId()">@size.getNombre()</option>
+                   } else {
+                     <option value="@size.getId()" selected>@size.getNombre()</option>
+                   }
+                 }
+               }
+             }
+           }
+          </select>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Editar tarea</button>
+        <a class="btn btn-primary" href="@routes.GestionTareasController.listaTareas(idUsuario, true)">Cancelar</a>
+      </div>
+    </div>
      <p>
-        <input type="submit" class="btn btn-primary" value="Guardar">
-        <a class="btn btn-warning" href="@routes.GestionTareasController.listaTareas(idUsuario, false)">Cancelar</a>
      </p>
   }
 }

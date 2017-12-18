@@ -5,44 +5,70 @@
         @mensaje
     </div>
   }
-  <h1>Actualizar usuario</h1>
+
+  <div class="hero">
+    Actualizar usuario
+  </div>
+
   @helper.form(action = routes.UsuarioController.updateUsuario(id)) {
-    <fieldset>
-      @if(model.getLogin() != null){
-        @helper.inputText(registroForm("login"), '_label -> "Login", 'placeholder -> model.getLogin())
-      } else {
-        @helper.inputText(registroForm("login"), '_label -> "Login")
-      }
-
-      @if(model.getEmail() != null){
-        @helper.inputText(registroForm("email"), '_label -> "Email", 'placeholder -> model.getEmail())
-      } else {
-        @helper.inputText(registroForm("email"), '_label -> "Email")
-      }
-
-      @helper.inputPassword(registroForm("password"), '_label -> "Nueva contraseña")
-      @helper.inputPassword(registroForm("confirmacion"), '_label -> "Repite contraseña")
-
-      @if(model.getNombre() != null){
-        @helper.inputText(registroForm("nombre"), '_label -> "Nombre", 'placeholder -> model.getNombre())
-      } else {
-        @helper.inputText(registroForm("nombre"), '_label -> "Nombre")
-      }
-
-      @if(model.getApellidos() != null){
-        @helper.inputText(registroForm("apellidos"), '_label -> "Apellidos", 'placeholder -> model.getApellidos())
-      } else {
-        @helper.inputText(registroForm("apellidos"), '_label -> "Apellidos")
-      }
-
-      @if(model.getFechaNacimiento() != null){
-        @helper.inputText(registroForm("fechaNacimiento"), '_label -> "Fecha de nacimiento", 'placeholder -> model.getFechaNacimientoConFormato())
-      } else {
-        @helper.inputText(registroForm("fechaNacimiento"), '_label -> "Fecha de nacimiento")
-      }
-    </fieldset>
-    <p>
-      <button type="submit" class="btn btn-primary">Actualizar datos</button>
-    <p>
+    <div class="form-group-row">
+      <div class="col-xs-4 col-lg-offset-4">
+        <h4><span class="label label-primary">Nombre de usuario *</span></h4>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
+          <input type="text" class="form-control" placeholder="Usuario" aria-describedby="basic-addon1" name="login" value="@model.getLogin()">
+        </div>
+        <br>
+        <h4><span class="label label-primary">Correo electrónico *</span></h4>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-envelope"></span></span>
+          <input type="text" class="form-control" placeholder="Correo electrónico" aria-describedby="basic-addon1" name="email" value="@model.getEmail()">
+        </div>
+        <br>
+        <h4><span class="label label-primary">Contraseña *</span></h4>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock"></span></span>
+          <input type="password" class="form-control" placeholder="Contraseña" aria-describedby="basic-addon1" name="password">
+        </div>
+        <br>
+        <h4><span class="label label-primary">Repite contraseña</span></h4>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock"></span></span>
+          <input type="password" class="form-control" placeholder="Repite contraseña" aria-describedby="basic-addon1" name="confirmacion">
+        </div>
+        <br>
+        <h4><span class="label label-primary">Nombre</span></h4>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+          @if(model.getNombre() != null){
+            <input type="text" class="form-control" placeholder="Nombre" aria-describedby="basic-addon1" name="nombre" value="@model.getNombre">
+          } else {
+            <input type="text" class="form-control" placeholder="Nombre" aria-describedby="basic-addon1" name="nombre">
+          }
+        </div>
+        <br>
+        <h4><span class="label label-primary">Apellidos</span></h4>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+          @if(model.getApellidos() != null){
+            <input type="text" class="form-control" placeholder="Apellidos" aria-describedby="basic-addon1" name="apellidos" value="@model.getApellidos()">
+          } else {
+            <input type="text" class="form-control" placeholder="Apellidos" aria-describedby="basic-addon1" name="apellidos">
+          }
+        </div>
+        <br>
+        <h4><span class="label label-primary">Fecha de nacimiento</span></h4>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar"></span></span>
+          @if(model.getFechaNacimiento() != null){
+            <input type="date" class="form-control" placeholder="Fecha de nacimiento" aria-describedby="basic-addon1" name="fechaNacimiento" value="@model.getFechaNacimientoConFormato()">
+          } else {
+            <input type="date" class="form-control" placeholder="Fecha de nacimiento" aria-describedby="basic-addon1" name="fechaNacimiento">
+          }
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Actualizar datos</button>
+      </div>
+    </div>
    }
 }
