@@ -110,6 +110,15 @@ function escribirdias() {
 
 this.mostrarTitulo = function(nombreCelda) {
     var popup = document.getElementById("my" + this.id);
+    var x = document.getElementsByClassName("popuptext");
+    for (var item of x) {
+      for (var cssClass of item.classList) {
+        if (cssClass == "show" && !item.id.includes(this.id)) {
+          item.classList.remove("show");
+        }
+      }
+    }
+
     if(!popup.classList.contains("show")){
       popup.classList.toggle("show");
     }
