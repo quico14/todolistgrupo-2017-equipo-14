@@ -108,16 +108,22 @@ function escribirdias() {
    escribirtareas(mescal-1);
 }
 
+this.mostrarTitulo = function(nombreCelda) {
+    var popup = document.getElementById("my" + this.id);
+    if(!popup.classList.contains("show")){
+      popup.classList.toggle("show");
+    }
+  };
+
 function escribirtareas(mescal){
   mescal += 1;
-  console.log("Escribo tareas");
   $.ajax({
       url: '/usuarios/@usuario.getId()/calendario/' + mescal + '/' + annocal,
       type: 'GET',
       success: function(tareas) {
           //refresh the page
           for (var tarea of tareas) {
-            console.log("tarea");
+            titulo = tarea.titulo;
             var fechaLimiteAux = new Date();
             fechaLimiteAux.setTime(tarea.fechaLimite);
             diaLimite= fechaLimiteAux.getDate()
@@ -128,10 +134,36 @@ function escribirtareas(mescal){
                 fila=document.getElementById("fila"+i);
                 for (j=0;j<7;j++) {
                     celda=fila.getElementsByTagName("td")[j];
+
                     contenido = celda.innerHTML;
                     arraySeparado = celda.name.split("-");
-                    if(contenido == diaLimite && arraySeparado[1] == mesLimite){
-                        celda.style.backgroundColor="#FE642E";
+                    if(arraySeparado[0] == diaLimite && arraySeparado[1] == mesLimite){
+                      if(contenido != arraySeparado[0]){
+                        if(arraySeparado[0] < 10){
+                          substr = contenido.substring(0,45);
+                        }
+                        else{
+                          substr = contenido.substring(0,46);
+                        }
+                        if(arraySeparado[0] < 10){
+                          substr2 = contenido.substring(45);
+                        }
+                        else{
+                          substr2 = contenido.substring(46);
+                        }
+                        titulo_anterior = substr2.substring(0, substr2.indexOf("</"));
+                        titulo = titulo + " <br> " +  titulo_anterior;
+                        contenido = arraySeparado[0];
+                      }
+                        celda.style.backgroundColor="#FACC2E";
+                        celda.className="popup";
+                        celda.id = "Popup" + i +j;
+                        celda.innerHTML = "<div>"
+                        + contenido +
+                        "<span class=\"popuptext\" id=\"myPopup"+ i +j + "\">- "
+                         + titulo +
+                         "</span></div>";
+                         celda.addEventListener( 'mouseover',mostrarTitulo.bind(celda));
                     }
                 }
             }
@@ -160,27 +192,46 @@ function mesdespues() {
          cabecera() //escribir la cabecera
          escribirdias() //escribir la tabla
          }
-//volver al mes actual
-function actualizar() {
-         mescal=hoy.getMonth(); //cambiar a mes actual
-         annocal=hoy.getFullYear(); //cambiar a año actual
-         cabecera() //escribir la cabecera
-         escribirdias() //escribir la tabla
-         }
 </script>
 
 <style>
+/* Popup container */
+.popup {
+    position: relative;
+    cursor: pointer;
+}
+
+/* The actual popup (appears on top) */
+.popup .popuptext {
+    visibility: hidden;
+    width: 75%;
+    background-color: white;
+    color: #555;
+    border: 2px solid #555;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    bottom: 125%;
+    left: 60%;
+    margin-left: -50%;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+    visibility: visible;
+}
 /*instrucciones generales*/
 * { margin: auto; }
 /*cabecera de la página*/
 h1 { text-align: center; padding: 0.5em; }
 /*div principal del calendario*/
-#calendario { border: 4px double #006EF2 ;font: bold 12pt arial;
-              background-color: #222324; text-align: center; color: white;}
+#calendario { border: 4px solid black ;font: bold 12pt arial;
+              background-color: #f5f5f5; text-align: center; color: black;}
 /*tabla del calendario*/
 #diasc { border: 1px solid black; border-collapse:
          separate; border-spacing: 4px; }
-#diasc th,#diasc td { font: normal 14pt arial; width: 250px; height: 50px; }
+#diasc th,#diasc td { font: normal 14pt arial; width: 250px; height: 40px; }
 #diasc th { color: white; background-color: #006EF2; text-align: center; }
 #diasc td { color: black; background-color: #ffffff; text-align: right;  }
 /*línea de la fecha actual*/
@@ -198,25 +249,22 @@ h1 { text-align: center; padding: 0.5em; }
 </style>
 
 @main("Calendario", usuario){
-  <br/><br/>
+  <div class="hero">
+    Calendario
+  </div>
   <div id="calendario">
     <div id="anterior" onclick="mesantes()"></div>
     <div id="posterior" onclick="mesdespues()"></div>
     <h2 id="titulos"></h2>
     <table id="diasc">
       <tr id="fila0"><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-      <tr id="fila1">
-
-        <td>
-        </td>
-
-        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr id="fila1"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr id="fila2"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr id="fila3"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr id="fila4"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr id="fila5"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr id="fila6"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
     </table>
-    <div id="fechaactual"><a onclick="actualizar()">HOY: </a></div>
+    <div id="fechaactual"></div>
   </div>
 }

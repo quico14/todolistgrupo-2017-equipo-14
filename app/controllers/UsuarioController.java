@@ -48,11 +48,9 @@ public class UsuarioController extends Controller {
   }
 
   public Result calendarioTareas(Long idUsuario, String mescal, String añocal){
-    Logger.debug("mescal: " + mescal);
     int  mescalAux = Integer.parseInt(mescal) +1;
     int añocalAux = Integer.parseInt(añocal);
     int mescalSiguiente = mescalAux + 1;
-    Logger.debug("mescalSiguiente: " + mescalSiguiente);
     if(mescalAux > 12){
       mescalAux = 1;
     }
@@ -64,18 +62,12 @@ public class UsuarioController extends Controller {
     Usuario user = new Usuario();
     List <Tarea> tareasAux = new ArrayList();
     for(Tarea tarea: tareas){
-      Logger.debug("fecha: " + tarea.getFechaLimite());
       String[] arrayFecha = tarea.getFechaLimite().toString().split(" ");
-      Logger.debug(arrayFecha[0]);
       String[] array = arrayFecha[0].split("-");
       String añoTarea = array[0];
       String mesTarea = array[1];
       String diaTarea = array[2];
-      Logger.debug("añoTarea: " + añoTarea);
-      Logger.debug("mesTarea: " + mesTarea);
-      Logger.debug("diaTarea: " + diaTarea);
       if((Integer.parseInt(mesTarea) == mescalAux && Integer.parseInt(añoTarea) == añocalAux && Integer.parseInt(mesTarea) == mescalAux)){
-        Logger.debug("años buenos");
         Tarea tareaAux = new Tarea();
         tareaAux.setTitulo(tarea.getTitulo());
         tareaAux.setFechaLimite(tarea.getFechaLimite());
