@@ -1,0 +1,55 @@
+@(sizes: List[Size], tablero: Tablero, usuario: Usuario, mensaje: String)
+<script type="text/javascript">
+    function del(urlBorrar) {
+        $.ajax({
+            url: urlBorrar,
+            type: 'DELETE',
+            success: function(results) {
+                //refresh the page
+                location.reload();
+            }
+        });
+    }
+</script>
+
+@main("Tamaños para tareas del tablero @tablero.getNombre()", usuario) {
+
+    <div class="hero">
+      Tamaños
+    </div>
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Tablero @tablero.getNombre()</h3>
+      </div>
+      <table class="table table-striped">
+          <tr>
+              <th>Tamaños</th>
+              <th>Acción</th>
+          </tr>
+      @for(size <- sizes) {
+          <tr>
+              <td>@size.getNombre()</td>
+              <td>
+                <a onmouseover="" style="cursor: pointer;" title="Eliminar tamaño" onclick="del('@routes.GestionTablerosController.borraSize(tablero.getId(), size.getNombre())')">
+                  <span class="glyphicon glyphicon-trash"></span>&nbsp;
+                </a>
+            </td>
+          </tr>
+        }
+
+        <tr>
+            <td><a href="@routes.GestionTablerosController.formularioNuevoSize(tablero.getId())" title="Añadir tamaño">
+                <span class="glyphicon glyphicon-plus"/></a></td>
+                <td></td>
+        </tr>
+
+    </table>
+  </div>
+
+  @if(mensaje != null) {
+      <div class="alert alert-success">
+          @mensaje
+      </div>
+  }
+}

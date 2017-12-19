@@ -1,70 +1,88 @@
 @(tablerosAdmin: List[Tablero], tablerosParticipa: List[Tablero], tablerosSinRelacion: List[Tablero], usuario: Usuario, mensaje: String)
 @main("Tableros administrados por el usuario @usuario.getLogin()", usuario) {
 
-    <h2> Listado de tableros administrados por @usuario.getLogin()</h2>
+  <div class="hero">
+    Tableros
+  </div>
 
-    <table class="table table-striped">
-        <tr>
-            <th>Tableros</th>
-            <th>Acción</th>
-        </tr>
-    @for(tablero <- tablerosAdmin) {
-        <tr>
-            <td><a href="@routes.GestionTablerosController.detalleTablero(usuario.getId(), tablero.getId())">@tablero.getNombre()</a></td>
-            <td></td>
-        </tr>
-      }
-
-      <tr>
-          <td><a href="@routes.GestionTablerosController.formularioNuevoTablero(usuario.getId())">
-              <span class="glyphicon glyphicon-plus"/></a></td>
-              <td></td>
-      </tr>
-
-  </table>
-
-    <h2> Listado de tableros en los que participa @usuario.getLogin()</h2>
-
-    <table class="table table-striped">
-        <tr>
-            <th>Tableros</th>
-            <th>Acción</th>
-        </tr>
-    @for(tablero <- tablerosParticipa) {
-        <tr>
-            <td><a href="@routes.GestionTablerosController.detalleTablero(usuario.getId(), tablero.getId())">@tablero.getNombre()</a></td>
-            <td></td>
-        </tr>
-      }
-      <tr>
-          <td></td>
-          <td></td>
-      </tr>
-
-  </table>
-
-    <h2> Listado de otros tableros</h2>
-
-    <table class="table table-striped">
-        <tr>
-            <th>Tableros</th>
-            <th>Acción</th>
-        </tr>
-    @for(tablero <- tablerosSinRelacion) {
-        <tr>
-            <td><a href="@routes.GestionTablerosController.detalleTablero(usuario.getId(), tablero.getId())">@tablero.getNombre()</a></td>
-            <td>
-              <a href="@routes.GestionTablerosController.participarTablero(usuario.getId(), tablero.getId())">
-                  <span>Participar</span>
-              </a>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Tableros administrados</h3>
+      </div>
+      <table class="table table-striped">
+          <tr>
+              <th>Tableros</th>
+              <th>Acción</th>
+          </tr>
+      @for(tablero <- tablerosAdmin) {
+          <tr>
+              <td><a href="@routes.GestionTablerosController.detalleTablero(usuario.getId(), tablero.getId())">@tablero.getNombre()</a></td>
+              <td>
+                <a href="@routes.GestionTablerosController.listaSizes(tablero.getId())" title="Gestionar tamaños de tareas">
+                  <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                </a>
             </td>
+          </tr>
+        }
+
+        <tr>
+            <td><a href="@routes.GestionTablerosController.formularioNuevoTablero(usuario.getId())">
+                <span class="glyphicon glyphicon-plus"/></a></td>
+                <td></td>
         </tr>
-      }
-      <tr>
-        <td></td>
-        <td></td>
-      </tr>
-  </table>
+
+    </table>
+  </div>
+
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Tableros participando</h3>
+      </div>
+      <table class="table table-striped">
+          <tr>
+              <th>Tableros</th>
+              <th>Acción</th>
+          </tr>
+        @for(tablero <- tablerosParticipa) {
+            <tr>
+                <td><a href="@routes.GestionTablerosController.detalleTablero(usuario.getId(), tablero.getId())">@tablero.getNombre()</a></td>
+                <td></td>
+            </tr>
+          }
+          <tr>
+              <td></td>
+              <td></td>
+          </tr>
+
+      </table>
+    </div>
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Tableros sin relación</h3>
+      </div>
+      <table class="table table-striped">
+        <tr>
+            <th>Tableros</th>
+            <th>Acción</th>
+        </tr>
+        @for(tablero <- tablerosSinRelacion) {
+            <tr>
+                <td><a href="@routes.GestionTablerosController.detalleTablero(usuario.getId(), tablero.getId())">@tablero.getNombre()</a></td>
+                <td>
+                  <a href="@routes.GestionTablerosController.participarTablero(usuario.getId(), tablero.getId())">
+                      <span>Participar</span>
+                  </a>
+                </td>
+            </tr>
+          }
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+      </table>
+    </div>
 
   @if(mensaje != null) {
       <div class="alert alert-success">

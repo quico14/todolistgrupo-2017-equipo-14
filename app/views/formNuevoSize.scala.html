@@ -1,0 +1,24 @@
+@(usuario: Usuario, sizeForm: Form[Size], tablero: Tablero, mensaje: String)
+@main("Nuevo Size", usuario) {
+   @if(mensaje != "") {
+       <div class="alert alert-danger">
+           @mensaje
+       </div>
+   }
+   <div class="hero">
+     Nuevo tamaño - @tablero.getNombre()
+   </div>
+   @helper.form(action = routes.GestionTablerosController.creaNuevoSize(tablero.getId())) {
+     <div class="form-group-row">
+       <div class="col-xs-4 col-lg-offset-4">
+         <div class="input-group">
+           <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+           <input type="text" class="form-control" placeholder="Nombre" aria-describedby="basic-addon1" name="nombre">
+         </div>
+         <br>
+         <button type="submit" class="btn btn-primary">Crear tamaño</button>
+         <a class="btn btn-primary" href="@routes.GestionTablerosController.listaSizes(tablero.getId())">Cancelar</a>
+       </div>
+     </div>
+   }
+}

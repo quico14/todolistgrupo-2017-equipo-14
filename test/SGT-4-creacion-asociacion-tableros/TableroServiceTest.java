@@ -20,10 +20,14 @@ import java.sql.*;
 import models.Usuario;
 import models.Tablero;
 import models.TableroRepository;
+import models.Size;
+import models.SizeRepository;
 import models.UsuarioRepository;
 
 import services.TableroService;
 import services.TableroServiceException;
+import services.SizeService;
+import services.SizeServiceException;
 import services.UsuarioService;
 import services.UsuarioServiceException;
 
@@ -73,6 +77,10 @@ public class TableroServiceTest {
 
   private TableroRepository newTableroRepository() {
      return injector.instanceOf(TableroRepository.class);
+  }
+
+  private SizeService newSizeService() {
+     return injector.instanceOf(SizeService.class);
   }
 
   //Test #39 testCrearTableroService
@@ -148,6 +156,67 @@ public class TableroServiceTest {
      assertEquals(1, tableroService.getTablerosSinRelacion(1001L).size());
      tableroService.addParticipante(1001L, tablero2);
      assertEquals(0, tableroService.getTablerosSinRelacion(1001L).size());
+  }
+
+  // Test #79: tableroTieneSize
+  @Test
+  public void tableroTieneSize() {
+    TableroService tableroService = newTableroService();
+    Tablero tablero = tableroService.findTableroPorId(1000L);
+    assertEquals(0, tablero.getTareaSize().size());
+
+    tablero = tableroService.addTareaSize("Small-Medium", tablero);
+    assertEquals(1, tablero.getTareaSize().size());
+
+    tablero = tableroService.findTableroPorId(1000L);
+    assertEquals(1, tablero.getTareaSize().size());
+  }
+
+  // Test #80: sizeAsociadoException
+  @Test(expected = TableroServiceException.class)
+  public void sizeAsociadoException() {
+    TableroService tableroService = newTableroService();
+    Tablero tablero = tableroService.findTableroPorId(1000L);
+    assertEquals(0, tablero.getTareaSize().size());
+
+    tablero = tableroService.addTareaSize("Small-Medium", tablero);
+    assertEquals(1, tablero.getTareaSize().size());
+
+    tablero = tableroService.addTareaSize("Small-Medium", tablero);
+  }
+
+  // Test #81: sizeExistenteNoAsociado
+  @Test
+  public void sizeExistenteNoAsociado() {
+    TableroService tableroService = newTableroService();
+    Tablero tablero = tableroService.findTableroPorId(1000L);
+    assertEquals(0, tablero.getTareaSize().size());
+
+    tablero = tableroService.addTareaSize("Small", tablero);
+    assertEquals(1, tablero.getTareaSize().size());
+
+    tablero = tableroService.addTareaSize("Medium", tablero);
+    assertEquals(2, tablero.getTareaSize().size());
+  }
+
+  // Test #82: removeSize
+  @Test
+  public void removeSize() {
+    TableroService tableroService = newTableroService();
+    Tablero tablero = tableroService.findTableroPorId(1000L);
+    assertEquals(0, tablero.getTareaSize().size());
+
+    tablero = tableroService.addTareaSize("Small", tablero);
+    assertEquals(1, tablero.getTareaSize().size());
+
+    tablero = tableroService.addTareaSize("Medium", tablero);
+    assertEquals(2, tablero.getTareaSize().size());
+
+    SizeService sizeService = newSizeService();
+    Size size = sizeService.findPorNombre("Medium");
+
+    tableroService.removeTareaSize(size, tablero);
+    assertEquals(1, tablero.getTareaSize().size());
   }
 
 }

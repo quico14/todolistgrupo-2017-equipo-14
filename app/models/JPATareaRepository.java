@@ -30,6 +30,8 @@ public class JPATareaRepository implements TareaRepository {
         tareaBD.setTitulo(tarea.getTitulo());
         tareaBD.setTerminada(tarea.getTerminada());
         tareaBD.setFechaLimite(tarea.getFechaLimite());
+        tareaBD.setTablero(tarea.getTablero());
+        tareaBD.setSize(tarea.getSize());
         return tareaBD;
      });
    }
@@ -38,6 +40,11 @@ public class JPATareaRepository implements TareaRepository {
         jpaApi.withTransaction(() -> {
            EntityManager entityManager = jpaApi.em();
            Tarea tareaBD = entityManager.getReference(Tarea.class, idTarea);
+           if(tareaBD.getComentariosRecibidos() != null) {
+             for(Comentario c: tareaBD.getComentariosRecibidos()) {
+               entityManager.remove(c);
+             }
+           }
            entityManager.remove(tareaBD);
         });
      }

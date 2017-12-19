@@ -1,19 +1,83 @@
-@(usuario: Usuario, titulo: String, fechaLimite: Date, mensaje: String)
+@(usuario: Usuario, titulo: String, fechaLimite: Date, tableroId: Long, mensaje: String)
+
+  <script type="text/javascript">
+    function getSizes() {
+      var idTablero = document.getElementById("selectTablero").value
+      var selectSize = document.getElementById("selectSize")
+      while (selectSize.options.length > 1) {
+          selectSize.remove(1);
+      }
+      if (idTablero != 0) {
+        $.ajax({
+            url: '/usuarios/@usuario.getId()/tableros/' + idTablero + '/sizes',
+            type: 'GET',
+            success: function(results) {
+                //refresh the page
+                for (var size of results) {
+                  var opt = document.createElement('option')
+                  opt.value = size.id
+                  opt.innerHTML = size.nombre
+                  selectSize.appendChild(opt)
+                }
+            }
+        });
+      }
+    }
+
+  </script>
+
 @main("Nueva tarea", usuario) {
    @if(mensaje != "") {
        <div class="alert alert-danger">
            @mensaje
        </div>
    }
-   <h1>Nueva tarea para @usuario.getLogin()</h1>
+   <div class="hero">
+     Nueva tarea
+   </div>
    @helper.form(action = routes.GestionTareasController.creaNuevaTarea(usuario.getId())) {
-       <fieldset>
-           <legend>Nueva tarea</legend>
-           Título:  <input type="text" size=70 name="titulo" value= "@titulo"><br>
-           Fecha Limite: <input type="date" size=70 name="fechaLimite" value='@fechaLimite'>
-       </fieldset>
-       <p>
-          <input type="submit" class="btn btn-primary" value="Guardar">
-       </p>
+     <div class="form-group-row">
+       <div class="col-xs-4 col-lg-offset-4">
+         <h4><span class="label label-primary">Título</span></h4>
+         <div class="input-group">
+           <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+           <input type="text" class="form-control" placeholder="Título" aria-describedby="basic-addon1" name="titulo">
+         </div>
+         <br>
+         <h4><span class="label label-primary">Fecha límite</span></h4>
+         <div class="input-group">
+           <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar"></span></span>
+           <input type="date" class="form-control" aria-describedby="basic-addon1" name="fechaLimite">
+         </div>
+         <br>
+         <h4><span class="label label-primary">Tablero</span></h4>
+         <div class="input-group">
+           <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-blackboard"></span></span>
+           <select id="selectTablero" class="form-control" aria-describedby="basic-addon1" name="tableroId" onchange="getSizes()">
+             <option value="0">null</option>
+             @if(!usuario.getAdministrados().isEmpty()) {
+               @for(tab <- usuario.getAdministrados()) {
+                 <option value="@tab.getId()">@tab.getNombre()</option>
+               }
+             }
+             @if(!usuario.getTableros().isEmpty()) {
+               @for(tab <- usuario.getTableros()) {
+                 <option value="@tab.getId()">@tab.getNombre()</option>
+               }
+             }
+           </select>
+         </div>
+         <br>
+         <h4><span class="label label-primary">Tamaño</span></h4>
+         <div class="input-group">
+           <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-object-align-bottom"></span></span>
+           <select id="selectSize" class="form-control" aria-describedby="basic-addon1" name="sizeId">
+            <option value="0">null</option>
+           </select>
+         </div>
+         <br>
+         <button type="submit" class="btn btn-primary">Crear tarea</button>
+       </div>
+     </div>
    }
 }

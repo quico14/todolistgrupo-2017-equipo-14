@@ -129,7 +129,7 @@ import java.io.FileInputStream;
        // En la BD de prueba usuarios_dataset se ha cargado el usuario juangutierrez
        Usuario usuario = usuarioService.findUsuarioPorId(1000L);
        usuario.setLogin("1234");
-       Usuario usuarioEditado = usuarioService.editaUsuario(usuario);
+       Usuario usuarioEditado = usuarioService.editaUsuario(usuario, 1000L);
        assertNotNull(usuarioEditado);
        assertEquals("1234", usuario.getLogin());
     }
@@ -142,7 +142,7 @@ import java.io.FileInputStream;
        Usuario usuarioCreado = usuarioService.creaUsuario("login", "email", "password");
        Usuario usuario = usuarioService.findUsuarioPorId(1000L);
        usuario.setLogin("login");
-       Usuario usuarioEditado = usuarioService.editaUsuario(usuario);
+       Usuario usuarioEditado = usuarioService.editaUsuario(usuario, 1000L);
     }
 
     //Test 27: UpdateUsuarioLanzaExcepcionFecha
@@ -156,7 +156,7 @@ import java.io.FileInputStream;
 
        Usuario usuario = usuarioService.findUsuarioPorId(1000L);
        usuario.setFechaNacimiento(fecha);
-       Usuario usuarioEditado = usuarioService.editaUsuario(usuario);
+       Usuario usuarioEditado = usuarioService.editaUsuario(usuario, 1000L);
     }
 
  }

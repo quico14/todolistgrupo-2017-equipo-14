@@ -9,7 +9,6 @@ import play.data.format.*;
 
 import java.util.Set;
 import java.util.HashSet;
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -24,7 +23,7 @@ public class Usuario {
     private String nombre;
     private String apellidos;
     @Temporal(TemporalType.DATE)
-    @Formats.DateTime(pattern="dd-MM-yyyy") // para el formulario
+    @Formats.DateTime(pattern="yyyy-MM-dd") // para el formulario
     private Date fechaNacimiento;
 
     // Relación uno-a-muchos entre usuario y tarea
@@ -34,6 +33,13 @@ public class Usuario {
     private Set<Tablero> administrados = new HashSet<Tablero>();
     @ManyToMany(mappedBy="participantes", fetch=FetchType.EAGER)
     private Set<Tablero> tableros = new HashSet<Tablero>();
+    @OneToMany(mappedBy="administrador", fetch=FetchType.EAGER)
+    private Set<Grupo> gruposAdministrados = new HashSet<Grupo>();
+    @ManyToMany(mappedBy="participantes", fetch=FetchType.EAGER)
+    private Set<Grupo> grupos = new HashSet<Grupo>();
+
+    @OneToMany(mappedBy="creador", fetch=FetchType.EAGER)
+    private Set<Comentario> comentariosCreados = new HashSet<Comentario>();
 
     // Un constructor vacío necesario para JPA
     public Usuario() {}
@@ -109,7 +115,7 @@ public class Usuario {
     }
 
     public String getFechaNacimientoConFormato() {
-      SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
        return format.format(fechaNacimiento);
     }
 
@@ -140,6 +146,30 @@ public class Usuario {
 
     public void setTableros(Set<Tablero> tableros) {
       this.tableros = tableros;
+    }
+
+    public Set<Grupo> getGruposAdministrados() {
+      return gruposAdministrados;
+    }
+
+    public void setGruposAdministrados(Set<Grupo> gruposAdministrados) {
+      this.gruposAdministrados = gruposAdministrados;
+    }
+
+    public Set<Grupo> getGrupos() {
+      return grupos;
+    }
+
+    public void setGrupos(Set<Grupo> grupos) {
+      this.grupos = grupos;
+    }
+
+    public Set<Comentario> getComentariosCreados() {
+      return comentariosCreados;
+    }
+
+    public void setComentariosCreados(Set<Comentario> comentariosCreados) {
+      this.comentariosCreados = comentariosCreados;
     }
 
     public String toString() {

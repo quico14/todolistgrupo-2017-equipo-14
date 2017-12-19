@@ -1,0 +1,67 @@
+@(comentarios: List[Comentario], tarea: Tarea, usuario: Usuario, mensaje: String)
+@scripts = {
+     <script type="text/javascript">
+         function del(urlBorrar) {
+             $.ajax({
+                 url: urlBorrar,
+                 type: 'DELETE',
+                 success: function(results) {
+                     //refresh the page
+                     location.reload();
+                 }
+             });
+         }
+     </script>
+}
+
+@main("Comentarios de la tarea @tarea.getTitulo()", usuario, scripts) {
+
+    <div class="hero">
+      Comentarios
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">@tarea.getTitulo()</h3>
+        </div>
+      <table class="table table-striped">
+          <tr>
+              <th>Usuario</th>
+              <th>Descripción</th>
+              <th>Acción</th>
+          </tr>
+          @for(comentario <- comentarios) {
+            <tr>
+              <td>@comentario.getCreador().getLogin()</td>
+              <td>@comentario.getDescripcion()</td>
+              <td>
+                @if(comentario.getCreador() == usuario) {
+                  <a href="@routes.GestionComentariosController.formularioEditaComentario(comentario.getId())" title="Editar comentario">
+                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                  </a>
+                  <a onmouseover="" style="cursor: pointer;" title="Borrar comentario" onclick="del('@routes.GestionComentariosController.borraComentario(comentario.getId())')">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  </a>
+                }
+              </td>
+            </tr>
+            }
+          <tr>
+              <td>
+                <a href="@routes.GestionComentariosController.formularioNuevoComentario(tarea.getId(), usuario.getId())">
+                  <span class="glyphicon glyphicon-plus"/>
+                </a>
+              </td>
+              <td> </td>
+              <td> </td>
+          </tr>
+
+      </table>
+    </div>
+
+  @if(mensaje != null) {
+      <div class="alert alert-success">
+          @mensaje
+      </div>
+  }
+}

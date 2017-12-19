@@ -1,0 +1,57 @@
+@(participantes: List[Usuario], usuario: Usuario, grupo: Grupo,  mensaje: String)
+
+@scripts = {
+     <script type="text/javascript">
+         function del(urlBorrar) {
+             $.ajax({
+                 url: urlBorrar,
+                 type: 'DELETE',
+                 success: function(results) {
+                     //refresh the page
+                     location.reload();
+                 }
+             });
+         }
+     </script>
+}
+@main("Grupos administrados por el usuario @usuario.getLogin()", usuario, scripts) {
+
+    <div class="hero">
+      Participantes
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">@grupo.getNombre()</h3>
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <th>Participantes</th>
+                <th>Acción</th>
+            </tr>
+        @for(participante <- participantes) {
+            <tr>
+                <td>@participante.getLogin()</td>
+                <td>
+                  <a onmouseover="" style="cursor: pointer;" title="Borrar participante" onclick="del('@routes.GestionGruposController.borraParticipante(participante.getId(), grupo.getId())')">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  </a>
+                </td>
+            </tr>
+          }
+
+          <tr>
+              <td><a title="Añadir participante" href="@routes.GestionGruposController.formParticiparGrupo(grupo.getId())">
+                  <span class="glyphicon glyphicon-plus"/></a></td>
+                  <td></td>
+          </tr>
+
+      </table>
+    </div>
+
+  @if(mensaje != null) {
+      <div class="alert alert-success">
+          @mensaje
+      </div>
+  }
+}

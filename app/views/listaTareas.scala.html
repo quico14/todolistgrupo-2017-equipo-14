@@ -25,26 +25,67 @@
 }
 
 @main("Tareas del usuario @usuario.getLogin()", usuario, scripts) {
-    @if(showTerminadas){
-      <h2> Listado de tareas terminadas de @usuario.getLogin()</h2>
-    } else{
-      <h2> Listado de tareas no terminadas de @usuario.getLogin()</h2>
-    }
+      <div class="hero">
+        Tareas
+      </div>
 
-    <table class="table table-striped">
-        <tr>
-            <th>Tareas</th>
-            <th>Fecha Limite</th>
-            <th>Acción</th>
-        </tr>
-        @for(tarea <- tareas) {
-          @if(tarea.getTerminada() == showTerminadas) {
-            <tr>
-                <td>@tarea.getTitulo()</td>
-                <td>
-                  @if(tarea.getFechaLimite() != null) {
-                      @tarea.getFechaLimite().format("dd-MM-yyyy")
-                  }</td>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        @if(showTerminadas) {
+          <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+              <a href="@routes.GestionTareasController.listaTareas(usuario.getId(),!showTerminadas)" class="btn btn-panel active">Terminadas</a>
+            </div>
+            <div class="btn-group" role="group">
+              <a href="@routes.GestionTareasController.listaTareas(usuario.getId(),!showTerminadas)" class="btn btn-panel">No terminadas</a>
+            </div>
+          </div>
+        } else {
+          <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+              <a href="@routes.GestionTareasController.listaTareas(usuario.getId(),!showTerminadas)" class="btn btn-panel">Terminadas</a>
+            </div>
+            <div class="btn-group" role="group">
+              <a href="@routes.GestionTareasController.listaTareas(usuario.getId(),!showTerminadas)" class="btn btn-panel active">No terminadas</a>
+            </div>
+          </div>
+        }
+
+      </div>
+      <table class="table table-striped">
+          <tr>
+              <th>Tareas</th>
+              <th>Fecha Límite</th>
+              <th>Tablero</th>
+              <th>Comentarios</th>
+              <th>Tamaño</th>
+              <th>Acción</th>
+          </tr>
+          @for(tarea <- tareas) {
+            @if(tarea.getTerminada() == showTerminadas) {
+              <tr>
+                  <td>@tarea.getTitulo()</td>
+                  <td>
+                    @if(tarea.getFechaLimite() != null) {
+                        @tarea.getFechaLimite().format("dd-MM-yyyy")
+                    }</td>
+                    <td>
+                      @if(tarea.getTablero() != null) {
+                        @tarea.getTablero().getNombre()
+                      }
+                    </td>
+                    <td>
+                      @if(tarea.getComentariosRecibidos() != null) {
+                        @tarea.getComentariosRecibidos().size()
+                      } else {
+                        0
+                      }
+                    </td>
+                    <td>
+                      @if(tarea.getSize() != null) {
+                        @tarea.getSize().getNombre()
+                      }
+                    </td>
                 <td>
                   <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())" title="Editar tarea">
                     <span class="glyphicon glyphicon-pencil"></span>&nbsp;
@@ -56,11 +97,14 @@
                     <a onmouseover="" style="cursor: pointer;" title="Reiniciar tarea" onclick="terminada('@routes.GestionTareasController.cambiaTerminada(tarea.getId())')">
                       <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
                     </a>
-                  } else{
+                  } else {
                     <a onmouseover="" style="cursor: pointer;" title="Finalizar tarea" onclick="terminada('@routes.GestionTareasController.cambiaTerminada(tarea.getId())')">
-                      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                    </a>
+                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                       </a>
                   }
+                  <a href="@routes.GestionComentariosController.listaComentarios(tarea.getId(), usuario.getId())" title="Comentarios">
+                    <span class="glyphicon glyphicon-comment"></span>&nbsp;
+                  </a>
                 </td>
             </tr>
           }
@@ -74,14 +118,13 @@
             </td>
             <td> </td>
             <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
         </tr>
+      </table>
+    </div>
 
-    </table>
-    @if(showTerminadas) {
-      <td><a href="@routes.GestionTareasController.listaTareas(usuario.getId(),!showTerminadas)">Ver tareas no terminadas</a></td>
-    } else {
-      <td><a href="@routes.GestionTareasController.listaTareas(usuario.getId(),!showTerminadas)">Ver tareas terminadas</a></td>
-    }
 
   @if(mensaje != null) {
       <div class="alert alert-success">

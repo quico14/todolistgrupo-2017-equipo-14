@@ -9,6 +9,8 @@ import java.util.Collections;
 
 import models.Usuario;
 import models.UsuarioRepository;
+import models.Size;
+import models.SizeRepository;
 import models.Tarea;
 import models.TareaRepository;
 import models.Tablero;
@@ -19,12 +21,14 @@ public class TableroService {
   UsuarioRepository usuarioRepository;
   TareaRepository tareaRepository;
   TableroRepository tableroRepository;
+  SizeRepository sizeRepository;
 
   @Inject
-  public TableroService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository, TableroRepository tableroRepository) {
+  public TableroService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository, TableroRepository tableroRepository, SizeRepository sizeRepository) {
      this.usuarioRepository = usuarioRepository;
      this.tareaRepository = tareaRepository;
      this.tableroRepository = tableroRepository;
+     this.sizeRepository = sizeRepository;
   }
 
   public Tablero nuevoTablero(Long idUsuario, String titulo) {
@@ -59,6 +63,37 @@ public class TableroService {
     tablero.setParticipantes(participantes);
 
     return tableroRepository.update(tablero);
+  }
+
+  public Tablero addTareaSize(String stringSize, Tablero tablero) {
+    Size size = sizeRepository.findByName(stringSize);
+    if (size == null) {
+      Size addSize = new Size(stringSize);
+      size = sizeRepository.add(addSize);
+    } else if (tablero.getTareaSize().contains(size)) {
+      throw new TableroServiceException("Size ya asociado al tablero");
+    }
+    List<Size> sizes = tablero.getTareaSize();
+    sizes.add(size);
+    tablero.setTareaSize(sizes);
+    tablero = tableroRepository.update(tablero);
+    return tablero;
+  }
+
+  public Tablero removeTareaSize(Size size, Tablero tablero) {
+    List<Size> sizes = tablero.getTareaSize();
+
+    for (Tarea tarea : tablero.getTareas()) {
+      if (tarea.getSize().equals(size)) {
+        tarea.setSize(null);
+        tareaRepository.update(tarea);
+      }
+    }
+    sizes.remove(size);
+    tablero.setTareaSize(sizes);
+    tablero = tableroRepository.update(tablero);
+
+    return tablero;
   }
 
   // Devuelve los tableros en los que participa un usuario, ordenados por su id

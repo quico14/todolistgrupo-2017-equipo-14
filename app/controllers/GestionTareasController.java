@@ -15,6 +15,7 @@ import services.UsuarioService;
 import services.TareaService;
 import models.Usuario;
 import models.Tarea;
+import models.Tablero;
 import security.ActionAuthenticator;
 
 import java.util.Date;
@@ -38,7 +39,7 @@ public class GestionTareasController extends Controller {
         return unauthorized("Lo siento, no estás autorizado");
      } else {
         Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-        return ok(formNuevaTarea.render(usuario, "", null, ""));
+        return ok(formNuevaTarea.render(usuario, "", null, 0L, ""));
      }
   }
 
@@ -53,7 +54,8 @@ public class GestionTareasController extends Controller {
         String nuevoTitulo = requestData.get("titulo");
         if (nuevoTitulo.equals("")) {
            Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-           return badRequest(formNuevaTarea.render(usuario, "", null, "El titulo no puede estar vacío."));
+           return badRequest(formNuevaTarea.render(usuario, "", null, 0L,
+                  "El titulo no puede estar vacío."));
         }
         String nuevaFechaLimite = requestData.get("fechaLimite");
         Date d_nuevafecha = null;
@@ -64,10 +66,14 @@ public class GestionTareasController extends Controller {
            if (d_nuevafecha.before(currentDate)) {
              Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
              String mensaje = "La fecha límite no puede ser anterior a la actual";
-             return badRequest(formNuevaTarea.render(usuario, nuevoTitulo, null, mensaje));
+             return badRequest(formNuevaTarea.render(usuario, nuevoTitulo, null, 0L, mensaje));
            }
         }
-        tareaService.nuevaTarea(idUsuario, nuevoTitulo, d_nuevafecha);
+        long idTablero = Long.parseLong(requestData.get("tableroId"), 10);
+        long idSize = Long.parseLong(requestData.get("sizeId"), 10);
+        tareaService.nuevaTarea(idUsuario, nuevoTitulo, d_nuevafecha,
+        (idTablero == 0L) ? null : idTablero, (idSize == 0L) ? null : idSize);
+
         flash("aviso", "La tarea se ha grabado correctamente");
         return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario, false));
      }
@@ -103,6 +109,8 @@ public class GestionTareasController extends Controller {
         tarea.getId(),
         tarea.getTitulo(),
         tarea.getFechaLimite(),
+        (tarea.getTablero() != null) ? tarea.getTablero().getId() : null,
+        (tarea.getSize() != null) ? tarea.getSize().getId() : null,
         ""));
       }
     }
@@ -125,10 +133,18 @@ public class GestionTareasController extends Controller {
          tarea.getId(),
          tarea.getTitulo(),
          tarea.getFechaLimite(),
+         (tarea.getTablero() != null) ? tarea.getTablero().getId() : null,
+         (tarea.getSize() != null) ? tarea.getSize().getId() : null,
          mensaje));
        }
     }
-    Tarea tareaModificada = tareaService.modificaTarea(idTarea, nuevoTitulo, d_nuevafecha);
+    long idTablero = Long.parseLong(requestData.get("tableroId"), 10);
+    long idSize = Long.parseLong(requestData.get("sizeId"), 10);
+    Tarea tareaModificada = null;
+
+    tareaModificada = tareaService.modificaTarea(idTarea, nuevoTitulo, d_nuevafecha,
+    (idTablero == 0L) ? null : idTablero, (idSize == 0L) ? null : idSize);
+
     return redirect(controllers.routes.GestionTareasController.listaTareas(tareaModificada.getUsuario().getId(), false));
   }
 
