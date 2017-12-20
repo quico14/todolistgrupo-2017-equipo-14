@@ -110,7 +110,25 @@ Se ha creado la entidad Calendario que permite a los usuarios ver las Tareas por
 
 
 
-## Informe sobre la metodología seguida (ejemplos de evolución del tablero, alguna métrica del desarrollo realizado en el sprint)
+## Informe sobre la metodología seguida.
+
+Hemos utilizado la metodología Scrum que es un proceso en el que se aplican de manera regular un conjunto de prácticas para trabajar colaborativamente, en equipo, y obtener el mejor resultado posible de un proyecto.
+
+Gracias a que hemos empleado esta metodología y a que hemos hecho los daily meeting (semanales en nuestro caso) hemos podido planificar nuestro trabajo hecho y por hacer y hemos ido subiendo paulatinamente commits cada semana.
+
+Ahora mostraremos un par de gráficas para ver como ha ido evolucionando nuestro proyecto a lo largo del mes.
+
+
+![Grafica 2](https://image.ibb.co/i3vwPm/grafica2.png)
+
+En la gráfica anterior, podemos observar los commits realizados por el conjunto del equipo durante este mes dado en la práctica 4. Como podemos ver, todas las semanas hemos realizado varios commits y hemos intentado que no hubieran picos muy altos, que todas las semanas tuvieran un número similar de commits.
+
+
+![Grafica 1](https://image.ibb.co/gHaKc6/grafica1.png)
+
+En esta gráfica, están los commits realizados durante este mes por nuestro grupo. La gráfica muestra que tanto Edu como Quico han tenido un número de commits muy similar y, aunque el número de commits sea menor en el caso de David, hay que añadir que la tarea encargada a este miembro requería mucha búsqueda de información, la cuál no se puede mostrar en esta gráfica, pero se ha de tener en cuenta.
+
+Teniendo esa información en mente, podemos afirmar que se ha repartido de forma equitativa el trabajo entre los miembros del equipo y que han realizado un esfuerzo similar en la realización de esta práctica.
 
 
 
@@ -215,6 +233,14 @@ En la semana siguiente, realizaré un desplegable al pasar el cursor por encima 
 
 He tenido diversos problemas con la implementación de la parte de javascript empleando ajax, ya que en el controlador surgía el problema de la recursión infinita, un usuario tiene tareas, y una tarea tiene un usuario, por lo tanto se convierte en un bucle infinito, finalmente lo he solucionado creando una tarea auxiliar y pasando los datos que interesaba obtener.
 
+
+## Incidencias remarcables
+
+Nuestro proyecto ha tenido un problema remarcable y es que, la imagen docker del proyecto no se construye bien. Algunos de los elementos visuales de la página no se muestran como deberían, y el funcionamiento es distinto al que debería.
+
+Otra incidencia a remarcar es que tuvimos un error al subir manualmente la versión 1.2 de nuestro proyecto a docker y se subió una versión anterior. Esto está corregido en la versión **1.2.1**.
+
+Por lo demás, no ha habido ningún problema. Hemos podido realizar el trabajo al que nos comprometimos semanalmente gracias a la contínua comunicación del grupo y a los daily meetings.
 
 
 ## Resultado de la retrospectiva: qué ha ido bien y qué se podría mejorar.
