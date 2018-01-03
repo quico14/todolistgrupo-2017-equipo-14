@@ -231,7 +231,7 @@ h1 { text-align: center; padding: 0.5em; }
 /*tabla del calendario*/
 #diasc { border: 1px solid black; border-collapse:
          separate; border-spacing: 4px; }
-#diasc th,#diasc td { font: normal 14pt arial; width: 250px; height: 50px; }
+#diasc th,#diasc td { font: normal 14pt arial; width: 250px; height: 40px; }
 #diasc th { color: white; background-color: #006EF2; text-align: center; }
 #diasc td { color: black; background-color: #ffffff; text-align: right;  }
 /*línea de la fecha actual*/
@@ -249,7 +249,9 @@ h1 { text-align: center; padding: 0.5em; }
 </style>
 
 @main("Calendario", usuario){
-  <br/><br/>
+  <div class="hero">
+    Calendario
+  </div>
   <div id="calendario">
     <div id="anterior" onclick="mesantes()"></div>
     <div id="posterior" onclick="mesdespues()"></div>
